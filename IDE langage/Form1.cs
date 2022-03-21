@@ -20,10 +20,10 @@ using System.Threading.Tasks;
 
 namespace IDE_langage
 {
-    public partial class Form1 : Form
+    public partial class form1 : Form
     {
         private string filePath = string.Empty;
-        public Form1()
+        public form1()
         {
             InitializeComponent();
             Clear();
