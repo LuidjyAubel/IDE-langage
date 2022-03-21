@@ -345,7 +345,7 @@ namespace IDE_langage
                 case "//": break;
                 case "": break;
 
-                default: Console.WriteLine("ERROR: Instruction inconnue ! <" + token + ">"); break;
+                default: Program.form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + ">"); break;
             }
             while (token != "")
             {

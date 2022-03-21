@@ -54,17 +54,17 @@ namespace IDE_langage
 
         private void run_Click(object sender, EventArgs e)
         {
-            string fileName = "file.temp";
+            /*string fileName = "file.temp";
             int bufferSize = 4096;
             var fileStream = System.IO.File.Create(fileName, bufferSize, System.IO.FileOptions.DeleteOnClose);
             var sr = new StreamWriter(fileStream);
-            sr.WriteLine(openFileDialog1.FileName);
-
+            sr.WriteLine(openFileDialog1.FileName);*/
+            filePath = "C:/Users/AUBElui/Documents/text.txt";
             Class2.LesVariables = new Variables();
-            Class2.Compiler("C:/Users/AUBElui/Documents/text.txt");
+            Class2.Compiler(filePath);
             richTextBox2.Text += "Run "+openFileDialog1.FileName ;
             Class2.Leprogramme.afficher();
-            Class2.LesVariables.Dump();
+            //Class2.LesVariables.Dump();
             //Class2.Leprogramme.afficher();
             Class2.Leprogramme.executer();
 
@@ -99,10 +99,10 @@ namespace IDE_langage
 
         private async void Help_Click(object sender, EventArgs e)
         {
-            richTextBox4.Text += "Documentation";
+            richTextBox4.Text += "Documentation \n";
                 using var client = new HttpClient();
                 var content = await client.GetStringAsync("https://portfolioluidjyaubel.000webhostapp.com/text.txt");
-            richTextBox4.Text = content;
+            richTextBox4.Text += content;
         }
     }
 }
