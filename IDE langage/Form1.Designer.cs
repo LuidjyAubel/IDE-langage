@@ -123,6 +123,7 @@ namespace IDE_langage
             // richTextBox4
             // 
             this.richTextBox4.BackColor = System.Drawing.SystemColors.WindowText;
+            this.richTextBox4.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox4.ForeColor = System.Drawing.Color.Yellow;
             this.richTextBox4.Location = new System.Drawing.Point(12, 305);
             this.richTextBox4.Name = "richTextBox4";

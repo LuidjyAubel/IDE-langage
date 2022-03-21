@@ -93,12 +93,12 @@ namespace IDE_langage
             this.Close();
         }
 
-        private async Task void Help_Click(object sender, EventArgs e)
+        private async void Help_Click(object sender, EventArgs e)
         {
-                Console.WriteLine("DEBUT");
+            richTextBox4.Text = "DEBUT";
                 using var client = new HttpClient();
                 var content = await client.GetStringAsync("https://portfolioluidjyaubel.000webhostapp.com/text.txt");
-                Console.WriteLine(content);
+            richTextBox4.Text = content;
         }
     }
 }
