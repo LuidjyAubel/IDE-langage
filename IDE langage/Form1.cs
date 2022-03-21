@@ -27,6 +27,7 @@ namespace IDE_langage
         {
             InitializeComponent();
             Clear();
+            ClearError();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -59,7 +60,7 @@ namespace IDE_langage
             var fileStream = System.IO.File.Create(fileName, bufferSize, System.IO.FileOptions.DeleteOnClose);
             var sr = new StreamWriter(fileStream);
             sr.WriteLine(openFileDialog1.FileName);*/
-            filePath = "C:/Users/AUBElui/Documents/text.txt";
+            filePath = openFileDialog1.FileName;
             Class2.LesVariables = new Variables();
             Class2.Compiler(filePath);
             richTextBox2.Text += "Run "+openFileDialog1.FileName ;
@@ -74,6 +75,12 @@ namespace IDE_langage
             richTextBox2.Text += "---------------------";
             richTextBox2.Text += "\n| Console           |";
             richTextBox2.Text += "\n---------------------\n";
+        }
+        public void ClearError()
+        {
+            richTextBox3.Text += "---------------------";
+            richTextBox3.Text += "\n| Error             |";
+            richTextBox3.Text += "\n---------------------\n";
         }
         public void Write(string st)
         {

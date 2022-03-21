@@ -45,14 +45,14 @@ namespace IDE_langage
         public virtual void afficher()
         {
             //Console.WriteLine("Je ne devrais pas être là");
-            Program.form1.Write("Je ne devrais pas être là");
-            Program.form1.ln();
+            Program.Form1.Write("Je ne devrais pas être là");
+            Program.Form1.ln();
         }
         public virtual void executer()
         {
            // Console.WriteLine("Je ne devrais pas etre la non plus ");
-            Program.form1.Write("Je ne devrais pas etre la non plus ");
-            Program.form1.ln();
+            Program.Form1.Write("Je ne devrais pas etre la non plus ");
+            Program.Form1.ln();
         }
     }
     class Instruction_Let : Instruction
@@ -73,8 +73,8 @@ namespace IDE_langage
         public override void afficher()
         {
             //Console.WriteLine("LET " + this.variable + " " + this.valeur + " ");
-            Program.form1.Write("LET " + this.variable + " " + this.valeur + " ");
-            Program.form1.ln();
+            Program.Form1.Write("LET " + this.variable + " " + this.valeur + " ");
+            Program.Form1.ln();
         }
         public override void executer()
         {
@@ -113,8 +113,8 @@ namespace IDE_langage
         public override void afficher()
         {
             //Console.WriteLine("ADD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
-            Program.form1.Write("ADD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
-            Program.form1.ln();
+            Program.Form1.Write("ADD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
+            Program.Form1.ln();
         }
         public override void executer()
         {
@@ -155,8 +155,8 @@ namespace IDE_langage
         public override void afficher()
         {
             //Console.WriteLine("MOD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
-            Program.form1.Write("MOD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
-            Program.form1.ln();
+            Program.Form1.Write("MOD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
+            Program.Form1.ln();
         }
         public override void executer()
         {
@@ -197,8 +197,8 @@ namespace IDE_langage
         public override void afficher()
         {
             //Console.WriteLine("SUB " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
-            Program.form1.Write("SUB " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
-            Program.form1.ln();
+            Program.Form1.Write("SUB " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
+            Program.Form1.ln();
         }
         public override void executer()
         {
@@ -239,8 +239,8 @@ namespace IDE_langage
         public override void afficher()
         {
             //Console.WriteLine("MUL " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
-            Program.form1.Write("MUL " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
-            Program.form1.ln();
+            Program.Form1.Write("MUL " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
+            Program.Form1.ln();
         }
         public override void executer()
         {
@@ -281,8 +281,8 @@ namespace IDE_langage
         public override void afficher()
         {
            // Console.WriteLine("DIV " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
-            Program.form1.Write("DIV " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
-            Program.form1.ln();
+            Program.Form1.Write("DIV " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
+            Program.Form1.ln();
         }
         public override void executer()
         {
@@ -316,8 +316,8 @@ namespace IDE_langage
         public override void afficher()
         {
            // Console.WriteLine("INC " + this.variable + " 1");
-            Program.form1.Write("INC " + this.variable + " 1");
-            Program.form1.ln();
+            Program.Form1.Write("INC " + this.variable + " 1");
+            Program.Form1.ln();
         }
         public override void executer()
         {
@@ -345,8 +345,8 @@ namespace IDE_langage
         public override void afficher()
         {
             //Console.WriteLine(" IF " + this.variable1 + " " + this.comparateur + " " + this.variable2);
-            Program.form1.Write(" IF " + this.variable1 + " " + this.comparateur + " " + this.variable2);
-            Program.form1.ln();
+            Program.Form1.Write(" IF " + this.variable1 + " " + this.comparateur + " " + this.variable2);
+            Program.Form1.ln();
         }
 
         public override void executer()
@@ -386,8 +386,8 @@ namespace IDE_langage
         public override void afficher()
         {
             //Console.WriteLine(" WHILE " + this.variable1 + " " + this.comparateur + " " + this.variable2);
-            Program.form1.Write(" WHILE " + this.variable1 + " " + this.comparateur + " " + this.variable2);
-            Program.form1.ln();
+            Program.Form1.Write(" WHILE " + this.variable1 + " " + this.comparateur + " " + this.variable2);
+            Program.Form1.ln();
         }
 
         public override void executer()
@@ -428,15 +428,15 @@ namespace IDE_langage
         public override void afficher()
         {
            // Console.WriteLine("WRITE " + this.variable + " ");
-            Program.form1.Write("WRITE " + this.variable + " ");
-            Program.form1.ln();
+            Program.Form1.Write("WRITE " + this.variable + " ");
+            Program.Form1.ln();
         }
         public override void executer()
         {
             //Console.WriteLine("execution de Write");
             int valeur = Class2.LesVariables.getVariable(this.variable);
-            Program.form1.Write(" "+valeur);
-            Program.form1.ln();
+            Program.Form1.Write(" "+valeur);
+            Program.Form1.ln();
             //Console.WriteLine(valeur);
         }
         /*      public void execute()
@@ -471,8 +471,8 @@ namespace IDE_langage
             for (int i = 0; i < 26; i++)
             {
                 //Console.Write(" " + tabvar[i] + " ");
-                Program.form1.Write(" " + tabvar[i] + " ");
-                Program.form1.ln();
+                Program.Form1.Write(" " + tabvar[i] + " ");
+                Program.Form1.ln();
             }
 
         }

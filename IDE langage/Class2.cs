@@ -133,7 +133,7 @@ namespace IDE_langage
         }
         static int Erreur(string a)
         {
-            Program.form1.WriteErreur("Erreur :" + a);
+            Program.Form1.WriteErreur("Erreur :" + a);
             errorDeteted = true;
             return -1;
         }
@@ -345,7 +345,7 @@ namespace IDE_langage
                 case "//": break;
                 case "": break;
 
-                default: Program.form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + ">"); break;
+                default: Program.Form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + ">"); break;
             }
             while (token != "")
             {

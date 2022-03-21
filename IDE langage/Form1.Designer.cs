@@ -46,7 +46,7 @@ namespace IDE_langage
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(685, 33);
+            this.button1.Location = new System.Drawing.Point(477, 11);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -59,16 +59,16 @@ namespace IDE_langage
             this.richTextBox1.BackColor = System.Drawing.SystemColors.HotTrack;
             this.richTextBox1.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.richTextBox1.Location = new System.Drawing.Point(12, 52);
+            this.richTextBox1.Location = new System.Drawing.Point(12, 41);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(307, 247);
+            this.richTextBox1.Size = new System.Drawing.Size(438, 247);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // run
             // 
-            this.run.Location = new System.Drawing.Point(685, 85);
+            this.run.Location = new System.Drawing.Point(558, 11);
             this.run.Name = "run";
             this.run.Size = new System.Drawing.Size(75, 23);
             this.run.TabIndex = 3;
@@ -78,7 +78,7 @@ namespace IDE_langage
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(685, 139);
+            this.button3.Location = new System.Drawing.Point(639, 11);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 4;
@@ -88,7 +88,7 @@ namespace IDE_langage
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(685, 190);
+            this.button4.Location = new System.Drawing.Point(720, 11);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 5;
@@ -101,10 +101,10 @@ namespace IDE_langage
             this.richTextBox2.BackColor = System.Drawing.SystemColors.WindowText;
             this.richTextBox2.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox2.ForeColor = System.Drawing.SystemColors.Window;
-            this.richTextBox2.Location = new System.Drawing.Point(336, 52);
+            this.richTextBox2.Location = new System.Drawing.Point(477, 41);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(302, 248);
+            this.richTextBox2.Size = new System.Drawing.Size(420, 248);
             this.richTextBox2.TabIndex = 6;
             this.richTextBox2.Text = "";
             this.richTextBox2.TextChanged += new System.EventHandler(this.richTextBox2_TextChanged);
@@ -114,10 +114,10 @@ namespace IDE_langage
             this.richTextBox3.BackColor = System.Drawing.SystemColors.WindowText;
             this.richTextBox3.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox3.ForeColor = System.Drawing.Color.Red;
-            this.richTextBox3.Location = new System.Drawing.Point(336, 306);
+            this.richTextBox3.Location = new System.Drawing.Point(477, 295);
             this.richTextBox3.Name = "richTextBox3";
             this.richTextBox3.ReadOnly = true;
-            this.richTextBox3.Size = new System.Drawing.Size(302, 133);
+            this.richTextBox3.Size = new System.Drawing.Size(420, 163);
             this.richTextBox3.TabIndex = 7;
             this.richTextBox3.Text = "";
             // 
@@ -126,10 +126,10 @@ namespace IDE_langage
             this.richTextBox4.BackColor = System.Drawing.SystemColors.WindowText;
             this.richTextBox4.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox4.ForeColor = System.Drawing.Color.Yellow;
-            this.richTextBox4.Location = new System.Drawing.Point(12, 305);
+            this.richTextBox4.Location = new System.Drawing.Point(12, 295);
             this.richTextBox4.Name = "richTextBox4";
             this.richTextBox4.ReadOnly = true;
-            this.richTextBox4.Size = new System.Drawing.Size(307, 133);
+            this.richTextBox4.Size = new System.Drawing.Size(438, 163);
             this.richTextBox4.TabIndex = 8;
             this.richTextBox4.Text = "";
             // 
@@ -139,7 +139,7 @@ namespace IDE_langage
             // 
             // Help
             // 
-            this.Help.Location = new System.Drawing.Point(685, 239);
+            this.Help.Location = new System.Drawing.Point(822, 11);
             this.Help.Name = "Help";
             this.Help.Size = new System.Drawing.Size(75, 23);
             this.Help.TabIndex = 9;
@@ -151,6 +151,7 @@ namespace IDE_langage
             // 
             this.textBox1.Location = new System.Drawing.Point(12, 12);
             this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(428, 23);
             this.textBox1.TabIndex = 10;
             // 
@@ -158,7 +159,7 @@ namespace IDE_langage
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.linkLabel1.Location = new System.Drawing.Point(646, 378);
+            this.linkLabel1.Location = new System.Drawing.Point(12, 461);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(142, 24);
             this.linkLabel1.TabIndex = 11;
@@ -169,7 +170,7 @@ namespace IDE_langage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(921, 489);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.Help);
