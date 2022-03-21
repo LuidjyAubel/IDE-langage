@@ -16,13 +16,14 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
+
 
 namespace IDE_langage
 {
     public partial class form1 : Form
     {
         private string filePath = string.Empty;
+        public bool wantStop = false;
         public form1()
         {
             InitializeComponent();
@@ -108,7 +109,8 @@ namespace IDE_langage
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Close();
+            // this.Close();
+            wantStop = true;
         }
 
         private async void Help_Click(object sender, EventArgs e)

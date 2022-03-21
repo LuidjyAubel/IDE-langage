@@ -29,6 +29,16 @@ namespace IDE_langage
                 suivant.afficher();         //récursif
             }
         }
+        public string Traduire()
+        {
+            if (this.suivant != null)
+            {
+                instruction.Traduire();
+                suivant.Traduire();
+            }
+            string s = "!";
+            return s;
+        }
         public void executer()
         {
             if (this.suivant != null)
@@ -54,6 +64,11 @@ namespace IDE_langage
             Program.Form1.Write("Je ne devrais pas etre la non plus ");
             Program.Form1.ln();
         }
+        public virtual string Traduire()
+        {
+            string s = "C PAS NORMAL !";
+           return s;
+        }
     }
     class Instruction_Let : Instruction
     {
@@ -75,6 +90,11 @@ namespace IDE_langage
             //Console.WriteLine("LET " + this.variable + " " + this.valeur + " ");
             Program.Form1.Write("LET " + this.variable + " " + this.valeur + " ");
             Program.Form1.ln();
+        }
+        public override string Traduire()
+        {
+            string s ="$" + this.variable + " = " + this.valeur + ";";
+            return s;
         }
         public override void executer()
         {
@@ -115,6 +135,11 @@ namespace IDE_langage
             //Console.WriteLine("ADD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.Write("ADD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.ln();
+        }
+        public override string Traduire()
+        {
+            string s = this.variable3 + " = $" + this.variable2 + " + $" + this.variable + ";";
+            return s;
         }
         public override void executer()
         {
@@ -158,6 +183,11 @@ namespace IDE_langage
             Program.Form1.Write("MOD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.ln();
         }
+        public override string Traduire()
+        {
+            string s = this.variable3 + " = $" + this.variable2 + " % $" + this.variable + ";";
+            return s;
+        }
         public override void executer()
         {
             //Console.WriteLine("execute MOD");
@@ -199,6 +229,11 @@ namespace IDE_langage
             //Console.WriteLine("SUB " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.Write("SUB " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.ln();
+        }
+        public override string Traduire()
+        {
+            string s = this.variable3 + " = $" + this.variable2 + " - $" + this.variable + ";";
+            return s;
         }
         public override void executer()
         {
@@ -242,6 +277,11 @@ namespace IDE_langage
             Program.Form1.Write("MUL " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.ln();
         }
+        public override string Traduire()
+        {
+            string s = this.variable3 + " = $" + this.variable2 + " * $" + this.variable + ";";
+            return s;
+        }
         public override void executer()
         {
             //Console.WriteLine("execute MOD");
@@ -284,6 +324,11 @@ namespace IDE_langage
             Program.Form1.Write("DIV " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.ln();
         }
+        public override string Traduire()
+        {
+            string s = this.variable3+" = $"+this.variable2+" / $"+this.variable+";";
+            return s;
+        }
         public override void executer()
         {
             //Console.WriteLine("execute MOD");
@@ -319,6 +364,11 @@ namespace IDE_langage
             Program.Form1.Write("INC " + this.variable + " 1");
             Program.Form1.ln();
         }
+        public override string Traduire()
+        {
+            string s = this.variable+"++;";
+            return s;
+        }
         public override void executer()
         {
             //Console.WriteLine("execute add");
@@ -348,7 +398,11 @@ namespace IDE_langage
             Program.Form1.Write(" IF " + this.variable1 + " " + this.comparateur + " " + this.variable2);
             Program.Form1.ln();
         }
-
+        public override string Traduire()
+        {
+            string s = "if($" + this.variable1 + " " + this.comparateur + " $" + this.variable2+")";
+            return s;
+        }
         public override void executer()
         {
             int val1 = Class2.LesVariables.getVariable(this.variable1);
@@ -364,7 +418,9 @@ namespace IDE_langage
                 case ">=": res = val1 >= val2; break;
                 default: res = false; break;
             }
-            if (res == true) blocalors.executer();
+            if (res == true)  {
+             blocalors.executer();
+            }
             //Console.WriteLine("IF " + val1 +" "+ comparateur+" "+ val2);
         }
     }
@@ -389,7 +445,11 @@ namespace IDE_langage
             Program.Form1.Write(" WHILE " + this.variable1 + " " + this.comparateur + " " + this.variable2);
             Program.Form1.ln();
         }
-
+        public override string Traduire()
+        {
+            string s = "while($" + this.variable1 + " "+this.comparateur+" $"+this.variable2+")";
+            return s;
+        }
         public override void executer()
         {
             bool res = true;
@@ -409,7 +469,10 @@ namespace IDE_langage
                 case ">=": res = this.variable1 >= this.variable2; break;
                 default: res = false; break;
             }
-            if (res == true) blocalors.executer();
+            if ((res == true) && (Program.Form1.wantStop))
+            {
+                blocalors.executer();
+            }
             //Console.WriteLine("IF " + val1 +" "+ comparateur+" "+ val2);
         }
     }
@@ -423,20 +486,27 @@ namespace IDE_langage
             //this.name = "WRITE " + var;
             //this.name = "" + var + " = " + val+";";  traduction C#
             //this.name = "$" + var + " = " + val+";";
-            this.variable = var;
+                this.variable = var;
+
+        }
+        public override string Traduire()
+        {
+          string s = "print($" + this.variable + ");";
+          return s;
         }
         public override void afficher()
         {
-           // Console.WriteLine("WRITE " + this.variable + " ");
-            Program.Form1.Write("WRITE " + this.variable + " ");
-            Program.Form1.ln();
+                Program.Form1.Write("WRITE " + this.variable + " ");
+                Program.Form1.ln();
+            // Console.WriteLine("WRITE " + this.variable + " ");
+
         }
         public override void executer()
         {
             //Console.WriteLine("execution de Write");
-            int valeur = Class2.LesVariables.getVariable(this.variable);
-            Program.Form1.Write(" "+valeur);
-            Program.Form1.ln();
+                int valeur = Class2.LesVariables.getVariable(this.variable);
+                Program.Form1.Write(" " + valeur);
+                Program.Form1.ln();
             //Console.WriteLine(valeur);
         }
         /*      public void execute()

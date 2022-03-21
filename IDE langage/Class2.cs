@@ -142,6 +142,15 @@ namespace IDE_langage
             if (token.Length != 1) return false;
             return ((token[0] >= 'A') && (token[0] <= 'Z'));
         }
+        static bool estString(string token)
+        {
+            if (token.Length > 1) return false;
+            return true;
+        }
+        static bool VarOuString(string token)
+        {
+            return estVariable(token) || estString(token);
+        }
         static bool estchifre(char token)
         {
             return (token >= '0' && token <= '9');
@@ -212,8 +221,9 @@ namespace IDE_langage
             string param1 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
 
-            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (reste != "") Erreur("ADD n'accepte que 3 parametre");
+            //if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
+            if (!VarOuString(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE OU UNSTRING");
+            if (reste != "") Erreur("WRITE n'accepte que 1 parametre");
             Instruction_Write instruction = new Instruction_Write(param1[0]);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
