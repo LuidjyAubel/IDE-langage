@@ -471,8 +471,7 @@ namespace IDE_langage
             for (int i = 0; i < 26; i++)
             {
                 //Console.Write(" " + tabvar[i] + " ");
-                Program.Form1.Write(" " + tabvar[i] + " ");
-                Program.Form1.ln();
+                Program.Form1.Write(" [" + tabvar[i] + "] ");
             }
 
         }

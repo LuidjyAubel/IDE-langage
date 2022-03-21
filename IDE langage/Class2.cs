@@ -81,7 +81,7 @@ namespace IDE_langage
                 case "//": break;  //COMMENTAIRE
                 case "": break;     //LIGNE VIDEUHHHH 
 
-                default: Console.WriteLine("ERROR: Instruction inconnue ! <" + token + ">"); break;
+                default: Program.Form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + "> \n"); break;
             }
             while (token != "")
             {

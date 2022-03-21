@@ -28,6 +28,7 @@ namespace IDE_langage
             InitializeComponent();
             Clear();
             ClearError();
+            ClearDocumentation();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -63,24 +64,30 @@ namespace IDE_langage
             filePath = openFileDialog1.FileName;
             Class2.LesVariables = new Variables();
             Class2.Compiler(filePath);
-            richTextBox2.Text += "Run "+openFileDialog1.FileName ;
-            Class2.Leprogramme.afficher();
+            richTextBox2.Text += "\nRun "+openFileDialog1.FileName+"\n" ;
+            //Class2.Leprogramme.afficher();
             //Class2.LesVariables.Dump();
             //Class2.Leprogramme.afficher();
             Class2.Leprogramme.executer();
-
+            Class2.LesVariables.Dump();
         }
         public void Clear()
         {
             richTextBox2.Text += "---------------------";
             richTextBox2.Text += "\n| Console           |";
-            richTextBox2.Text += "\n---------------------\n";
+            richTextBox2.Text += "\n---------------------";
         }
         public void ClearError()
         {
             richTextBox3.Text += "---------------------";
             richTextBox3.Text += "\n| Error             |";
             richTextBox3.Text += "\n---------------------\n";
+        }
+        public void ClearDocumentation()
+        {
+            richTextBox4.Text += "---------------------";
+            richTextBox4.Text += "\n| Documentation     |";
+            richTextBox4.Text += "\n---------------------\n";
         }
         public void Write(string st)
         {
@@ -106,10 +113,14 @@ namespace IDE_langage
 
         private async void Help_Click(object sender, EventArgs e)
         {
-            richTextBox4.Text += "Documentation \n";
                 using var client = new HttpClient();
                 var content = await client.GetStringAsync("https://portfolioluidjyaubel.000webhostapp.com/text.txt");
             richTextBox4.Text += content;
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
         }
     }
 }

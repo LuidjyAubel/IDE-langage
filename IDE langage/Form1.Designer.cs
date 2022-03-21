@@ -46,9 +46,10 @@ namespace IDE_langage
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(477, 11);
+            this.button1.Location = new System.Drawing.Point(545, 15);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(86, 31);
             this.button1.TabIndex = 0;
             this.button1.Text = "Ouvrir";
             this.button1.UseVisualStyleBackColor = true;
@@ -59,18 +60,20 @@ namespace IDE_langage
             this.richTextBox1.BackColor = System.Drawing.SystemColors.HotTrack;
             this.richTextBox1.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.richTextBox1.Location = new System.Drawing.Point(12, 41);
+            this.richTextBox1.Location = new System.Drawing.Point(14, 55);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(438, 247);
+            this.richTextBox1.Size = new System.Drawing.Size(500, 328);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // run
             // 
-            this.run.Location = new System.Drawing.Point(558, 11);
+            this.run.Location = new System.Drawing.Point(638, 15);
+            this.run.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.run.Name = "run";
-            this.run.Size = new System.Drawing.Size(75, 23);
+            this.run.Size = new System.Drawing.Size(86, 31);
             this.run.TabIndex = 3;
             this.run.Text = "Run";
             this.run.UseVisualStyleBackColor = true;
@@ -78,9 +81,10 @@ namespace IDE_langage
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(639, 11);
+            this.button3.Location = new System.Drawing.Point(730, 15);
+            this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(86, 31);
             this.button3.TabIndex = 4;
             this.button3.Text = "Stop";
             this.button3.UseVisualStyleBackColor = true;
@@ -88,9 +92,10 @@ namespace IDE_langage
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(720, 11);
+            this.button4.Location = new System.Drawing.Point(823, 15);
+            this.button4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.Size = new System.Drawing.Size(86, 31);
             this.button4.TabIndex = 5;
             this.button4.Text = "Save";
             this.button4.UseVisualStyleBackColor = true;
@@ -101,10 +106,11 @@ namespace IDE_langage
             this.richTextBox2.BackColor = System.Drawing.SystemColors.WindowText;
             this.richTextBox2.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox2.ForeColor = System.Drawing.SystemColors.Window;
-            this.richTextBox2.Location = new System.Drawing.Point(477, 41);
+            this.richTextBox2.Location = new System.Drawing.Point(545, 55);
+            this.richTextBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(420, 248);
+            this.richTextBox2.Size = new System.Drawing.Size(479, 329);
             this.richTextBox2.TabIndex = 6;
             this.richTextBox2.Text = "";
             this.richTextBox2.TextChanged += new System.EventHandler(this.richTextBox2_TextChanged);
@@ -114,10 +120,11 @@ namespace IDE_langage
             this.richTextBox3.BackColor = System.Drawing.SystemColors.WindowText;
             this.richTextBox3.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox3.ForeColor = System.Drawing.Color.Red;
-            this.richTextBox3.Location = new System.Drawing.Point(477, 295);
+            this.richTextBox3.Location = new System.Drawing.Point(545, 393);
+            this.richTextBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.richTextBox3.Name = "richTextBox3";
             this.richTextBox3.ReadOnly = true;
-            this.richTextBox3.Size = new System.Drawing.Size(420, 163);
+            this.richTextBox3.Size = new System.Drawing.Size(479, 216);
             this.richTextBox3.TabIndex = 7;
             this.richTextBox3.Text = "";
             // 
@@ -126,22 +133,32 @@ namespace IDE_langage
             this.richTextBox4.BackColor = System.Drawing.SystemColors.WindowText;
             this.richTextBox4.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox4.ForeColor = System.Drawing.Color.Yellow;
-            this.richTextBox4.Location = new System.Drawing.Point(12, 295);
+            this.richTextBox4.Location = new System.Drawing.Point(14, 393);
+            this.richTextBox4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.richTextBox4.Name = "richTextBox4";
             this.richTextBox4.ReadOnly = true;
-            this.richTextBox4.Size = new System.Drawing.Size(438, 163);
+            this.richTextBox4.Size = new System.Drawing.Size(500, 216);
             this.richTextBox4.TabIndex = 8;
             this.richTextBox4.Text = "";
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.DefaultExt = "pat";
+            this.openFileDialog1.Filter = "\"Fichier PATRICK (*.pat)|*.pat|Tous les fichiers (*.*)|*.*\" (Parameter \'value\')";
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.DefaultExt = "pat";
+            this.saveFileDialog1.FileName = "Unamed";
+            this.saveFileDialog1.Filter = "\"Fichier PATRICK (*.pat)|*.pat|Tous les fichiers (*.*)|*.*\" (Parameter \'value\')";
             // 
             // Help
             // 
-            this.Help.Location = new System.Drawing.Point(822, 11);
+            this.Help.Location = new System.Drawing.Point(939, 15);
+            this.Help.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Help.Name = "Help";
-            this.Help.Size = new System.Drawing.Size(75, 23);
+            this.Help.Size = new System.Drawing.Size(86, 31);
             this.Help.TabIndex = 9;
             this.Help.Text = "Help";
             this.Help.UseVisualStyleBackColor = true;
@@ -149,28 +166,29 @@ namespace IDE_langage
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 12);
+            this.textBox1.Location = new System.Drawing.Point(14, 16);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(428, 23);
+            this.textBox1.Size = new System.Drawing.Size(489, 27);
             this.textBox1.TabIndex = 10;
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.linkLabel1.Location = new System.Drawing.Point(12, 461);
+            this.linkLabel1.Location = new System.Drawing.Point(14, 615);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(142, 24);
+            this.linkLabel1.Size = new System.Drawing.Size(179, 32);
             this.linkLabel1.TabIndex = 11;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Help online";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(921, 489);
+            this.ClientSize = new System.Drawing.Size(1053, 652);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.Help);
@@ -182,6 +200,7 @@ namespace IDE_langage
             this.Controls.Add(this.run);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.button1);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
