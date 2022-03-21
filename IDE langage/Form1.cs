@@ -61,7 +61,7 @@ namespace IDE_langage
             sr.WriteLine(openFileDialog1.FileName);
 
             Class2.LesVariables = new Variables();
-            Class2.Compiler(openFileDialog1.FileName);
+            Class2.Compiler("C:/Users/AUBElui/Documents/text.txt");
             richTextBox2.Text += "Run "+openFileDialog1.FileName ;
             Class2.Leprogramme.afficher();
             Class2.LesVariables.Dump();
@@ -79,9 +79,13 @@ namespace IDE_langage
         {
             richTextBox2.Text += st;
         }
+        public void WriteErreur(string st)
+        {
+            richTextBox3.Text += st;
+        }
         public void ln()
         {
-            richTextBox2.Text = "\n";
+            richTextBox2.Text += "\n";
         }
         private void richTextBox2_TextChanged(object sender, EventArgs e)
         {
@@ -95,7 +99,7 @@ namespace IDE_langage
 
         private async void Help_Click(object sender, EventArgs e)
         {
-            richTextBox4.Text = "DEBUT";
+            richTextBox4.Text += "Documentation";
                 using var client = new HttpClient();
                 var content = await client.GetStringAsync("https://portfolioluidjyaubel.000webhostapp.com/text.txt");
             richTextBox4.Text = content;

@@ -428,6 +428,7 @@ namespace IDE_langage
         public override void afficher()
         {
            // Console.WriteLine("WRITE " + this.variable + " ");
+           
             Program.form1.Write("WRITE " + this.variable + " ");
             Program.form1.ln();
         }

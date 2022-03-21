@@ -10,6 +10,7 @@ namespace IDE_langage
         static public Bloc LeBlocEnCourant; //auxilière de constructeur
         static public StreamReader fichierentre;
         public static Variables LesVariables;
+        static public bool errorDeteted;
         static string ExtraireToken(ref int indice, string ligne)
         {
             string token = "";
@@ -132,7 +133,8 @@ namespace IDE_langage
         }
         static int Erreur(string a)
         {
-            Console.WriteLine("Erreur :" + a);
+            Program.form1.WriteErreur("Erreur :" + a);
+            errorDeteted = true;
             return -1;
         }
         static bool estVariable(string token)
