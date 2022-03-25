@@ -94,6 +94,10 @@ namespace IDE_langage
         {
             richTextBox2.Text += st;
         }
+        public void Traduire(string st)
+        {
+            richTextBox5.Text += st+"\n"; 
+        }
         public void WriteErreur(string st)
         {
             richTextBox3.Text += st;
@@ -121,6 +125,29 @@ namespace IDE_langage
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            filePath = openFileDialog1.FileName;
+            Class2.LesVariables = new Variables();
+            Class2.Compiler(filePath);
+            richTextBox2.Text += "\nTRADUIRE " + openFileDialog1.FileName + "\n";
+            Class2.Leprogramme.Traduire();
+            if (saveFileDialog2.ShowDialog() == DialogResult.OK)
+            {
+                richTextBox5.SaveFile(saveFileDialog2.FileName, RichTextBoxStreamType.PlainText);
+            }
+            /*StreamWriter sw = new StreamWriter("C:/Users/AUBElui/Documents/file.txt");
+            sw.WriteLine("<?php");
+            sw.WriteLine();
+            sw.Close();*/
+            // Class2.LesVariables.Dump();
+        }
+
+        private void richTextBox4_TextChanged(object sender, EventArgs e)
         {
 
         }

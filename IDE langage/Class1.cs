@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 
 namespace IDE_langage
 {
@@ -29,21 +30,20 @@ namespace IDE_langage
                 suivant.afficher();         //récursif
             }
         }
-        public string Traduire()
+        public void Traduire()
         {
-            if (this.suivant != null)
+            if (this.suivant != null) 
             {
                 instruction.Traduire();
                 suivant.Traduire();
             }
-            string s = "!";
-            return s;
         }
         public void executer()
         {
-            if (this.suivant != null)
+            if ((this.suivant != null) && (!Program.Form1.wantStop))
             {
                 instruction.executer();
+                Application.DoEvents();
                 //instruction.execute();
                 suivant.executer();         //récursif
             }
@@ -64,10 +64,9 @@ namespace IDE_langage
             Program.Form1.Write("Je ne devrais pas etre la non plus ");
             Program.Form1.ln();
         }
-        public virtual string Traduire()
+        public virtual void Traduire()
         {
-            string s = "C PAS NORMAL !";
-           return s;
+            Program.Form1.Traduire("Je devrais traduire le patrick .pat ");
         }
     }
     class Instruction_Let : Instruction
@@ -89,12 +88,10 @@ namespace IDE_langage
         {
             //Console.WriteLine("LET " + this.variable + " " + this.valeur + " ");
             Program.Form1.Write("LET " + this.variable + " " + this.valeur + " ");
-            Program.Form1.ln();
         }
-        public override string Traduire()
+        public override void Traduire()
         {
-            string s ="$" + this.variable + " = " + this.valeur + ";";
-            return s;
+            Program.Form1.Traduire("$" + this.variable + " = " + this.valeur + ";");
         }
         public override void executer()
         {
@@ -136,10 +133,9 @@ namespace IDE_langage
             Program.Form1.Write("ADD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.ln();
         }
-        public override string Traduire()
+        public override void Traduire()
         {
-            string s = this.variable3 + " = $" + this.variable2 + " + $" + this.variable + ";";
-            return s;
+           Program.Form1.Traduire("$"+this.variable + " = $" + this.variable2 + " + $" + this.variable3 + ";");
         }
         public override void executer()
         {
@@ -183,10 +179,9 @@ namespace IDE_langage
             Program.Form1.Write("MOD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.ln();
         }
-        public override string Traduire()
+        public override void Traduire()
         {
-            string s = this.variable3 + " = $" + this.variable2 + " % $" + this.variable + ";";
-            return s;
+            Program.Form1.Traduire("$"+this.variable + " = $" + this.variable2 + " % $" + this.variable3 + ";");
         }
         public override void executer()
         {
@@ -228,12 +223,10 @@ namespace IDE_langage
         {
             //Console.WriteLine("SUB " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.Write("SUB " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
-            Program.Form1.ln();
         }
-        public override string Traduire()
+        public override void Traduire()
         {
-            string s = this.variable3 + " = $" + this.variable2 + " - $" + this.variable + ";";
-            return s;
+            Program.Form1.Traduire("$"+this.variable + " = $" + this.variable2 + " - $" + this.variable3 + ";");
         }
         public override void executer()
         {
@@ -277,10 +270,9 @@ namespace IDE_langage
             Program.Form1.Write("MUL " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.ln();
         }
-        public override string Traduire()
+        public override void Traduire()
         {
-            string s = this.variable3 + " = $" + this.variable2 + " * $" + this.variable + ";";
-            return s;
+            Program.Form1.Traduire("$"+this.variable + " = $" + this.variable2 + " * $" + this.variable3 + ";");
         }
         public override void executer()
         {
@@ -322,12 +314,11 @@ namespace IDE_langage
         {
            // Console.WriteLine("DIV " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.Write("DIV " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
-            Program.Form1.ln();
         }
-        public override string Traduire()
+        public override void Traduire()
         {
-            string s = this.variable3+" = $"+this.variable2+" / $"+this.variable+";";
-            return s;
+            Program.Form1.Traduire("$"+this.variable+" = $"+this.variable2+" / $"+this.variable3+";");
+            //Bloc.Traduire();
         }
         public override void executer()
         {
@@ -361,13 +352,12 @@ namespace IDE_langage
         public override void afficher()
         {
            // Console.WriteLine("INC " + this.variable + " 1");
-            Program.Form1.Write("INC " + this.variable + " 1");
+            Program.Form1.Write("INC " + this.variable + "+ 1");
             Program.Form1.ln();
         }
-        public override string Traduire()
+        public override void Traduire()
         {
-            string s = this.variable+"++;";
-            return s;
+            Program.Form1.Traduire("$"+this.variable+"++;");
         }
         public override void executer()
         {
@@ -398,10 +388,9 @@ namespace IDE_langage
             Program.Form1.Write(" IF " + this.variable1 + " " + this.comparateur + " " + this.variable2);
             Program.Form1.ln();
         }
-        public override string Traduire()
+        public override void Traduire()
         {
-            string s = "if($" + this.variable1 + " " + this.comparateur + " $" + this.variable2+")";
-            return s;
+           Program.Form1.Traduire("if($" + this.variable1 + " " + this.comparateur + " $" + this.variable2+")");
         }
         public override void executer()
         {
@@ -445,10 +434,10 @@ namespace IDE_langage
             Program.Form1.Write(" WHILE " + this.variable1 + " " + this.comparateur + " " + this.variable2);
             Program.Form1.ln();
         }
-        public override string Traduire()
+        public override void Traduire()
         {
-            string s = "while($" + this.variable1 + " "+this.comparateur+" $"+this.variable2+")";
-            return s;
+            Program.Form1.Traduire("while($" + this.variable1 + " "+this.comparateur+" $"+this.variable2+")");
+            
         }
         public override void executer()
         {
@@ -457,22 +446,23 @@ namespace IDE_langage
             {
                 int val1 = Class2.LesVariables.getVariable(this.variable1);
                 int val2 = Class2.LesVariables.getVariable(this.variable2);
+                switch (comparateur)
+                {
+                    case "=": res = val1 == val2; break;
+                    case "!=": res = val1 != val2; break;
+                    case "<": res = val1 < val2; break;
+                    case ">": res = val1 > val2; break;
+                    case "<=": res = val1 <= val2; break;
+                    case ">=": res = val1 >= val2; break;
+                    default: res = false; break;
+                }
+                if ((res == true) && (!Program.Form1.wantStop))
+                {
+                    Application.DoEvents();
+                    blocalors.executer();
+                }
             }
 
-            switch (comparateur)
-            {
-                case "=": res = this.variable1 == this.variable2; break;
-                case "!=": res = this.variable1 != this.variable2; break;
-                case "<": res = this.variable1 < this.variable2; break;
-                case ">": res = this.variable1 > this.variable2; break;
-                case "<=": res = this.variable1 <= this.variable2; break;
-                case ">=": res = this.variable1 >= this.variable2; break;
-                default: res = false; break;
-            }
-            if ((res == true) && (Program.Form1.wantStop))
-            {
-                blocalors.executer();
-            }
             //Console.WriteLine("IF " + val1 +" "+ comparateur+" "+ val2);
         }
     }
@@ -489,10 +479,9 @@ namespace IDE_langage
                 this.variable = var;
 
         }
-        public override string Traduire()
+        public override void Traduire()
         {
-          string s = "print($" + this.variable + ");";
-          return s;
+          Program.Form1.Traduire("print($" + this.variable + ");");
         }
         public override void afficher()
         {

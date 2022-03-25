@@ -316,7 +316,7 @@ namespace IDE_langage
             if (!estVariable(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (reste != "") Erreur("While n'accepte que 3 parametre");
             Bloc blocif = Lirebloc();
-            Instruction_IF instruction = new Instruction_IF(param1[0], param2, param3[0], blocif);
+            Instruction_WHILE instruction = new Instruction_WHILE(param1[0], param2, param3[0], blocif);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
