@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Globalization;
 
 
 namespace IDE_langage
@@ -24,6 +25,7 @@ namespace IDE_langage
     {
         private string filePath = string.Empty;
         public bool wantStop = false;
+        static public StreamReader fichierentre;
         public form1()
         {
             InitializeComponent();
@@ -57,14 +59,17 @@ namespace IDE_langage
 
         private void run_Click(object sender, EventArgs e)
         {
-            /*string fileName = "file.temp";
-            int bufferSize = 4096;
-            var fileStream = System.IO.File.Create(fileName, bufferSize, System.IO.FileOptions.DeleteOnClose);
-            var sr = new StreamWriter(fileStream);
-            sr.WriteLine(openFileDialog1.FileName);*/
+            string tempDirectory = @"C:\\Users\\AUBElui\\Documents\\temp"; 
+            TempFileCollection coll = new TempFileCollection(tempDirectory, true); 
+            string filename = coll.AddExtension("temp", true);
+
             filePath = openFileDialog1.FileName;
+            StreamReader sr = new StreamReader(filePath);
+            StreamWriter sw = new StreamWriter(filename);
+                sw.WriteLine(richTextBox1.Text);
+                sw.Close();
             Class2.LesVariables = new Variables();
-            Class2.Compiler(filePath);
+            Class2.Compiler(filename);
             richTextBox2.Text += "\nRun "+openFileDialog1.FileName+"\n" ;
             //Class2.Leprogramme.afficher();
             //Class2.LesVariables.Dump();
@@ -93,10 +98,6 @@ namespace IDE_langage
         public void Write(string st)
         {
             richTextBox2.Text += st;
-        }
-        public void Traduire(string st)
-        {
-            richTextBox5.Text += st+"\n"; 
         }
         public void WriteErreur(string st)
         {
@@ -131,15 +132,7 @@ namespace IDE_langage
 
         private void button2_Click(object sender, EventArgs e)
         {
-            filePath = openFileDialog1.FileName;
-            Class2.LesVariables = new Variables();
-            Class2.Compiler(filePath);
-            richTextBox2.Text += "\nTRADUIRE " + openFileDialog1.FileName + "\n";
-            Class2.Leprogramme.Traduire();
-            if (saveFileDialog2.ShowDialog() == DialogResult.OK)
-            {
-                richTextBox5.SaveFile(saveFileDialog2.FileName, RichTextBoxStreamType.PlainText);
-            }
+
             /*StreamWriter sw = new StreamWriter("C:/Users/AUBElui/Documents/file.txt");
             sw.WriteLine("<?php");
             sw.WriteLine();

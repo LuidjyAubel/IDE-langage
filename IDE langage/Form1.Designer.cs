@@ -44,7 +44,6 @@ namespace IDE_langage
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.richTextBox5 = new System.Windows.Forms.RichTextBox();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
@@ -199,22 +198,11 @@ namespace IDE_langage
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // richTextBox5
-            // 
-            this.richTextBox5.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.richTextBox5.Location = new System.Drawing.Point(523, 327);
-            this.richTextBox5.Name = "richTextBox5";
-            this.richTextBox5.ReadOnly = true;
-            this.richTextBox5.Size = new System.Drawing.Size(200, 100);
-            this.richTextBox5.TabIndex = 14;
-            this.richTextBox5.Text = "";
-            // 
             // form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(921, 489);
-            this.Controls.Add(this.richTextBox3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.linkLabel1);
@@ -227,7 +215,7 @@ namespace IDE_langage
             this.Controls.Add(this.run);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.richTextBox5);
+            this.Controls.Add(this.richTextBox3);
             this.Name = "form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -252,7 +240,6 @@ namespace IDE_langage
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.RichTextBox richTextBox5;
         private System.Windows.Forms.SaveFileDialog saveFileDialog2;
     }
 }
