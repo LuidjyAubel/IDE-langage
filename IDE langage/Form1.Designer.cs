@@ -45,6 +45,7 @@ namespace IDE_langage
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // button1
@@ -190,7 +191,7 @@ namespace IDE_langage
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(423, 461);
+            this.button2.Location = new System.Drawing.Point(173, 461);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 13;
@@ -198,11 +199,19 @@ namespace IDE_langage
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(269, 461);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(424, 23);
+            this.progressBar1.TabIndex = 14;
+            // 
             // form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(921, 489);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.linkLabel1);
@@ -218,6 +227,7 @@ namespace IDE_langage
             this.Controls.Add(this.richTextBox3);
             this.Name = "form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -241,6 +251,7 @@ namespace IDE_langage
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.SaveFileDialog saveFileDialog2;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

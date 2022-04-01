@@ -59,23 +59,26 @@ namespace IDE_langage
 
         private void run_Click(object sender, EventArgs e)
         {
-            string tempDirectory = @"C:\\Users\\AUBElui\\Documents\\temp"; 
+            progressBar1.Value = 0;
+            //string tempDirectory = @"C:\Users\Public\Documents";
+            var tempDirectory = Directory.GetCurrentDirectory();
             TempFileCollection coll = new TempFileCollection(tempDirectory, true); 
             string filename = coll.AddExtension("temp", true);
-
-            filePath = openFileDialog1.FileName;
-            StreamReader sr = new StreamReader(filePath);
+            progressBar1.Value = 10;
             StreamWriter sw = new StreamWriter(filename);
-                sw.WriteLine(richTextBox1.Text);
-                sw.Close();
+             sw.WriteLine(richTextBox1.Text);
+             sw.Close();
             Class2.LesVariables = new Variables();
             Class2.Compiler(filename);
+            progressBar1.Value = 50;
             richTextBox2.Text += "\nRun "+openFileDialog1.FileName+"\n" ;
             //Class2.Leprogramme.afficher();
-            //Class2.LesVariables.Dump();
             //Class2.Leprogramme.afficher();
             Class2.Leprogramme.executer();
+            progressBar1.Value = 75;
+            File.Delete(filename);
             Class2.LesVariables.Dump();
+            progressBar1.Value = 100;
         }
         public void Clear()
         {
@@ -121,7 +124,7 @@ namespace IDE_langage
         private async void Help_Click(object sender, EventArgs e)
         {
                 using var client = new HttpClient();
-                var content = await client.GetStringAsync("https://portfolioluidjyaubel.000webhostapp.com/text.txt");
+            var content = await client.GetStringAsync("https://portfolioluidjyaubel.000webhostapp.com/documentation.php");
             richTextBox4.Text += content;
         }
 
@@ -141,6 +144,11 @@ namespace IDE_langage
         }
 
         private void richTextBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void form1_Load(object sender, EventArgs e)
         {
 
         }
