@@ -29,7 +29,6 @@ namespace IDE_langage
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(form1));
             this.button1 = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.run = new System.Windows.Forms.Button();
@@ -47,6 +46,8 @@ namespace IDE_langage
             this.button2 = new System.Windows.Forms.Button();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.richTextBox5 = new System.Windows.Forms.RichTextBox();
+            this.saveFileDialog3 = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // button1
@@ -61,6 +62,7 @@ namespace IDE_langage
             // 
             // richTextBox1
             // 
+            this.richTextBox1.AcceptsTab = true;
             this.richTextBox1.BackColor = System.Drawing.SystemColors.HotTrack;
             this.richTextBox1.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox1.ForeColor = System.Drawing.SystemColors.Window;
@@ -68,6 +70,7 @@ namespace IDE_langage
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(438, 247);
             this.richTextBox1.TabIndex = 2;
+            this.richTextBox1.TabStop = false;
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
@@ -179,6 +182,7 @@ namespace IDE_langage
             this.linkLabel1.TabIndex = 11;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Help online";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label1
             // 
@@ -207,6 +211,14 @@ namespace IDE_langage
             this.progressBar1.Size = new System.Drawing.Size(424, 23);
             this.progressBar1.TabIndex = 14;
             // 
+            // richTextBox5
+            // 
+            this.richTextBox5.Location = new System.Drawing.Point(477, 41);
+            this.richTextBox5.Name = "richTextBox5";
+            this.richTextBox5.Size = new System.Drawing.Size(420, 248);
+            this.richTextBox5.TabIndex = 15;
+            this.richTextBox5.Text = "";
+            // 
             // form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -226,7 +238,9 @@ namespace IDE_langage
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.richTextBox3);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Controls.Add(this.richTextBox5);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "form1";
             this.Text = "IDE Patrick.pat";
             this.Load += new System.EventHandler(this.form1_Load);
@@ -254,6 +268,8 @@ namespace IDE_langage
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.SaveFileDialog saveFileDialog2;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.RichTextBox richTextBox5;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog3;
     }
 }
 

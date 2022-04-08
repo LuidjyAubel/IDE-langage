@@ -17,6 +17,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Globalization;
+using System.Diagnostics;
 
 
 namespace IDE_langage
@@ -60,7 +61,6 @@ namespace IDE_langage
         private void run_Click(object sender, EventArgs e)
         {
             progressBar1.Value = 0;
-            //string tempDirectory = @"C:\Users\Public\Documents";
             var tempDirectory = Directory.GetCurrentDirectory();
             TempFileCollection coll = new TempFileCollection(tempDirectory, true); 
             string filename = coll.AddExtension("temp", true);
@@ -110,6 +110,14 @@ namespace IDE_langage
         {
             richTextBox2.Text += "\n";
         }
+        public void WriteTrad(string st)
+        {
+            richTextBox5.Text += st;
+        }
+        public void lnTrad()
+        {
+            richTextBox5.Text += "\n";
+        }
         private void richTextBox2_TextChanged(object sender, EventArgs e)
         {
 
@@ -123,9 +131,18 @@ namespace IDE_langage
 
         private async void Help_Click(object sender, EventArgs e)
         {
-                using var client = new HttpClient();
-            var content = await client.GetStringAsync("https://portfolioluidjyaubel.000webhostapp.com/documentation.php");
-            richTextBox4.Text += content;
+               /* using var client = new HttpClient();
+            var content = await client.GetStringAsync("");
+            richTextBox4.Text += content;*/
+            StreamReader sr = new StreamReader("C:\\Users\\AUBElui\\Documents\\C.txt");
+            string line = sr.ReadLine();
+            while (line != null)
+            {
+                richTextBox4.Text += line;
+                richTextBox4.Text += "\n";
+                line = sr.ReadLine();
+            }
+            sr.Close();
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -135,11 +152,36 @@ namespace IDE_langage
 
         private void button2_Click(object sender, EventArgs e)
         {
-
-            /*StreamWriter sw = new StreamWriter("C:/Users/AUBElui/Documents/file.txt");
-            sw.WriteLine("<?php");
-            sw.WriteLine();
-            sw.Close();*/
+            progressBar1.Value = 0;
+            var tempDirectory = Directory.GetCurrentDirectory();
+            TempFileCollection coll = new TempFileCollection(tempDirectory, true);
+            string filename = coll.AddExtension("temp", true);
+            progressBar1.Value = 10;
+            StreamWriter sw = new StreamWriter(filename);
+            sw.WriteLine(richTextBox1.Text);
+            sw.Close();
+            StreamReader sz = new StreamReader(filename);
+            string a = sz.ReadToEnd();
+            sz.Close();
+            Class2.Compiler(filename);
+            //Class2.Leprogramme.afficher();
+            Class2.Leprogramme.traduire();
+            richTextBox2.Text += "\nTraduction " + openFileDialog1.FileName + "\n";
+            progressBar1.Value = 25;
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                richTextBox1.SaveFile(saveFileDialog1.FileName, RichTextBoxStreamType.PlainText);
+            }
+            StreamWriter sf = new StreamWriter(saveFileDialog1.FileName);
+            sf.WriteLine("<?php");
+            sf.WriteLine(richTextBox5.Text);
+            progressBar1.Value = 50;
+            sf.WriteLine("?>");
+            progressBar1.Value = 51;
+            sf.Close();
+            progressBar1.Value = 75;
+            File.Delete(filename);
+            progressBar1.Value = 100;
             // Class2.LesVariables.Dump();
         }
 
@@ -151,6 +193,16 @@ namespace IDE_langage
         private void form1_Load(object sender, EventArgs e)
         {
 
+        }
+        private void resize()
+        {
+            Size = new Size(250, 200);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string target = "https://www.microsoft.com";
+            System.Diagnostics.Process.Start(target);
         }
     }
 }
