@@ -131,18 +131,24 @@ namespace IDE_langage
 
         private async void Help_Click(object sender, EventArgs e)
         {
-               /* using var client = new HttpClient();
-            var content = await client.GetStringAsync("");
-            richTextBox4.Text += content;*/
-            StreamReader sr = new StreamReader("C:\\Users\\AUBElui\\Documents\\C.txt");
-            string line = sr.ReadLine();
-            while (line != null)
+          try
             {
-                richTextBox4.Text += line;
-                richTextBox4.Text += "\n";
-                line = sr.ReadLine();
+            using var client = new HttpClient();
+            var content = await client.GetStringAsync("https://portfolioluidjyaubel.000webhostapp.com/text.txt");
+            richTextBox4.Text += content;
+            }catch (Exception a)
+            {
+                richTextBox3.Text += "Exception: " + a.Message; //debug qui va disparaitre par la suite
+             StreamReader sr = new StreamReader("C.txt");
+             string line = sr.ReadLine();
+             while (line != null)
+             {
+            richTextBox4.Text += line;
+            richTextBox4.Text += "\n";
+            line = sr.ReadLine();
             }
             sr.Close();
+            }
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
