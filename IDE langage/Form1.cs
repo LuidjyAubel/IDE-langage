@@ -207,8 +207,8 @@ namespace IDE_langage
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            string target = "https://www.microsoft.com";
-            System.Diagnostics.Process.Start(target);
+            Process Proce1 = new Process();
+            Proce1 = Process.Start("C:\\Program Files\\Mozilla Firefox\\firefox.exe", "https://portfolioluidjyaubel.000webhostapp.com/text.txt");
         }
     }
 }

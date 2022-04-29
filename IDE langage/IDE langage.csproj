@@ -5,6 +5,23 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>IDE_langage</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>P++.ico</ApplicationIcon>
+    <Version>5.0.0</Version>
+    <Authors>Luidjy AUBEL</Authors>
+    <Company />
+    <Description>An IDE for the language P++</Description>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageIcon>P++.ico</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/LuidjyAubel/IDE-langage</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="P++.ico">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
