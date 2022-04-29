@@ -78,6 +78,7 @@ namespace IDE_langage
                 case "MOD": traiterMod(i, ligne); break;
                 case "WRITE": traiterWrite(i, ligne); break;
                 case "INC": traiterINC(i, ligne); break;
+                case "RAND": traiterRAND(i, ligne); break;
                 case "//": break;  //COMMENTAIRE
                 case "": break;     //LIGNE VIDEUHHHH 
 
@@ -201,6 +202,10 @@ namespace IDE_langage
             Instruction_Let instruction = new Instruction_Let(param1[0], Int32.Parse(param2));
             LeBlocEnCourant.ajouter(instruction);
             return -1;
+        }
+        static int traiterRAND(int i, string ligne)
+        {
+            //faire une fonction random
         }
         static int traiterSub(int i, string ligne)
         {
