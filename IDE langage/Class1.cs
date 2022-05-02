@@ -253,6 +253,52 @@ namespace IDE_langage
                   //ranger la valeur dans la variable
               }*/
     }
+    class Instruction_RAND : Instruction
+    {
+        char variable;
+        char variable2;
+        char variable3;
+        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
+        //bool param2var;
+        public Instruction_RAND(char var, char var2, char var3)
+        {
+            //this.name = "ADD " + var + " " + var2 +" "+var3;
+            //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
+            //this.name = "$" + var + " = $" + var2+" $"+var3+;";
+            this.variable = var;
+            this.variable2 = var2;
+            this.variable3 = var3;
+        }
+        public override void afficher()
+        {
+            //Console.WriteLine("SUB " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
+            Program.Form1.Write("RAND " + this.variable + " " + this.variable2 + " " + this.variable3);
+        }
+        public override void traduire()
+        {
+            Program.Form1.WriteTrad("$"+this.variable+" = random_int($" + this.variable2 + " $" + this.variable3 + ");");
+            Program.Form1.lnTrad();
+        }
+        public override void executer()
+        {
+            Random rnd = new Random();
+            int valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            int valeur2 = Class2.LesVariables.getVariable(this.variable3);
+            int valeur = rnd.Next(valeur1, valeur2);
+            Class2.LesVariables.setVariable(this.variable, valeur);
+        }
+        /*      public void execute()
+              {
+                  int lavaleur;
+                  if (param2var)
+                  {
+                      lavaleur = recuperervaleur(variable2);
+                  }
+                  else lavaleur = valeur;
+                  rangervaleurdansvariable(lavaleur, variable);
+                  //ranger la valeur dans la variable
+              }*/
+    }
     class Instruction_MUL : Instruction
     {
         char variable;

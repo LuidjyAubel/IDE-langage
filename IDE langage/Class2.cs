@@ -206,6 +206,17 @@ namespace IDE_langage
         static int traiterRAND(int i, string ligne)
         {
             //faire une fonction random
+            string param1 = ExtraireToken(ref i, ligne);
+            string param2 = ExtraireToken(ref i, ligne);
+            string param3 = ExtraireToken(ref i, ligne);
+            string reste = ExtraireToken(ref i, ligne);
+            if (!estVarConst(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!estVarConst(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!estVarConst(param3)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (reste != "") Erreur("RAND n'accepte que 3 parametre");
+            Instruction_RAND instruction = new Instruction_RAND(param1[0], param2[0], param3[0]);
+            LeBlocEnCourant.ajouter(instruction);
+            return -1;
         }
         static int traiterSub(int i, string ligne)
         {
@@ -216,7 +227,7 @@ namespace IDE_langage
             if (!estVariable(param1)) Erreur("Param1 DOIT ETRE UNE VARIABLE");
             if (!estVarConst(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (!estVarConst(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (reste != "") Erreur("ADD n'accepte que 3 parametre");
+            if (reste != "") Erreur("SUB n'accepte que 3 parametre");
             Instruction_SUB instruction = new Instruction_SUB(param1[0], param2[0], param3[0]);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -357,6 +368,8 @@ namespace IDE_langage
                 case "MOD": traiterMod(i, ligne); break;
                 case "WRITE": traiterWrite(i, ligne); break;
                 case "INC": traiterINC(i, ligne); break;
+                case "RAND": traiterRAND(i, ligne); break;
+
                 case "//": break;
                 case "": break;
 
