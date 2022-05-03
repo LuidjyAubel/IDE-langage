@@ -6,7 +6,7 @@
 ---------------------------
 ## **Installation**
 
- 1. In a first time you should clone the github repository at : [IDE-langage](https://github.com/ndlaprovidence/self-feedback1 "IDE for P++")
+ 1. In a first time you should clone the github repository at : [IDE-langage](https://github.com/LuidjyAubel/IDE-langage "IDE for P++")
 
  3. You can execute this project in visual studio commmunity
 
