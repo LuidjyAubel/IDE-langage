@@ -78,10 +78,11 @@ namespace IDE_langage
                 case "MOD": traiterMod(i, ligne); break;
                 case "WRITE": traiterWrite(i, ligne); break;
                 case "INC": traiterINC(i, ligne); break;
+                case "RAND": traiterRAND(i, ligne); break;
                 case "//": break;  //COMMENTAIRE
                 case "": break;     //LIGNE VIDEUHHHH 
 
-                default: Console.WriteLine("ERROR: Instruction inconnue ! <" + token + ">"); break;
+                default: Program.Form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + "> \n"); break;
             }
             while (token != "")
             {
@@ -133,7 +134,7 @@ namespace IDE_langage
         }
         static int Erreur(string a)
         {
-            Program.form1.WriteErreur("Erreur :" + a);
+            Program.Form1.WriteErreur("Erreur :" + a);
             errorDeteted = true;
             return -1;
         }
@@ -141,6 +142,15 @@ namespace IDE_langage
         {
             if (token.Length != 1) return false;
             return ((token[0] >= 'A') && (token[0] <= 'Z'));
+        }
+        static bool estString(string token)
+        {
+            if (token.Length > 1) return false;
+            return true;
+        }
+        static bool VarOuString(string token)
+        {
+            return estVariable(token) || estString(token);
         }
         static bool estchifre(char token)
         {
@@ -193,6 +203,21 @@ namespace IDE_langage
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
+        static int traiterRAND(int i, string ligne)
+        {
+            //faire une fonction random
+            string param1 = ExtraireToken(ref i, ligne);
+            string param2 = ExtraireToken(ref i, ligne);
+            string param3 = ExtraireToken(ref i, ligne);
+            string reste = ExtraireToken(ref i, ligne);
+            if (!estVarConst(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!estVarConst(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!estVarConst(param3)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (reste != "") Erreur("RAND n'accepte que 3 parametre");
+            Instruction_RAND instruction = new Instruction_RAND(param1[0], param2[0], param3[0]);
+            LeBlocEnCourant.ajouter(instruction);
+            return -1;
+        }
         static int traiterSub(int i, string ligne)
         {
             string param1 = ExtraireToken(ref i, ligne);
@@ -202,7 +227,7 @@ namespace IDE_langage
             if (!estVariable(param1)) Erreur("Param1 DOIT ETRE UNE VARIABLE");
             if (!estVarConst(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (!estVarConst(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (reste != "") Erreur("ADD n'accepte que 3 parametre");
+            if (reste != "") Erreur("SUB n'accepte que 3 parametre");
             Instruction_SUB instruction = new Instruction_SUB(param1[0], param2[0], param3[0]);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -212,8 +237,9 @@ namespace IDE_langage
             string param1 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
 
-            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (reste != "") Erreur("ADD n'accepte que 3 parametre");
+            //if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
+            if (!VarOuString(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE OU UNSTRING");
+            if (reste != "") Erreur("WRITE n'accepte que 1 parametre");
             Instruction_Write instruction = new Instruction_Write(param1[0]);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -306,7 +332,7 @@ namespace IDE_langage
             if (!estVariable(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (reste != "") Erreur("While n'accepte que 3 parametre");
             Bloc blocif = Lirebloc();
-            Instruction_IF instruction = new Instruction_IF(param1[0], param2, param3[0], blocif);
+            Instruction_WHILE instruction = new Instruction_WHILE(param1[0], param2, param3[0], blocif);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
@@ -342,10 +368,12 @@ namespace IDE_langage
                 case "MOD": traiterMod(i, ligne); break;
                 case "WRITE": traiterWrite(i, ligne); break;
                 case "INC": traiterINC(i, ligne); break;
+                case "RAND": traiterRAND(i, ligne); break;
+
                 case "//": break;
                 case "": break;
 
-                default: Console.WriteLine("ERROR: Instruction inconnue ! <" + token + ">"); break;
+                default: Program.Form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + ">"); break;
             }
             while (token != "")
             {

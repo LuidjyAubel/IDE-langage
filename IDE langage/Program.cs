@@ -8,7 +8,7 @@ namespace IDE_langage
 {
      static class Program
     {
-        static public Form1 form1;
+        static public form1 Form1;
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -18,8 +18,9 @@ namespace IDE_langage
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            form1 = new Form1();
-            Application.Run(new Form1());
+            Form1 = new form1();
+            //Application.Run(new Form1());
+            Application.Run(Form1);
         }
     }
 }

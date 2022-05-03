@@ -16,17 +16,23 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
+using System.Globalization;
+using System.Diagnostics;
+
 
 namespace IDE_langage
 {
-    public partial class Form1 : Form
+    public partial class form1 : Form
     {
         private string filePath = string.Empty;
-        public Form1()
+        public bool wantStop = false;
+        static public StreamReader fichierentre;
+        public form1()
         {
             InitializeComponent();
             Clear();
+            ClearError();
+            ClearDocumentation();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -54,26 +60,43 @@ namespace IDE_langage
 
         private void run_Click(object sender, EventArgs e)
         {
-            string fileName = "file.temp";
-            int bufferSize = 4096;
-            var fileStream = System.IO.File.Create(fileName, bufferSize, System.IO.FileOptions.DeleteOnClose);
-            var sr = new StreamWriter(fileStream);
-            sr.WriteLine(openFileDialog1.FileName);
-
+            progressBar1.Value = 0;
+            var tempDirectory = Directory.GetCurrentDirectory();
+            TempFileCollection coll = new TempFileCollection(tempDirectory, true); 
+            string filename = coll.AddExtension("temp", true);
+            progressBar1.Value = 10;
+            StreamWriter sw = new StreamWriter(filename);
+             sw.WriteLine(richTextBox1.Text);
+             sw.Close();
             Class2.LesVariables = new Variables();
-            Class2.Compiler("C:/Users/AUBElui/Documents/text.txt");
-            richTextBox2.Text += "Run "+openFileDialog1.FileName ;
-            Class2.Leprogramme.afficher();
-            Class2.LesVariables.Dump();
+            Class2.Compiler(filename);
+            progressBar1.Value = 50;
+            richTextBox2.Text += "\nRun "+openFileDialog1.FileName+"\n" ;
+            //Class2.Leprogramme.afficher();
             //Class2.Leprogramme.afficher();
             Class2.Leprogramme.executer();
-
+            progressBar1.Value = 75;
+            File.Delete(filename);
+            Class2.LesVariables.Dump();
+            progressBar1.Value = 100;
         }
         public void Clear()
         {
             richTextBox2.Text += "---------------------";
             richTextBox2.Text += "\n| Console           |";
-            richTextBox2.Text += "\n---------------------\n";
+            richTextBox2.Text += "\n---------------------";
+        }
+        public void ClearError()
+        {
+            richTextBox3.Text += "---------------------";
+            richTextBox3.Text += "\n| Error             |";
+            richTextBox3.Text += "\n---------------------\n";
+        }
+        public void ClearDocumentation()
+        {
+            richTextBox4.Text += "---------------------";
+            richTextBox4.Text += "\n| Documentation     |";
+            richTextBox4.Text += "\n---------------------\n";
         }
         public void Write(string st)
         {
@@ -87,6 +110,14 @@ namespace IDE_langage
         {
             richTextBox2.Text += "\n";
         }
+        public void WriteTrad(string st)
+        {
+            richTextBox5.Text += st;
+        }
+        public void lnTrad()
+        {
+            richTextBox5.Text += "\n";
+        }
         private void richTextBox2_TextChanged(object sender, EventArgs e)
         {
 
@@ -94,15 +125,90 @@ namespace IDE_langage
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Close();
+            // this.Close();
+            wantStop = true;
         }
 
         private async void Help_Click(object sender, EventArgs e)
         {
-            richTextBox4.Text += "Documentation";
-                using var client = new HttpClient();
-                var content = await client.GetStringAsync("https://portfolioluidjyaubel.000webhostapp.com/text.txt");
-            richTextBox4.Text = content;
+          try
+            {
+            using var client = new HttpClient();
+            var content = await client.GetStringAsync("https://portfolioluidjyaubel.000webhostapp.com/text.txt");
+            richTextBox4.Text += content;
+            }catch (Exception a)
+            {
+                richTextBox3.Text += "Exception: " + a.Message; //debug qui va disparaitre par la suite
+             StreamReader sr = new StreamReader("C.txt");
+             string line = sr.ReadLine();
+             while (line != null)
+             {
+            richTextBox4.Text += line;
+            richTextBox4.Text += "\n";
+            line = sr.ReadLine();
+            }
+            sr.Close();
+            }
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            progressBar1.Value = 0;
+            var tempDirectory = Directory.GetCurrentDirectory();
+            TempFileCollection coll = new TempFileCollection(tempDirectory, true);
+            string filename = coll.AddExtension("temp", true);
+            progressBar1.Value = 10;
+            StreamWriter sw = new StreamWriter(filename);
+            sw.WriteLine(richTextBox1.Text);
+            sw.Close();
+            StreamReader sz = new StreamReader(filename);
+            string a = sz.ReadToEnd();
+            sz.Close();
+            Class2.Compiler(filename);
+            //Class2.Leprogramme.afficher();
+            Class2.Leprogramme.traduire();
+            richTextBox2.Text += "\nTraduction " + openFileDialog1.FileName + "\n";
+            progressBar1.Value = 25;
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                richTextBox1.SaveFile(saveFileDialog1.FileName, RichTextBoxStreamType.PlainText);
+            }
+            StreamWriter sf = new StreamWriter(saveFileDialog1.FileName);
+            sf.WriteLine("<?php");
+            sf.WriteLine(richTextBox5.Text);
+            progressBar1.Value = 50;
+            sf.WriteLine("?>");
+            progressBar1.Value = 51;
+            sf.Close();
+            progressBar1.Value = 75;
+            File.Delete(filename);
+            progressBar1.Value = 100;
+            // Class2.LesVariables.Dump();
+        }
+
+        private void richTextBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void form1_Load(object sender, EventArgs e)
+        {
+
+        }
+        private void resize()
+        {
+            Size = new Size(250, 200);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process Proce1 = new Process();
+            Proce1 = Process.Start("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe", "https://portfolioluidjyaubel.000webhostapp.com/text.txt");
         }
     }
 }
