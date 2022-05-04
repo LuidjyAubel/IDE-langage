@@ -81,16 +81,18 @@ jobs:
     - name: Create artifacts
       run: |
         mkdir -p path/to/artifact-A
-        
-    
-    - name: Upload artifact A
-      uses: actions/upload-artifact@v1
-      with:
-        name: 'Artifact-A'
-        path: path/to/artifact-A
+        echo "Lorem ipsum dolor sit amet" > path/to/artifact-A/file-A.txt
+        name: output-log-file
+        path: output.msbuild
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
+
+    - name: Upload artifact A
+      uses: actions/upload-artifact@v1
+      with:
+        name: 'Artifact-A'
+        path: path/to/artifact-A
