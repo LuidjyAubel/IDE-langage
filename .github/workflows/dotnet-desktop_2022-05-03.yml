@@ -63,7 +63,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@RAND
+      uses: actions/checkout@master
       with:
         fetch-depth: 0
 
