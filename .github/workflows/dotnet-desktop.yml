@@ -82,7 +82,6 @@ jobs:
       run: |
         mkdir -p path/to/artifact-A
         echo "Lorem ipsum dolor sit amet" > path/to/artifact-A/file-A.txt
-        name: output-log-file
         path: output.msbuild
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
