@@ -85,6 +85,11 @@ jobs:
           path: |
             dist
             !dist/**/*.md
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+          name: code-coverage-report
+          path: output/test/code-coverage.html
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
