@@ -78,18 +78,16 @@ jobs:
       #run: echo "$HOME" 
       run: set
 
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v3
+    - name: Create artifacts
+      run: |
+        mkdir -p path/to/artifact-A
+        echo "Lorem ipsum dolor sit amet" > path/to/artifact-A/file-A.txt
+    
+    - name: Upload artifact A
+      uses: actions/upload-artifact@v1
       with:
-          name: dist-without-markdown
-          path: |
-            dist
-            !dist/**/*.md
-    - name: Archive code coverage results
-      uses: actions/upload-artifact@v3
-      with:
-          name: code-coverage-report
-          path: output/test/code-coverage.html
+        name: 'Artifact-A'
+        path: path/to/artifact-A
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
