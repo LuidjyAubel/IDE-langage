@@ -75,7 +75,8 @@ jobs:
     # Show exe file name
     - name: Run bat script on CMD
       shell: cmd
-      run: echo "$HOME" #.\bat_scripts\test.bat 
+      #run: echo "$HOME" 
+      run: set
 
 
 
