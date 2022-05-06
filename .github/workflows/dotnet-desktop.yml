@@ -96,4 +96,4 @@ jobs:
     - name: Upload WebApp1 Build Artifact
       uses: actions/upload-artifact@v2
       with:
-        path: /home/runner/work/Playground/Playground/src/WebApp1/bin/Debug/netcoreapp3.1/publish/
+        path: D:\a\IDE-langage\IDE-langage\IDE langage\bin\Release
