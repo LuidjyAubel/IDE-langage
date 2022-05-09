@@ -87,12 +87,6 @@ jobs:
         echo "Lorem ipsum dolor sit amet" > path/to/artifact-A/file-A.txt
         path: output.msbuild
 
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
-
         - name: Test with dotnet
           run: dotnet test --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
         - name: Upload dotnet test results
