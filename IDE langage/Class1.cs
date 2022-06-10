@@ -520,6 +520,64 @@ namespace IDE_langage
             //Console.WriteLine("IF " + val1 +" "+ comparateur+" "+ val2);
         }
     }
+    class Instruction_FOR : Instruction
+    {
+        char variable1;
+        char variable2;
+        char variable3;
+        Bloc blocalors;
+        public Instruction_FOR(char var1, char var2, char var3, Bloc bloc)
+        {
+            //this.name = "LET "+var1+" "+val; //bidouille
+            this.variable1 = var1;
+            this.variable2 = var2;
+            this.variable3 = var3;
+            this.blocalors = bloc;
+        }
+        public override void afficher()
+        {
+            //Console.WriteLine(" WHILE " + this.variable1 + " " + this.comparateur + " " + this.variable2);
+            Program.Form1.Write(" For " + this.variable1 + " " + this.variable2 + " " + this.variable3);
+            Program.Form1.ln();
+        }
+        public override void traduire()
+        {
+            Program.Form1.WriteTrad("for ($" + this.variable1 + " " + this.variable2 + " $" + this.variable3 + ")");
+            Program.Form1.lnTrad();
+        }
+        public override void executer()
+        {
+            bool res = true;
+            int val1;
+            int val2;
+            int val3;
+            val2 = Class2.LesVariables.getVariable(this.variable2);
+           Class2.LesVariables.setVariable(this.variable1, val2);
+            while (res)
+            {
+                val1 = Class2.LesVariables.getVariable(this.variable1);
+                val2 = Class2.LesVariables.getVariable(this.variable2);
+                val3 = Class2.LesVariables.getVariable(this.variable3);
+                if ((res == true) && (!Program.Form1.wantStop))
+                {
+                    Application.DoEvents();
+                    blocalors.executer();
+                }
+                val1 = val1 + 1;
+                Class2.LesVariables.setVariable(this.variable1, val1);
+                if (val1 <= val3)
+                {
+                    res = true;
+                    
+                }
+                else res = false;
+
+
+            }
+            //Console.WriteLine("IF " + val1 +" "+ comparateur+" "+ val2);
+        }
+
+    }
     class Instruction_Write : Instruction
     {
         char variable;

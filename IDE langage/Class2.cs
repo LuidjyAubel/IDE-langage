@@ -79,6 +79,7 @@ namespace IDE_langage
                 case "WRITE": traiterWrite(i, ligne); break;
                 case "INC": traiterINC(i, ligne); break;
                 case "RAND": traiterRAND(i, ligne); break;
+                case "FOR": traiterFOR(i, ligne);break;
                 case "//": break;  //COMMENTAIRE
                 case "": break;     //LIGNE VIDEUHHHH 
 
@@ -336,6 +337,21 @@ namespace IDE_langage
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
+        static int traiterFOR(int i, string ligne)
+        {
+            string param1 = ExtraireToken(ref i, ligne);
+            string param2 = ExtraireToken(ref i, ligne);
+            string param3 = ExtraireToken(ref i, ligne);
+            string reste = ExtraireToken(ref i, ligne);
+            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
+            if (!estVariable(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE");
+            if (!estVariable(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE");
+            if (reste != "") Erreur("For n'accepte que 3 parametre");
+            Bloc blocif = Lirebloc();
+            Instruction_FOR instruction = new Instruction_FOR(param1[0], param2[0], param3[0], blocif);
+            LeBlocEnCourant.ajouter(instruction);
+            return -1;
+        }
         static int traiterINC(int i, string ligne)
         {
             string param1 = ExtraireToken(ref i, ligne);
@@ -369,6 +385,7 @@ namespace IDE_langage
                 case "WRITE": traiterWrite(i, ligne); break;
                 case "INC": traiterINC(i, ligne); break;
                 case "RAND": traiterRAND(i, ligne); break;
+                case "FOR": traiterFOR(i, ligne); break;
 
                 case "//": break;
                 case "": break;

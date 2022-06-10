@@ -146,14 +146,14 @@ namespace IDE_langage
             // openFileDialog1
             // 
             this.openFileDialog1.DefaultExt = "pat";
-            this.openFileDialog1.Filter = "\"Fichier PATRICK (*.pat)|*.pat|Tous les fichiers (*.*)|*.*\" (Parameter \'value\')";
+            this.openFileDialog1.Filter = "\"Fichier TEXTE(*.txt)|*.txt|Tous les fichiers (*.*)|*.*\" (Parameter \'value\')";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // saveFileDialog1
             // 
             this.saveFileDialog1.DefaultExt = "pat";
             this.saveFileDialog1.FileName = "Unamed";
-            this.saveFileDialog1.Filter = "\"Fichier PATRICK (*.pat)|*.pat|Tous les fichiers (*.*)|*.*\" (Parameter \'value\')";
+            this.saveFileDialog1.Filter = "\"Fichier TEXTE (*.txt)|*.txt|Tous les fichiers (*.*)|*.*\" (Parameter \'value\')";
             // 
             // Help
             // 
@@ -244,7 +244,7 @@ namespace IDE_langage
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "form1";
-            this.Text = "IDE Patrick.pat";
+            this.Text = "IDE P++";
             this.Load += new System.EventHandler(this.form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
