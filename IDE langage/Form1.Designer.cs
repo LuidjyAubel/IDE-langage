@@ -146,14 +146,14 @@ namespace IDE_langage
             // openFileDialog1
             // 
             this.openFileDialog1.DefaultExt = "pat";
-            this.openFileDialog1.Filter = "\"Fichier TEXTE(*.txt)|*.txt|Tous les fichiers (*.*)|*.*\" (Parameter \'value\')";
+            this.openFileDialog1.Filter = "\"Fichier P++ (*.pat)|*.pat|Tous les fichiers (*.*)|*.*\" (Parameter \'value\')";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // saveFileDialog1
             // 
             this.saveFileDialog1.DefaultExt = "pat";
             this.saveFileDialog1.FileName = "Unamed";
-            this.saveFileDialog1.Filter = "\"Fichier TEXTE (*.txt)|*.txt|Tous les fichiers (*.*)|*.*\" (Parameter \'value\')";
+            this.saveFileDialog1.Filter = "\"Fichier P++ (*.pat)|*.pat|Tous les fichiers (*.*)|*.*\" (Parameter \'value\')";
             // 
             // Help
             // 

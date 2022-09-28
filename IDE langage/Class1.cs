@@ -113,6 +113,49 @@ namespace IDE_langage
                   //ranger la valeur dans la variable
               }*/
     }
+    class Instruction_Var : Instruction
+    {
+        char variable;
+        string valeur;
+        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
+        //bool param2var;
+
+        public Instruction_Var(char var, string val)
+        {
+            //this.name = "LET "+var+" "+val;
+            //this.name = "" + var + " = " + val+";";  traduction C#
+            //this.name = "$" + var + " = " + val+";"; traduction php
+            this.variable = var;
+            this.valeur = val;
+        }
+        public override void afficher()
+        {
+            //Console.WriteLine("LET " + this.variable + " " + this.valeur + " ");
+            Program.Form1.Write("VAR " + this.variable + " " + this.valeur + " ");
+        }
+        public override void traduire()
+        {
+            Program.Form1.WriteTrad("$" + this.variable + " = " + this.valeur + ";");
+            Program.Form1.lnTrad();
+        }
+        public override void executer()
+        {
+            //Console.WriteLine("execute let");
+            Class2.LesVariables2.setVariable(this.variable, this.valeur);
+        }
+
+        /*      public void execute()
+              {
+                  int lavaleur;
+                  if (param2var)
+                  {
+                      lavaleur = recuperervaleur(variable2);
+                  }
+                  else lavaleur = valeur;
+                  rangervaleurdansvariable(lavaleur, variable);
+                  //ranger la valeur dans la variable
+              }*/
+    }
     class Instruction_ADD : Instruction
     {
         char variable;
@@ -669,6 +712,56 @@ namespace IDE_langage
                 }
             }*/
             int varGET = tabvar[nomVar - 'A'];
+            return varGET;
+        }
+    }
+
+    class Variables2
+    {
+        protected string[] tabvar;
+        public Variables2()
+        {
+            tabvar = new string[26];
+            Init();
+        }
+        public void Init()
+        {
+            for (int i = 0; i < 26; i++)
+            {
+                tabvar[i] = " ";
+            }
+        }
+        public void Dump()
+        {
+            for (int i = 0; i < 26; i++)
+            {
+                //Console.Write(" " + tabvar[i] + " ");
+                Program.Form1.Write(" [" + tabvar[i] + "] ");
+            }
+
+        }
+        public void setVariable(char nomVar, string val)
+        {
+            for (int i = 0; i < 26; i++)
+            {
+                //i = charname - 'A';
+                if (i == nomVar - 'A')
+                {
+                    tabvar[i] = val;
+                    return;
+                }
+            }
+        }
+        public string getVariable(char nomVar)
+        {
+            /*for (int i = 0; i < 26; i++)
+            {
+                if (i == nomVar - 'A')
+                {
+                    //Console.WriteLine(nomVar + " = " + tabvar[i]);
+                }
+            }*/
+            string varGET = tabvar[nomVar - 'A'];
             return varGET;
         }
     }

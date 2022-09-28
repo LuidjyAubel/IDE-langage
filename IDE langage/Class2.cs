@@ -10,6 +10,7 @@ namespace IDE_langage
         static public Bloc LeBlocEnCourant; //auxilière de constructeur
         static public StreamReader fichierentre;
         public static Variables LesVariables;
+        public static Variables2 LesVariables2;
         static public bool errorDeteted;
         static string ExtraireToken(ref int indice, string ligne)
         {
@@ -80,6 +81,7 @@ namespace IDE_langage
                 case "INC": traiterINC(i, ligne); break;
                 case "RAND": traiterRAND(i, ligne); break;
                 case "FOR": traiterFOR(i, ligne);break;
+                case "VAR": traiterVar(i, ligne); break;
                 case "//": break;  //COMMENTAIRE
                 case "": break;     //LIGNE VIDEUHHHH 
 
@@ -146,7 +148,7 @@ namespace IDE_langage
         }
         static bool estString(string token)
         {
-            if (token.Length > 1) return false;
+            //if (token.Length >= 1) return false;
             return true;
         }
         static bool VarOuString(string token)
@@ -201,6 +203,19 @@ namespace IDE_langage
             if (!estNombre(param2)) Erreur("Param2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (reste != "") Erreur("Let n'accepte que 2 parametre");
             Instruction_Let instruction = new Instruction_Let(param1[0], Int32.Parse(param2));
+            LeBlocEnCourant.ajouter(instruction);
+            return -1;
+        }
+        static int traiterVar(int i, string ligne)
+        {
+            //le resultat Var ne sert à rien c'est just pour sortir rapidement
+            string param1 = ExtraireToken(ref i, ligne);
+            string param2 = ExtraireToken(ref i, ligne);
+            string reste = ExtraireToken(ref i, ligne);
+            if (!estVariable(param1)) Erreur("Param1 DOIT ETRE UNE VARIABLE");
+            if (!estString(param2)) Erreur("Param2 DOIT ETRE UNE CHAINE DE CHARACTER");
+            if (reste != "") Erreur("VAR n'accepte que 2 parametre");
+            Instruction_Var instruction = new Instruction_Var(param1[0], param2);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
@@ -386,6 +401,7 @@ namespace IDE_langage
                 case "INC": traiterINC(i, ligne); break;
                 case "RAND": traiterRAND(i, ligne); break;
                 case "FOR": traiterFOR(i, ligne); break;
+                case "VAR": traiterVar(i, ligne);break;
 
                 case "//": break;
                 case "": break;
