@@ -649,22 +649,21 @@ namespace IDE_langage
         public override void executer()
         {
             //Console.WriteLine("execution de Write");
+            if (Class2.LesVariables2.getVariable(this.variable) == " ")
+            {
                 int valeur = Class2.LesVariables.getVariable(this.variable);
                 Program.Form1.Write(" " + valeur);
                 Program.Form1.ln();
+            }
+            else
+            {
+                string valeur = Class2.LesVariables2.getVariable(this.variable);
+                Program.Form1.Write(" " + valeur);
+                Program.Form1.ln();
+            }
+              
             //Console.WriteLine(valeur);
         }
-        /*      public void execute()
-              {
-                  int lavaleur;
-                  if (param2var)
-                  {
-                      lavaleur = recuperervaleur(variable2);
-                  }
-                  else lavaleur = valeur;
-                  rangervaleurdansvariable(lavaleur, variable);
-                  //ranger la valeur dans la variable
-              }*/
     }
     class Variables
     {
