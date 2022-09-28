@@ -69,17 +69,14 @@ namespace IDE_langage
              sw.WriteLine(richTextBox1.Text);
              sw.Close();
             Class2.LesVariables = new Variables();
-            Class2.LesVariables2 = new Variables2();
             Class2.Compiler(filename);
             progressBar1.Value = 50;
             richTextBox2.Text += "\nRun "+openFileDialog1.FileName+"\n" ;
-            Class2.Leprogramme.afficher();
             //Class2.Leprogramme.afficher();
             Class2.Leprogramme.executer();
             progressBar1.Value = 75;
             File.Delete(filename);
             Class2.LesVariables.Dump();
-            Class2.LesVariables2.Dump();
             progressBar1.Value = 100;
         }
         public void Clear()
@@ -102,7 +99,7 @@ namespace IDE_langage
         }
         public void Write(string st)
         {
-            richTextBox2.Text += st+"\n";
+            richTextBox2.Text += st;
         }
         public void WriteErreur(string st)
         {

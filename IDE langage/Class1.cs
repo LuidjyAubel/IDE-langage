@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 
 namespace IDE_langage
@@ -73,11 +71,11 @@ namespace IDE_langage
     class Instruction_Let : Instruction
     {
         char variable;
-        int valeur;
+        string valeur;
         //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
         //bool param2var;
 
-        public Instruction_Let(char var, int val)
+        public Instruction_Let(char var, string val)
         {
             //this.name = "LET "+var+" "+val;
             //this.name = "" + var + " = " + val+";";  traduction C#
@@ -97,6 +95,7 @@ namespace IDE_langage
         }
         public override void executer()
         {
+            //string b = this.valeur.ToString();
             //Console.WriteLine("execute let");
             Class2.LesVariables.setVariable(this.variable, this.valeur);
         }
@@ -141,7 +140,7 @@ namespace IDE_langage
         public override void executer()
         {
             //Console.WriteLine("execute let");
-            Class2.LesVariables2.setVariable(this.variable, this.valeur);
+            Class2.LesVariables.setVariable(this.variable, this.valeur);
         }
 
         /*      public void execute()
@@ -185,11 +184,14 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            //Console.WriteLine("execute add");
-            int valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            int valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            int valeur = valeur1 + valeur2;
-            Class2.LesVariables.setVariable(this.variable, valeur);
+            //string b = this.valeur.ToString();
+            string valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+            int nb1 = Int32.Parse(valeur1);
+            int nb2 = Int32.Parse(valeur2);
+            int valeur = nb1 + nb2;
+            string val1 = valeur.ToString();
+            Class2.LesVariables.setVariable(this.variable, val1);
         }
         /*      public void execute()
               {
@@ -233,10 +235,13 @@ namespace IDE_langage
         public override void executer()
         {
             //Console.WriteLine("execute MOD");
-            int valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            int valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            int valeur = valeur1 % valeur2;
-            Class2.LesVariables.setVariable(this.variable, valeur);
+            string valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+            int nb1 = Int32.Parse(valeur1);
+            int nb2 = Int32.Parse(valeur2);
+            int valeur = nb1 % nb2;
+            string val1 = valeur.ToString();
+            Class2.LesVariables.setVariable(this.variable, val1);
         }
         /*      public void execute()
               {
@@ -279,10 +284,13 @@ namespace IDE_langage
         public override void executer()
         {
             //Console.WriteLine("execute MOD");
-            int valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            int valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            int valeur = valeur1 - valeur2;
-            Class2.LesVariables.setVariable(this.variable, valeur);
+            string valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+            int nb1 = Int32.Parse(valeur1);
+            int nb2 = Int32.Parse(valeur2);
+            int valeur = nb1 - nb2;
+            string val1 = valeur.ToString();
+            Class2.LesVariables.setVariable(this.variable, val1);
         }
         /*      public void execute()
               {
@@ -325,10 +333,13 @@ namespace IDE_langage
         public override void executer()
         {
             Random rnd = new Random();
-            int valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            int valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            int valeur = rnd.Next(valeur1, valeur2);
-            Class2.LesVariables.setVariable(this.variable, valeur);
+            string valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+            int nb1 = Int32.Parse(valeur1);
+            int nb2 = Int32.Parse(valeur2);
+            int valeur = rnd.Next(nb1, nb2);
+            string val1 = valeur.ToString();
+            Class2.LesVariables.setVariable(this.variable, val1);
         }
         /*      public void execute()
               {
@@ -372,10 +383,14 @@ namespace IDE_langage
         public override void executer()
         {
             //Console.WriteLine("execute MOD");
-            int valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            int valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            int valeur = valeur1 * valeur2;
-            Class2.LesVariables.setVariable(this.variable, valeur);
+            string valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+            int nb1 = Int32.Parse(valeur1);
+            int nb2 = Int32.Parse(valeur2);
+
+            int valeur = nb1 * nb2;
+            string val1 = valeur.ToString();
+            Class2.LesVariables.setVariable(this.variable, val1);
         }
         /*      public void execute()
               {
@@ -418,10 +433,13 @@ namespace IDE_langage
         public override void executer()
         {
             //Console.WriteLine("execute MOD");
-            int valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            int valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            int valeur = valeur1 / valeur2;
-            Class2.LesVariables.setVariable(this.variable, valeur);
+            string valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+            int nb1 = Int32.Parse(valeur1);
+            int nb2 = Int32.Parse(valeur2);
+            int valeur = nb1 / nb2;
+            string val1 = valeur.ToString();
+            Class2.LesVariables.setVariable(this.variable, val1);
         }
         /*      public void execute()
               {
@@ -458,9 +476,11 @@ namespace IDE_langage
         public override void executer()
         {
             //Console.WriteLine("execute add");
-            int valeur1 = Class2.LesVariables.getVariable(this.variable);
-            int valeur = valeur1 + 1;
-            Class2.LesVariables.setVariable(this.variable, valeur);
+            string valeur1 = Class2.LesVariables.getVariable(this.variable);
+            int nb1 = Int32.Parse(valeur1);
+            int valeur = nb1 + 1;
+            string val1 = valeur.ToString();
+            Class2.LesVariables.setVariable(this.variable, val1);
         }
     }
     class Instruction_IF : Instruction
@@ -491,17 +511,19 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            int val1 = Class2.LesVariables.getVariable(this.variable1);
-            int val2 = Class2.LesVariables.getVariable(this.variable2);
+            string valeur1 = Class2.LesVariables.getVariable(this.variable1);
+            string valeur2 = Class2.LesVariables.getVariable(this.variable2);
+            int nb1 = Int32.Parse(valeur1);
+            int nb2 = Int32.Parse(valeur2);
             bool res = false;
             switch (comparateur)
             {
-                case "=": res = val1 == val2; break;
-                case "!=": res = val1 != val2; break;
-                case "<": res = val1 < val2; break;
-                case ">": res = val1 > val2; break;
-                case "<=": res = val1 <= val2; break;
-                case ">=": res = val1 >= val2; break;
+                case "=": res = nb1 == nb2; break;
+                case "!=": res = nb1 != nb2; break;
+                case "<": res = nb1 < nb2; break;
+                case ">": res = nb1 > nb2; break;
+                case "<=": res = nb1 <= nb2; break;
+                case ">=": res = nb1 >= nb2; break;
                 default: res = false; break;
             }
             if (res == true)  {
@@ -541,16 +563,18 @@ namespace IDE_langage
             bool res = true;
             while (res)
             {
-                int val1 = Class2.LesVariables.getVariable(this.variable1);
-                int val2 = Class2.LesVariables.getVariable(this.variable2);
+                string val1 = Class2.LesVariables.getVariable(this.variable1);
+                string val2 = Class2.LesVariables.getVariable(this.variable2);
+                int nb1 = Int32.Parse(val1);
+                int nb2 = Int32.Parse(val2);
                 switch (comparateur)
                 {
-                    case "=": res = val1 == val2; break;
-                    case "!=": res = val1 != val2; break;
-                    case "<": res = val1 < val2; break;
-                    case ">": res = val1 > val2; break;
-                    case "<=": res = val1 <= val2; break;
-                    case ">=": res = val1 >= val2; break;
+                    case "=": res = nb1 == nb2; break;
+                    case "!=": res = nb1 != nb2; break;
+                    case "<": res = nb1 < nb2; break;
+                    case ">": res = nb1 > nb2; break;
+                    case "<=": res = nb1 <= nb2; break;
+                    case ">=": res = nb1 >= nb2; break;
                     default: res = false; break;
                 }
                 if ((res == true) && (!Program.Form1.wantStop))
@@ -591,9 +615,9 @@ namespace IDE_langage
         public override void executer()
         {
             bool res = true;
-            int val1;
-            int val2;
-            int val3;
+            string val1;
+            string val2;
+            string val3;
             val2 = Class2.LesVariables.getVariable(this.variable2);
            Class2.LesVariables.setVariable(this.variable1, val2);
             while (res)
@@ -601,14 +625,17 @@ namespace IDE_langage
                 val1 = Class2.LesVariables.getVariable(this.variable1);
                 val2 = Class2.LesVariables.getVariable(this.variable2);
                 val3 = Class2.LesVariables.getVariable(this.variable3);
+                int nb1 = Int32.Parse(val1);
+                int nb2 = Int32.Parse(val2);
+                int nb3 = Int32.Parse(val3);
                 if ((res == true) && (!Program.Form1.wantStop))
                 {
                     Application.DoEvents();
                     blocalors.executer();
                 }
-                val1 = val1 + 1;
+                nb1 = nb1 + 1;
                 Class2.LesVariables.setVariable(this.variable1, val1);
-                if (val1 <= val3)
+                if (nb1 <= nb3)
                 {
                     res = true;
                     
@@ -649,23 +676,14 @@ namespace IDE_langage
         public override void executer()
         {
             //Console.WriteLine("execution de Write");
-            if (Class2.LesVariables2.getVariable(this.variable) == " ")
-            {
-                int valeur = Class2.LesVariables.getVariable(this.variable);
+                string valeur = Class2.LesVariables.getVariable(this.variable);
                 Program.Form1.Write(" " + valeur);
                 Program.Form1.ln();
-            }
-            else
-            {
-                string valeur = Class2.LesVariables2.getVariable(this.variable);
-                Program.Form1.Write(" " + valeur);
-                Program.Form1.ln();
-            }
               
             //Console.WriteLine(valeur);
         }
     }
-    class Variables
+   /* class Variables
     {
         protected int[] tabvar;
         public Variables()
@@ -702,23 +720,16 @@ namespace IDE_langage
             }
         }
         public int getVariable(char nomVar)
-        {
-            /*for (int i = 0; i < 26; i++)
-            {
-                if (i == nomVar - 'A')
-                {
-                    //Console.WriteLine(nomVar + " = " + tabvar[i]);
-                }
-            }*/
+        {  
             int varGET = tabvar[nomVar - 'A'];
             return varGET;
         }
-    }
+    }*/
 
-    class Variables2
+    class Variables
     {
         protected string[] tabvar;
-        public Variables2()
+        public Variables()
         {
             tabvar = new string[26];
             Init();
