@@ -301,11 +301,11 @@ namespace IDE_langage
     class Instruction_MOD : Instruction
     {
         char variable;
-        char variable2;
-        char variable3;
+        string variable2;
+        string variable3;
         //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
         //bool param2var;
-        public Instruction_MOD(char var, char var2, char var3)
+        public Instruction_MOD(char var, string var2, string var3)
         {
             //this.name = "ADD " + var + " " + var2 +" "+var3;
             //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
@@ -327,10 +327,43 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            string valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            string va2 = this.variable2;
+            string va3 = this.variable3;
+
+            string valeur1;
+            string valeur2;
+            int nb1;
+            int nb2;
+            //string b = this.valeur.ToString();
+            if (va3.All(char.IsDigit))
+            {
+                nb1 = Int32.Parse(va2);
+            }
+            else
+            {
+                char a = this.variable2[0];
+                valeur1 = Class2.LesVariables.getVariable(a);
+                nb1 = Int32.Parse(valeur1);
+            }
+
+            if (va3.All(char.IsDigit))
+            {
+                nb2 = Int32.Parse(va3);
+            }
+            else
+            {
+                char b = this.variable3[0];
+                valeur2 = Class2.LesVariables.getVariable(b);
+                nb2 = Int32.Parse(valeur2);
+            }
+            // valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            //  string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+            //int nb1 = Int32.Parse(valeur1);
+            //int nb2 = Int32.Parse(valeur2);
+           /* string valeur1 = Class2.LesVariables.getVariable(this.variable2);
             string valeur2 = Class2.LesVariables.getVariable(this.variable3);
             int nb1 = Int32.Parse(valeur1);
-            int nb2 = Int32.Parse(valeur2);
+            int nb2 = Int32.Parse(valeur2);*/
             int valeur = nb1 % nb2;
             string val1 = valeur.ToString();
             Class2.LesVariables.setVariable(this.variable, val1);
@@ -350,11 +383,11 @@ namespace IDE_langage
     class Instruction_SUB : Instruction
     {
         char variable;
-        char variable2;
-        char variable3;
+        string variable2;
+        string variable3;
         //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
         //bool param2var;
-        public Instruction_SUB(char var, char var2, char var3)
+        public Instruction_SUB(char var, string var2, string var3)
         {
             //this.name = "ADD " + var + " " + var2 +" "+var3;
             //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
@@ -376,34 +409,56 @@ namespace IDE_langage
         public override void executer()
         {
             //Console.WriteLine("execute MOD");
-            string valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            /*string valeur1 = Class2.LesVariables.getVariable(this.variable2);
             string valeur2 = Class2.LesVariables.getVariable(this.variable3);
             int nb1 = Int32.Parse(valeur1);
-            int nb2 = Int32.Parse(valeur2);
+            int nb2 = Int32.Parse(valeur2);*/
+            string va2 = this.variable2;
+            string va3 = this.variable3;
+
+            string valeur1;
+            string valeur2;
+            int nb1;
+            int nb2;
+            //string b = this.valeur.ToString();
+            if (va2.All(char.IsDigit))
+            {
+                nb1 = Int32.Parse(va2);
+            }
+            else
+            {
+                char a = this.variable2[0];
+                valeur1 = Class2.LesVariables.getVariable(a);
+                nb1 = Int32.Parse(valeur1);
+            }
+
+            if (va3.All(char.IsDigit))
+            {
+                nb2 = Int32.Parse(va3);
+            }
+            else
+            {
+                char b = this.variable3[0];
+                valeur2 = Class2.LesVariables.getVariable(b);
+                nb2 = Int32.Parse(valeur2);
+            }
+            // valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            //  string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+            //int nb1 = Int32.Parse(valeur1);
+            //int nb2 = Int32.Parse(valeur2);
             int valeur = nb1 - nb2;
             string val1 = valeur.ToString();
             Class2.LesVariables.setVariable(this.variable, val1);
         }
-        /*      public void execute()
-              {
-                  int lavaleur;
-                  if (param2var)
-                  {
-                      lavaleur = recuperervaleur(variable2);
-                  }
-                  else lavaleur = valeur;
-                  rangervaleurdansvariable(lavaleur, variable);
-                  //ranger la valeur dans la variable
-              }*/
     }
     class Instruction_RAND : Instruction
     {
         char variable;
-        char variable2;
-        char variable3;
+        string variable2;
+        string variable3;
         //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
         //bool param2var;
-        public Instruction_RAND(char var, char var2, char var3)
+        public Instruction_RAND(char var, string var2, string var3)
         {
             //this.name = "ADD " + var + " " + var2 +" "+var3;
             //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
@@ -425,34 +480,52 @@ namespace IDE_langage
         public override void executer()
         {
             Random rnd = new Random();
-            string valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            string valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            int nb1 = Int32.Parse(valeur1);
-            int nb2 = Int32.Parse(valeur2);
+            /* string valeur1 = Class2.LesVariables.getVariable(this.variable2);
+             string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+             int nb1 = Int32.Parse(valeur1);
+             int nb2 = Int32.Parse(valeur2);*/
+            string va2 = this.variable2;
+            string va3 = this.variable3;
+
+            string valeur1;
+            string valeur2;
+            int nb1;
+            int nb2;
+            //string b = this.valeur.ToString();
+            if (va2.All(char.IsDigit))
+            {
+                nb1 = Int32.Parse(va2);
+            }
+            else
+            {
+                char a = this.variable2[0];
+                valeur1 = Class2.LesVariables.getVariable(a);
+                nb1 = Int32.Parse(valeur1);
+            }
+
+            if (va3.All(char.IsDigit))
+            {
+                nb2 = Int32.Parse(va3);
+            }
+            else
+            {
+                char b = this.variable3[0];
+                valeur2 = Class2.LesVariables.getVariable(b);
+                nb2 = Int32.Parse(valeur2);
+            }
             int valeur = rnd.Next(nb1, nb2);
             string val1 = valeur.ToString();
             Class2.LesVariables.setVariable(this.variable, val1);
         }
-        /*      public void execute()
-              {
-                  int lavaleur;
-                  if (param2var)
-                  {
-                      lavaleur = recuperervaleur(variable2);
-                  }
-                  else lavaleur = valeur;
-                  rangervaleurdansvariable(lavaleur, variable);
-                  //ranger la valeur dans la variable
-              }*/
     }
     class Instruction_MUL : Instruction
     {
         char variable;
-        char variable2;
-        char variable3;
+        string variable2;
+        string variable3;
         //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
         //bool param2var;
-        public Instruction_MUL(char var, char var2, char var3)
+        public Instruction_MUL(char var, string var2, string var3)
         {
             //this.name = "ADD " + var + " " + var2 +" "+var3;
             //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
@@ -475,35 +548,53 @@ namespace IDE_langage
         public override void executer()
         {
             //Console.WriteLine("execute MOD");
-            string valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            /*string valeur1 = Class2.LesVariables.getVariable(this.variable2);
             string valeur2 = Class2.LesVariables.getVariable(this.variable3);
             int nb1 = Int32.Parse(valeur1);
-            int nb2 = Int32.Parse(valeur2);
+            int nb2 = Int32.Parse(valeur2);*/
+            string va2 = this.variable2;
+            string va3 = this.variable3;
+
+            string valeur1;
+            string valeur2;
+            int nb1;
+            int nb2;
+            //string b = this.valeur.ToString();
+            if (va2.All(char.IsDigit))
+            {
+                nb1 = Int32.Parse(va2);
+            }
+            else
+            {
+                char a = this.variable2[0];
+                valeur1 = Class2.LesVariables.getVariable(a);
+                nb1 = Int32.Parse(valeur1);
+            }
+
+            if (va3.All(char.IsDigit))
+            {
+                nb2 = Int32.Parse(va3);
+            }
+            else
+            {
+                char b = this.variable3[0];
+                valeur2 = Class2.LesVariables.getVariable(b);
+                nb2 = Int32.Parse(valeur2);
+            }
 
             int valeur = nb1 * nb2;
             string val1 = valeur.ToString();
             Class2.LesVariables.setVariable(this.variable, val1);
         }
-        /*      public void execute()
-              {
-                  int lavaleur;
-                  if (param2var)
-                  {
-                      lavaleur = recuperervaleur(variable2);
-                  }
-                  else lavaleur = valeur;
-                  rangervaleurdansvariable(lavaleur, variable);
-                  //ranger la valeur dans la variable
-              }*/
     }
     class Instruction_DIV : Instruction
     {
         char variable;
-        char variable2;
-        char variable3;
+        string variable2;
+        string variable3;
         //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
         //bool param2var;
-        public Instruction_DIV(char var, char var2, char var3)
+        public Instruction_DIV(char var, string var2, string var3)
         {
             //this.name = "ADD " + var + " " + var2 +" "+var3;
             //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
@@ -525,25 +616,44 @@ namespace IDE_langage
         public override void executer()
         {
             //Console.WriteLine("execute MOD");
-            string valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            string valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            int nb1 = Int32.Parse(valeur1);
-            int nb2 = Int32.Parse(valeur2);
+            /* string valeur1 = Class2.LesVariables.getVariable(this.variable2);
+             string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+             int nb1 = Int32.Parse(valeur1);
+             int nb2 = Int32.Parse(valeur2);*/
+            string va2 = this.variable2;
+            string va3 = this.variable3;
+
+            string valeur1;
+            string valeur2;
+            int nb1;
+            int nb2;
+            //string b = this.valeur.ToString();
+            if (va2.All(char.IsDigit))
+            {
+                nb1 = Int32.Parse(va2);
+            }
+            else
+            {
+                char a = this.variable2[0];
+                valeur1 = Class2.LesVariables.getVariable(a);
+                nb1 = Int32.Parse(valeur1);
+            }
+
+            if (va3.All(char.IsDigit))
+            {
+                nb2 = Int32.Parse(va3);
+            }
+            else
+            {
+                char b = this.variable3[0];
+                valeur2 = Class2.LesVariables.getVariable(b);
+                nb2 = Int32.Parse(valeur2);
+            }
+
             int valeur = nb1 / nb2;
             string val1 = valeur.ToString();
             Class2.LesVariables.setVariable(this.variable, val1);
         }
-        /*      public void execute()
-              {
-                  int lavaleur;
-                  if (param2var)
-                  {
-                      lavaleur = recuperervaleur(variable2);
-                  }
-                  else lavaleur = valeur;
-                  rangervaleurdansvariable(lavaleur, variable);
-                  //ranger la valeur dans la variable
-              }*/
     }
     class Instruction_INC : Instruction
     {
@@ -567,7 +677,6 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            //Console.WriteLine("execute add");
             string valeur1 = Class2.LesVariables.getVariable(this.variable);
             int nb1 = Int32.Parse(valeur1);
             int valeur = nb1 + 1;
@@ -757,7 +866,6 @@ namespace IDE_langage
         {
                 Program.Form1.Write("WRITE " + this.variable + " ");
                 Program.Form1.ln();
-            // Console.WriteLine("WRITE " + this.variable + " ");
 
         }
         public override void traduire()
@@ -767,57 +875,12 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            //Console.WriteLine("execution de Write");
                 string valeur = Class2.LesVariables.getVariable(this.variable);
                 Program.Form1.Write(" " + valeur);
                 Program.Form1.ln();
-              
-            //Console.WriteLine(valeur);
         }
     }
-   /* class Variables
-    {
-        protected int[] tabvar;
-        public Variables()
-        {
-            tabvar = new int[26];
-            Init();
-        }
-        public void Init()
-        {
-            for (int i = 0; i < 26; i++)
-            {
-                tabvar[i] = 0;
-            }
-        }
-        public void Dump()
-        {
-            for (int i = 0; i < 26; i++)
-            {
-                //Console.Write(" " + tabvar[i] + " ");
-                Program.Form1.Write(" [" + tabvar[i] + "] ");
-            }
-
-        }
-        public void setVariable(char nomVar, int val)
-        {
-            for (int i = 0; i < 26; i++)
-            {
-                //i = charname - 'A';
-                if (i == nomVar - 'A')
-                {
-                    tabvar[i] = val;
-                    return;
-                }
-            }
-        }
-        public int getVariable(char nomVar)
-        {  
-            int varGET = tabvar[nomVar - 'A'];
-            return varGET;
-        }
-    }*/
-
+  
     class Variables
     {
         protected string[] tabvar;
@@ -837,7 +900,6 @@ namespace IDE_langage
         {
             for (int i = 0; i < 26; i++)
             {
-                //Console.Write(" " + tabvar[i] + " ");
                 Program.Form1.Write(" [" + tabvar[i] + "] ");
             }
 
@@ -856,13 +918,6 @@ namespace IDE_langage
         }
         public string getVariable(char nomVar)
         {
-            /*for (int i = 0; i < 26; i++)
-            {
-                if (i == nomVar - 'A')
-                {
-                    //Console.WriteLine(nomVar + " = " + tabvar[i]);
-                }
-            }*/
             string varGET = tabvar[nomVar - 'A'];
             return varGET;
         }

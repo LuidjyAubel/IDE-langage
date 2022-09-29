@@ -232,10 +232,10 @@ namespace IDE_langage
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
             if (!estVarConst(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!estVarConst(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!estVarConst(param3)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param3)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (reste != "") Erreur("RAND n'accepte que 3 parametre");
-            Instruction_RAND instruction = new Instruction_RAND(param1[0], param2[0], param3[0]);
+            Instruction_RAND instruction = new Instruction_RAND(param1[0], param2, param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
@@ -246,10 +246,10 @@ namespace IDE_langage
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
             if (!estVariable(param1)) Erreur("Param1 DOIT ETRE UNE VARIABLE");
-            if (!estVarConst(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!estVarConst(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (reste != "") Erreur("SUB n'accepte que 3 parametre");
-            Instruction_SUB instruction = new Instruction_SUB(param1[0], param2[0], param3[0]);
+            Instruction_SUB instruction = new Instruction_SUB(param1[0], param2, param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
@@ -303,10 +303,10 @@ namespace IDE_langage
             string reste = ExtraireToken(ref i, ligne);
 
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!estVarConst(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!estVarConst(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (reste != "") Erreur("SUB n'accepte que 3 parametre");
-            Instruction_MUL instruction = new Instruction_MUL(param1[0], param2[0], param3[0]);
+            Instruction_MUL instruction = new Instruction_MUL(param1[0], param2, param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
@@ -318,10 +318,10 @@ namespace IDE_langage
             string reste = ExtraireToken(ref i, ligne);
 
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!estVarConst(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!estVarConst(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (reste != "") Erreur("DIV n'accepte que 3 parametre");
-            Instruction_DIV instruction = new Instruction_DIV(param1[0], param2[0], param3[0]);
+            Instruction_DIV instruction = new Instruction_DIV(param1[0], param2, param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
@@ -333,10 +333,10 @@ namespace IDE_langage
             string reste = ExtraireToken(ref i, ligne);
 
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!estVarConst(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!estVarConst(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (reste != "") Erreur("MOD n'accepte que 3 parametre");
-            Instruction_MOD instruction = new Instruction_MOD(param1[0], param2[0], param3[0]);
+            Instruction_MOD instruction = new Instruction_MOD(param1[0], param2, param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
