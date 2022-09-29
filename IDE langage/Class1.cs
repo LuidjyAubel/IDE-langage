@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace IDE_langage
 {
@@ -158,11 +159,11 @@ namespace IDE_langage
     class Instruction_ADD : Instruction
     {
         char variable;
-        char variable2;
-        char variable3;
+        string variable2;
+        string variable3;
         //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
         //bool param2var;
-        public Instruction_ADD(char var, char var2, char var3)
+        public Instruction_ADD(char var, string var2, string var3)
         {
             //this.name = "ADD " + var + " " + var2 +" "+var3;
             //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
@@ -185,25 +186,117 @@ namespace IDE_langage
         public override void executer()
         {
             //string b = this.valeur.ToString();
-            string valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            string valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            int nb1 = Int32.Parse(valeur1);
-            int nb2 = Int32.Parse(valeur2);
+            /* string valeur1 = Class2.LesVariables.getVariable(this.variable2);
+             string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+             int nb1 = Int32.Parse(valeur1);
+             int nb2 = Int32.Parse(valeur2);
+             int valeur = nb1 + nb2;
+             string val1 = valeur.ToString();
+             Class2.LesVariables.setVariable(this.variable, val1);*/
+            string va2 = this.variable2;
+            string va3 = this.variable3;
+
+            string valeur1;
+            string valeur2;
+            int nb1;
+            int nb2;
+            //string b = this.valeur.ToString();
+            if (va2.All(char.IsDigit))
+            {
+                nb1 = Int32.Parse(va2);
+            }
+            else
+            {
+                char a = this.variable2[0];
+                valeur1 = Class2.LesVariables.getVariable(a);
+                nb1 = Int32.Parse(valeur1);
+            }
+
+            if (va3.All(char.IsDigit))
+            {
+                nb2 = Int32.Parse(va3);
+            }
+            else
+            {
+                char b = this.variable3[0];
+                valeur2 = Class2.LesVariables.getVariable(b);
+                nb2 = Int32.Parse(valeur2);
+            }
+            // valeur1 = Class2.LesVariables.getVariable(this.variable2);
+            //  string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+            //int nb1 = Int32.Parse(valeur1);
+            //int nb2 = Int32.Parse(valeur2);
             int valeur = nb1 + nb2;
             string val1 = valeur.ToString();
             Class2.LesVariables.setVariable(this.variable, val1);
         }
-        /*      public void execute()
-              {
-                  int lavaleur;
-                  if (param2var)
-                  {
-                      lavaleur = recuperervaleur(variable2);
-                  }
-                  else lavaleur = valeur;
-                  rangervaleurdansvariable(lavaleur, variable);
-                  //ranger la valeur dans la variable
-              }*/
+    }
+    class Instruction_CAR : Instruction
+    {
+        char variable;
+        string variable2;
+        string variable3;
+        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
+        //bool param2var;
+        public Instruction_CAR(char var, string var2, string var3)
+        {
+            //this.name = "ADD " + var + " " + var2 +" "+var3;
+            //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
+            //this.name = "$" + var + " = $" + var2+" $"+var3+;";
+            this.variable = var;
+            this.variable2 = var2;
+            this.variable3 = var3;
+        }
+        public override void afficher()
+        {
+            //Console.WriteLine("ADD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
+            Program.Form1.Write("ADD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
+            Program.Form1.ln();
+        }
+        public override void traduire()
+        {
+            Program.Form1.WriteTrad("$" + this.variable + " = " + "$" + this.variable2 + " + $" + this.variable3 + ";");
+            Program.Form1.lnTrad();
+        }
+        public override void executer()
+        {
+            string va2 = this.variable2;
+            string va3 = this.variable3;
+
+            string valeur1;
+            string valeur2;
+            int nb1;
+            int nb2;
+            //string b = this.valeur.ToString();
+            if (va3.All(char.IsDigit))
+            {
+                nb1 = Int32.Parse(va2);
+            }
+            else
+            {
+                char a = this.variable2[0];
+                 valeur1 = Class2.LesVariables.getVariable(a);
+                 nb1 = Int32.Parse(valeur1);
+            }
+
+            if ( va3.All(char.IsDigit))
+            {
+                nb2 = Int32.Parse(va3);
+            }
+            else
+            {
+                char b = this.variable3[0];
+                 valeur2 = Class2.LesVariables.getVariable(b);
+                nb2 = Int32.Parse(valeur2);
+            }
+            // valeur1 = Class2.LesVariables.getVariable(this.variable2);
+          //  string valeur2 = Class2.LesVariables.getVariable(this.variable3);
+            //int nb1 = Int32.Parse(valeur1);
+            //int nb2 = Int32.Parse(valeur2);
+            int valeur = nb1 + nb2;
+            string val1 = valeur.ToString();
+            Class2.LesVariables.setVariable(this.variable, val1);
+        }
     }
     class Instruction_MOD : Instruction
     {
@@ -234,7 +327,6 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            //Console.WriteLine("execute MOD");
             string valeur1 = Class2.LesVariables.getVariable(this.variable2);
             string valeur2 = Class2.LesVariables.getVariable(this.variable3);
             int nb1 = Int32.Parse(valeur1);

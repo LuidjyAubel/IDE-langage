@@ -207,7 +207,7 @@ namespace IDE_langage
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process Proce1 = new Process();
-            Proce1 = Process.Start("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe", "https://portfolioluidjyaubel.000webhostapp.com/text.txt");
+            Proce1 = Process.Start("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe", "https://portfolioluidjyaubel.000webhostapp.com/documentation.php");
         }
     }
 }

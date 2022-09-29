@@ -81,7 +81,8 @@ namespace IDE_langage
                 case "INC": traiterINC(i, ligne); break;
                 case "RAND": traiterRAND(i, ligne); break;
                 case "FOR": traiterFOR(i, ligne);break;
-               case "VAR": traiterVar(i, ligne); break;
+                case "VAR": traiterVar(i, ligne); break;
+                case "CAR": traiterCar(i, ligne);break;
                 case "//": break;  //COMMENTAIRE
                 case "": break;     //LIGNE VIDEUHHHH 
 
@@ -272,10 +273,25 @@ namespace IDE_langage
             string reste = ExtraireToken(ref i, ligne);
 
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!estVariable(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!estVariable(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (reste != "") Erreur("ADD n'accepte que 3 parametre");
-            Instruction_ADD instruction = new Instruction_ADD(param1[0], param2[0], param3[0]);
+            Instruction_ADD instruction = new Instruction_ADD(param1[0], param2, param3);
+            LeBlocEnCourant.ajouter(instruction);
+            return -1;
+        }
+        static int traiterCar(int i, string ligne)
+        {
+            string param1 = ExtraireToken(ref i, ligne);
+            string param2 = ExtraireToken(ref i, ligne);
+            string param3 = ExtraireToken(ref i, ligne);
+            string reste = ExtraireToken(ref i, ligne);
+
+            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
+            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (reste != "") Erreur("CAR n'accepte que 3 parametre");
+            Instruction_CAR instruction = new Instruction_CAR(param1[0], param2, param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }

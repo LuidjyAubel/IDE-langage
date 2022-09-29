@@ -46,7 +46,7 @@ Comparateur disponible :
 
 Quelque règle :
 
-Le PATRICK.pat © est un langage constituer de blocs
+Le P++ © est un langage constituer de blocs
 Le programme doit impérativement commmencer par
 { et se terminé par } qui constitue le bloc principal
 du programme
