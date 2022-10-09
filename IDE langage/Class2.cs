@@ -284,14 +284,12 @@ namespace IDE_langage
         {
             string param1 = ExtraireToken(ref i, ligne);
             string param2 = ExtraireToken(ref i, ligne);
-            string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
 
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
             if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (reste != "") Erreur("CAR n'accepte que 3 parametre");
-            Instruction_CAR instruction = new Instruction_CAR(param1[0], param2, param3);
+            Instruction_CAR instruction = new Instruction_CAR(param1[0], param2);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }

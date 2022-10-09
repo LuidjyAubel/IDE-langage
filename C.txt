@@ -9,6 +9,8 @@ LET <variable> <valeur>
 Exemple : LET A 123
 VAR <variable> <valeur>
 Exemple : VAR E P++
+CAR <variable1> <Nb ou Var>
+Exemple : CAR B 12
 ADD <variable1> <variable2> <variable3>
 Exemple : ADD A B C
 SUB <variable1> <variable2> <variable3>

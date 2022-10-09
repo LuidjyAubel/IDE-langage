@@ -15,6 +15,7 @@
     <PackageIconUrl />
     <RepositoryUrl>https://github.com/LuidjyAubel/IDE-langage</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
+    <StartupObject></StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

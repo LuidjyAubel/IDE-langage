@@ -61,9 +61,9 @@ namespace IDE_langage
         private void run_Click(object sender, EventArgs e)
         {
             progressBar1.Value = 0;
-            var tempDirectory = Directory.GetCurrentDirectory();
-            TempFileCollection coll = new TempFileCollection(tempDirectory, true); 
-            string filename = coll.AddExtension("temp", true);
+            var tempDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            TempFileCollection coll = new TempFileCollection(tempDirectory, false); 
+            string filename = coll.AddExtension("temp", false);
             progressBar1.Value = 10;
             StreamWriter sw = new StreamWriter(filename);
              sw.WriteLine(richTextBox1.Text);
@@ -75,8 +75,9 @@ namespace IDE_langage
             //Class2.Leprogramme.afficher();
             Class2.Leprogramme.executer();
             progressBar1.Value = 75;
-            File.Delete(filename);
-            Class2.LesVariables.Dump();
+            coll.Delete();
+            //File.Delete(filename);
+            //Class2.LesVariables.Dump();
             progressBar1.Value = 100;
         }
         public void Clear()
@@ -133,7 +134,7 @@ namespace IDE_langage
           try
             {
             using var client = new HttpClient();
-            var content = await client.GetStringAsync("https://portfolioluidjyaubel.000webhostapp.com/text.txt");
+            var content = await client.GetStringAsync("https://portfolioluidjyaubel.000webhostapp.com/documentation.php");
             richTextBox4.Text += content;
             }catch (Exception a)
             {
