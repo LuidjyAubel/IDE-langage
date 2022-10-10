@@ -79,6 +79,7 @@ namespace IDE_langage
                 case "MOD": traiterMod(i, ligne); break;
                 case "WRITE": traiterWrite(i, ligne); break;
                 case "INC": traiterINC(i, ligne); break;
+                case "DCR": traiterDCR(i, ligne); break;
                 case "RAND": traiterRAND(i, ligne); break;
                 case "FOR": traiterFOR(i, ligne);break;
                 case "VAR": traiterVar(i, ligne); break;
@@ -99,29 +100,16 @@ namespace IDE_langage
         {
             return fichierentre.ReadLine();
         }
+        /**
+         * Compile le fichier envoyer en parametre
+         **/
         public static void Compiler(string chemin)
         {
-            // COMPILER LE FICHIER
             Leprogramme = new Bloc();    //prog vide !
-            //String line;
             try
             {
-                //Pass the file path and file name to the StreamReader constructor
                 fichierentre = new StreamReader(chemin);
                 Leprogramme = Lirebloc();
-                /*
-            //Read the first line of text
-            line = fichierentre.ReadLine();
-            //Continue to read until you reach end of file
-            while (line != null)
-            {
-                //on fait traiter la ligne
-                traiterLigne(line);
-
-                //Read the next line
-                line = fichierentre.ReadLine();
-            }*/
-                //close the file
                 fichierentre.Close();
 
             }
@@ -396,45 +384,18 @@ namespace IDE_langage
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
-        static int cpt = 0;
-
-        static void traiterLigne(string ligne)
+        static int traiterDCR(int i, string ligne)
         {
-            int i = 0; //FAUT LA METTRE ICI, PAS EN GLOBAL
-            cpt++;     //A mettre au début afin de ne pas afficher "Ligne 0 : "
-                       //Console.Write("Ligne N°" + cpt + " :");
-            string token = ExtraireToken(ref i, ligne);
-            switch (token)
-            {
+            string param1 = ExtraireToken(ref i, ligne);
+            string reste = ExtraireToken(ref i, ligne);
 
-                case "LET": traiterLet(i, ligne); break;
-                case "ADD": traiterAdd(i, ligne); break;
-                case "SUB": traiterSub(i, ligne); break;
-                case "IF": traiterIF(i, ligne); break;
-                case "WHILE": traiterWhile(i, ligne); break;
-                case "MUL": traiterMul(i, ligne); break;
-                case "DIV": traiterDiv(i, ligne); break;
-                case "MOD": traiterMod(i, ligne); break;
-                case "WRITE": traiterWrite(i, ligne); break;
-                case "INC": traiterINC(i, ligne); break;
-                case "RAND": traiterRAND(i, ligne); break;
-                case "FOR": traiterFOR(i, ligne); break;
-                case "VAR": traiterVar(i, ligne);break;
-
-                case "//": break;
-                case "": break;
-
-                default: Program.Form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + ">"); break;
-            }
-            while (token != "")
-            {
-                //Console.Write(" " + token + " ");
-                token = ExtraireToken(ref i, ligne);
-
-            }
-            //Console.WriteLine("");
-
+            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
+            if (reste != "") Erreur("DCR n'accepte que 1 parametre");
+            Instruction_DCR instruction = new Instruction_DCR(param1[0]);
+            LeBlocEnCourant.ajouter(instruction);
+            return -1;
         }
+        static int cpt = 0;
         static void ecrire(string chemin)
         {
             try

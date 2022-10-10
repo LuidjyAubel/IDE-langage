@@ -272,6 +272,7 @@ namespace IDE_langage
         private System.Windows.Forms.RichTextBox richTextBox5;
         private System.Windows.Forms.SaveFileDialog saveFileDialog3;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.TextBox Read;
     }
 }
 

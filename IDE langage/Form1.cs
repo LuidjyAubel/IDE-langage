@@ -26,6 +26,7 @@ namespace IDE_langage
     {
         private string filePath = string.Empty;
         public bool wantStop = false;
+        public bool ReadLine = false;
         static public StreamReader fichierentre;
         public form1()
         {

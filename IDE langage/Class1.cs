@@ -415,6 +415,33 @@ namespace IDE_langage
             Class2.LesVariables.setVariable(this.variable, val1);
         }
     }
+    class Instruction_DCR : Instruction
+    {
+        char variable;
+        public Instruction_DCR(char var)
+        {
+            this.variable = var;
+        }
+        public override void afficher()
+        {
+            Program.Form1.Write("DCR " + this.variable + "- 1");
+            Program.Form1.ln();
+        }
+        public override void traduire()
+        {
+            Program.Form1.WriteTrad("$" + this.variable + "--;");
+            Program.Form1.lnTrad();
+        }
+        public override void executer()
+        {
+            string valeur1 = Class2.LesVariables.getVariable(this.variable);
+            int nb1 = Int32.Parse(valeur1);
+            int valeur = nb1 - 1;
+            string val1 = valeur.ToString();
+            Class2.LesVariables.setVariable(this.variable, val1);
+        }
+    }
+
     class Instruction_RAND : Instruction
     {
         char variable;
