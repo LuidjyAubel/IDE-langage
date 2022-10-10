@@ -197,10 +197,6 @@ namespace IDE_langage
 
         }
 
-        private void form1_Load(object sender, EventArgs e)
-        {
-
-        }
         private void resize()
         {
             Size = new Size(250, 200);
