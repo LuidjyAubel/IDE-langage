@@ -10,8 +10,13 @@ namespace IDE_langage
         static public Bloc LeBlocEnCourant; //auxilière de constructeur
         static public StreamReader fichierentre;
         public static Variables LesVariables;
-        //public static Variables2 LesVariables2;
         static public bool errorDeteted;
+
+        /// <summary>
+        /// Extrait le token
+        /// </summary>
+        /// <param name="indice"><see cref="System.Int32"/>The index of line</param>
+        /// <param name="ligne"><see cref="System.String"/>The current line of the current file</param>
         static string ExtraireToken(ref int indice, string ligne)
         {
             string token = "";
@@ -36,6 +41,11 @@ namespace IDE_langage
 
             return token;
         }
+        /// <summary>
+        ///lit le bloc courrant
+        /// </summary>
+        /// <exception cref="System.Exception">
+        /// </exception>
         static Bloc Lirebloc()
         {
             Bloc Ancienbloc = LeBlocEnCourant;
@@ -60,11 +70,17 @@ namespace IDE_langage
             LeBlocEnCourant = Ancienbloc;           //RESTAURE LE BLOC EN COURS
             return nouveaubloc;
         }
+        /// <summary>
+        /// Traite la ligne courrant
+        /// </summary>
+        /// <param name="ligne"><see cref="System.String"/>The current line of the current file</param>
+        /// <paramref name="ligne"/> is <c>the current line</c>.
+        /// <exception cref="System.Exception">
+        /// </exception>
         static void TraiterInstruction(string ligne)
         {
-            int i = 0; //FAUT LA METTRE ICI, PAS EN GLOBAL
-            cpt++;     //A mettre au début afin de ne pas afficher "Ligne 0 : "
-                       //Console.Write("Ligne N°" + cpt + " :");
+            int i = 0;
+            cpt++;
             string token = ExtraireToken(ref i, ligne);
             switch (token)
             {
@@ -91,21 +107,27 @@ namespace IDE_langage
             }
             while (token != "")
             {
-                //Console.Write(" " + token + " ");
                 token = ExtraireToken(ref i, ligne);
 
             }
         }
+        /// <summary>
+        /// Lit la ligne courrant
+        /// </summary>
         static string lireligne()
         {
             return fichierentre.ReadLine();
         }
-        /**
-         * Compile le fichier envoyer en parametre
-         **/
+        /// <summary>
+        /// Compile le fichier envoyer en paramètre 
+        /// </summary>
+        /// <param name="chemin"><see cref="System.String"/> the path of the file</param>
+        /// <paramref name="chemin"/> is <c>path of file</c>.
+        /// <exception cref="System.Exception">
+        /// </exception>
         public static void Compiler(string chemin)
         {
-            Leprogramme = new Bloc();    //prog vide !
+            Leprogramme = new Bloc();
             try
             {
                 fichierentre = new StreamReader(chemin);
@@ -115,12 +137,11 @@ namespace IDE_langage
             }
             catch (Exception f)
             {
-                Console.WriteLine("Exception: " + f.Message);
+                Program.Form1.WriteErreur("\nException: " + f.Message);
             }
             finally
             {
-                Console.WriteLine("");
-                Console.WriteLine("Fin du traitement.");
+                Program.Form1.Write("Fin de la compilation");
             }
 
         }
@@ -188,7 +209,6 @@ namespace IDE_langage
         }
         static int traiterLet(int i, string ligne)
         {
-            //le resultat INT ne sert à rien c'est just pour sortir rapidement
             string param1 = ExtraireToken(ref i, ligne);
             string param2 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
@@ -201,7 +221,6 @@ namespace IDE_langage
         }
         static int traiterVar(int i, string ligne)
         {
-            //le resultat Var ne sert à rien c'est just pour sortir rapidement
             string param1 = ExtraireToken(ref i, ligne);
             string param2 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
@@ -214,7 +233,6 @@ namespace IDE_langage
         }
         static int traiterRAND(int i, string ligne)
         {
-            //faire une fonction random
             string param1 = ExtraireToken(ref i, ligne);
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
@@ -246,7 +264,6 @@ namespace IDE_langage
             string param1 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
 
-            //if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
             if (!VarOuString(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE OU UNSTRING");
             if (reste != "") Erreur("WRITE n'accepte que 1 parametre");
             Instruction_Write instruction = new Instruction_Write(param1[0]);

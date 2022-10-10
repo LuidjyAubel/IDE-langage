@@ -26,7 +26,7 @@ namespace IDE_langage
             if (this.suivant != null)
             {
                 instruction.afficher();
-                suivant.afficher();         //récursif
+                suivant.afficher();        
             }
         }
         public void traduire()
@@ -34,7 +34,7 @@ namespace IDE_langage
             if (this.suivant != null)
             {
                 instruction.traduire();
-                suivant.traduire();         //récursif
+                suivant.traduire();        
             }
         }
         public void executer()
@@ -42,18 +42,18 @@ namespace IDE_langage
             if ((this.suivant != null) && (!Program.Form1.wantStop))
             {
                 instruction.executer();
+               Application.DoEvents();
+                suivant.executer();        
+            }else if ((this.suivant != null) && (Program.Form1.wantStop))
+            {
                 Application.DoEvents();
-                //instruction.execute();
-                suivant.executer();         //récursif
             }
         }
     }
     class Instruction
     {
-        //public string name;
         public virtual void afficher()
         {
-            //Console.WriteLine("Je ne devrais pas être là");
             Program.Form1.Write("Je ne devrais pas être là");
             Program.Form1.ln();
         }
@@ -64,7 +64,6 @@ namespace IDE_langage
         }
         public virtual void executer()
         {
-           // Console.WriteLine("Je ne devrais pas etre la non plus ");
             Program.Form1.Write("Je ne devrais pas etre la non plus ");
             Program.Form1.ln();
         }
@@ -73,20 +72,14 @@ namespace IDE_langage
     {
         char variable;
         string valeur;
-        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
-        //bool param2var;
 
         public Instruction_Let(char var, string val)
         {
-            //this.name = "LET "+var+" "+val;
-            //this.name = "" + var + " = " + val+";";  traduction C#
-            //this.name = "$" + var + " = " + val+";"; traduction php
             this.variable = var;
             this.valeur = val;
         }
         public override void afficher()
         {
-            //Console.WriteLine("LET " + this.variable + " " + this.valeur + " ");
             Program.Form1.Write("LET " + this.variable + " " + this.valeur + " ");
         }
         public override void traduire()
@@ -96,41 +89,21 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            //string b = this.valeur.ToString();
-            //Console.WriteLine("execute let");
             Class2.LesVariables.setVariable(this.variable, this.valeur);
         }
-
-        /*      public void execute()
-              {
-                  int lavaleur;
-                  if (param2var)
-                  {
-                      lavaleur = recuperervaleur(variable2);
-                  }
-                  else lavaleur = valeur;
-                  rangervaleurdansvariable(lavaleur, variable);
-                  //ranger la valeur dans la variable
-              }*/
     }
     class Instruction_Var : Instruction
     {
         char variable;
         string valeur;
-        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
-        //bool param2var;
 
         public Instruction_Var(char var, string val)
         {
-            //this.name = "LET "+var+" "+val;
-            //this.name = "" + var + " = " + val+";";  traduction C#
-            //this.name = "$" + var + " = " + val+";"; traduction php
             this.variable = var;
             this.valeur = val;
         }
         public override void afficher()
         {
-            //Console.WriteLine("LET " + this.variable + " " + this.valeur + " ");
             Program.Form1.Write("VAR " + this.variable + " " + this.valeur + " ");
         }
         public override void traduire()
@@ -140,7 +113,6 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            //Console.WriteLine("execute let");
             Class2.LesVariables.setVariable(this.variable, this.valeur);
         }
 
@@ -150,20 +122,14 @@ namespace IDE_langage
         char variable;
         string variable2;
         string variable3;
-        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
-        //bool param2var;
         public Instruction_ADD(char var, string var2, string var3)
         {
-            //this.name = "ADD " + var + " " + var2 +" "+var3;
-            //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
-            //this.name = "$" + var + " = $" + var2+" $"+var3+;";
             this.variable = var;
             this.variable2 = var2;
             this.variable3 = var3;
         }
         public override void afficher()
         {
-            //Console.WriteLine("ADD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.Write("ADD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.ln();
         }
@@ -189,7 +155,6 @@ namespace IDE_langage
             string valeur2;
             int nb1;
             int nb2;
-            //string b = this.valeur.ToString();
             if (va2.All(char.IsDigit))
             {
                 nb1 = Int32.Parse(va2);
@@ -224,8 +189,6 @@ namespace IDE_langage
     {
         char variable;
         string variable2;
-        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
-        //bool param2var;
         public Instruction_CAR(char var, string var2)
         {
             this.variable = var;
@@ -267,20 +230,15 @@ namespace IDE_langage
         char variable;
         string variable2;
         string variable3;
-        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
-        //bool param2var;
+
         public Instruction_MOD(char var, string var2, string var3)
         {
-            //this.name = "ADD " + var + " " + var2 +" "+var3;
-            //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
-            //this.name = "$" + var + " = $" + var2+" $"+var3+;";
             this.variable = var;
             this.variable2 = var2;
             this.variable3 = var3;
         }
         public override void afficher()
         {
-            //Console.WriteLine("MOD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.Write("MOD " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.ln();
         }
@@ -298,7 +256,6 @@ namespace IDE_langage
             string valeur2;
             int nb1;
             int nb2;
-            //string b = this.valeur.ToString();
             if (va3.All(char.IsDigit))
             {
                 nb1 = Int32.Parse(va2);
@@ -332,37 +289,20 @@ namespace IDE_langage
             string val1 = valeur.ToString();
             Class2.LesVariables.setVariable(this.variable, val1);
         }
-        /*      public void execute()
-              {
-                  int lavaleur;
-                  if (param2var)
-                  {
-                      lavaleur = recuperervaleur(variable2);
-                  }
-                  else lavaleur = valeur;
-                  rangervaleurdansvariable(lavaleur, variable);
-                  //ranger la valeur dans la variable
-              }*/
     }
     class Instruction_SUB : Instruction
     {
         char variable;
         string variable2;
         string variable3;
-        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
-        //bool param2var;
         public Instruction_SUB(char var, string var2, string var3)
         {
-            //this.name = "ADD " + var + " " + var2 +" "+var3;
-            //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
-            //this.name = "$" + var + " = $" + var2+" $"+var3+;";
             this.variable = var;
             this.variable2 = var2;
             this.variable3 = var3;
         }
         public override void afficher()
         {
-            //Console.WriteLine("SUB " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.Write("SUB " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
         }
         public override void traduire()
@@ -384,7 +324,6 @@ namespace IDE_langage
             string valeur2;
             int nb1;
             int nb2;
-            //string b = this.valeur.ToString();
             if (va2.All(char.IsDigit))
             {
                 nb1 = Int32.Parse(va2);
@@ -447,20 +386,14 @@ namespace IDE_langage
         char variable;
         string variable2;
         string variable3;
-        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
-        //bool param2var;
         public Instruction_RAND(char var, string var2, string var3)
         {
-            //this.name = "ADD " + var + " " + var2 +" "+var3;
-            //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
-            //this.name = "$" + var + " = $" + var2+" $"+var3+;";
             this.variable = var;
             this.variable2 = var2;
             this.variable3 = var3;
         }
         public override void afficher()
         {
-            //Console.WriteLine("SUB " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.Write("RAND " + this.variable + " " + this.variable2 + " " + this.variable3);
         }
         public override void traduire()
@@ -482,7 +415,6 @@ namespace IDE_langage
             string valeur2;
             int nb1;
             int nb2;
-            //string b = this.valeur.ToString();
             if (va2.All(char.IsDigit))
             {
                 nb1 = Int32.Parse(va2);
@@ -514,20 +446,14 @@ namespace IDE_langage
         char variable;
         string variable2;
         string variable3;
-        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
-        //bool param2var;
         public Instruction_MUL(char var, string var2, string var3)
         {
-            //this.name = "ADD " + var + " " + var2 +" "+var3;
-            //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
-            //this.name = "$" + var + " = $" + var2+" $"+var3+;";
             this.variable = var;
             this.variable2 = var2;
             this.variable3 = var3;
         }
         public override void afficher()
         {
-            //Console.WriteLine("MUL " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.Write("MUL " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.ln();
         }
@@ -550,7 +476,6 @@ namespace IDE_langage
             string valeur2;
             int nb1;
             int nb2;
-            //string b = this.valeur.ToString();
             if (va2.All(char.IsDigit))
             {
                 nb1 = Int32.Parse(va2);
@@ -583,20 +508,14 @@ namespace IDE_langage
         char variable;
         string variable2;
         string variable3;
-        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
-        //bool param2var;
         public Instruction_DIV(char var, string var2, string var3)
         {
-            //this.name = "ADD " + var + " " + var2 +" "+var3;
-            //this.name = "" + var + " = " + var2+" + "+var3+";";  //traduction C#
-            //this.name = "$" + var + " = $" + var2+" $"+var3+;";
             this.variable = var;
             this.variable2 = var2;
             this.variable3 = var3;
         }
         public override void afficher()
         {
-           // Console.WriteLine("DIV " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
             Program.Form1.Write("DIV " + this.variable + " " + this.variable2 + " " + this.variable3 + " ");
         }
         public override void traduire()
@@ -618,7 +537,6 @@ namespace IDE_langage
             string valeur2;
             int nb1;
             int nb2;
-            //string b = this.valeur.ToString();
             if (va2.All(char.IsDigit))
             {
                 nb1 = Int32.Parse(va2);
@@ -649,15 +567,12 @@ namespace IDE_langage
     class Instruction_INC : Instruction
     {
         char variable;
-        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
-        //bool param2var;
         public Instruction_INC(char var)
         {
             this.variable = var;
         }
         public override void afficher()
         {
-           // Console.WriteLine("INC " + this.variable + " 1");
             Program.Form1.Write("INC " + this.variable + "+ 1");
             Program.Form1.ln();
         }
@@ -683,7 +598,6 @@ namespace IDE_langage
         Bloc blocalors;
         public Instruction_IF(char var1, string comparateur, char var2, Bloc bloc)
         {
-            //this.name = "LET "+var1+" "+val; //bidouille
             this.variable1 = var1;
             this.variable2 = var2;
             this.comparateur = comparateur;
@@ -692,7 +606,6 @@ namespace IDE_langage
 
         public override void afficher()
         {
-            //Console.WriteLine(" IF " + this.variable1 + " " + this.comparateur + " " + this.variable2);
             Program.Form1.Write(" IF " + this.variable1 + " " + this.comparateur + " " + this.variable2);
             Program.Form1.ln();
         }
@@ -721,7 +634,6 @@ namespace IDE_langage
             if (res == true)  {
              blocalors.executer();
             }
-            //Console.WriteLine("IF " + val1 +" "+ comparateur+" "+ val2);
         }
     }
     class Instruction_WHILE : Instruction
@@ -732,7 +644,6 @@ namespace IDE_langage
         Bloc blocalors;
         public Instruction_WHILE(char var1, string comparateur, char var2, Bloc bloc)
         {
-            //this.name = "LET "+var1+" "+val; //bidouille
             this.variable1 = var1;
             this.variable2 = var2;
             this.comparateur = comparateur;
@@ -741,7 +652,6 @@ namespace IDE_langage
 
         public override void afficher()
         {
-            //Console.WriteLine(" WHILE " + this.variable1 + " " + this.comparateur + " " + this.variable2);
             Program.Form1.Write(" WHILE " + this.variable1 + " " + this.comparateur + " " + this.variable2);
             Program.Form1.ln();
         }
@@ -771,12 +681,12 @@ namespace IDE_langage
                 }
                 if ((res == true) && (!Program.Form1.wantStop))
                 {
-                    Application.DoEvents();
                     blocalors.executer();
+
+                }else if ((res == true) && (Program.Form1.wantStop)){
+                    Application.DoEvents();
                 }
             }
-
-            //Console.WriteLine("IF " + val1 +" "+ comparateur+" "+ val2);
         }
     }
     class Instruction_FOR : Instruction
@@ -787,7 +697,6 @@ namespace IDE_langage
         Bloc blocalors;
         public Instruction_FOR(char var1, char var2, char var3, Bloc bloc)
         {
-            //this.name = "LET "+var1+" "+val; //bidouille
             this.variable1 = var1;
             this.variable2 = var2;
             this.variable3 = var3;
@@ -795,7 +704,6 @@ namespace IDE_langage
         }
         public override void afficher()
         {
-            //Console.WriteLine(" WHILE " + this.variable1 + " " + this.comparateur + " " + this.variable2);
             Program.Form1.Write(" For " + this.variable1 + " " + this.variable2 + " " + this.variable3);
             Program.Form1.ln();
         }
@@ -822,8 +730,11 @@ namespace IDE_langage
                 int nb3 = Int32.Parse(val3);
                 if ((res == true) && (!Program.Form1.wantStop))
                 {
-                    Application.DoEvents();
                     blocalors.executer();
+                }
+                else if ((res == true) && (Program.Form1.wantStop))
+                {
+                    Application.DoEvents();
                 }
                 nb1 = nb1 + 1;
                 Class2.LesVariables.setVariable(this.variable1, val1);
@@ -836,7 +747,6 @@ namespace IDE_langage
 
 
             }
-            //Console.WriteLine("IF " + val1 +" "+ comparateur+" "+ val2);
         }
 
     }
@@ -847,11 +757,7 @@ namespace IDE_langage
         //bool param2var;
         public Instruction_Write(char var)
         {
-            //this.name = "WRITE " + var;
-            //this.name = "" + var + " = " + val+";";  traduction C#
-            //this.name = "$" + var + " = " + val+";";
                 this.variable = var;
-
         }
         public override void afficher()
         {
@@ -899,7 +805,6 @@ namespace IDE_langage
         {
             for (int i = 0; i < 26; i++)
             {
-                //i = charname - 'A';
                 if (i == nomVar - 'A')
                 {
                     tabvar[i] = val;
