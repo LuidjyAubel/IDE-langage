@@ -245,7 +245,6 @@ namespace IDE_langage
             this.MaximizeBox = false;
             this.Name = "form1";
             this.Text = "IDE P++";
-            this.Load += new System.EventHandler(this.form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
