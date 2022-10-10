@@ -3,6 +3,8 @@ name: .NET
 on:
   push:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
@@ -19,11 +21,3 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Publish
-    run: dotnet publish SimpleFeedReader/SimpleFeedReader.csproj -c Release -o website
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@master
-      with:
-        name: website
-        path: SimpleFeedReader/website/**
-        if-no-files-found: error
