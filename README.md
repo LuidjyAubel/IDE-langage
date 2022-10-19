@@ -1,3 +1,4 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/luidjyaubel/ide-langage/badge/master)](https://www.codefactor.io/repository/github/luidjyaubel/ide-langage/overview/master)
 # __**Langage P++**__
 
 ### This software was created by an IT student who have an advanced technician certificate in programming, and you can use for free this software who is under MIT licence
