@@ -73,7 +73,6 @@ namespace IDE_langage
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.TabStop = false;
             this.richTextBox1.Text = "";
-            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // run
             // 
@@ -116,7 +115,6 @@ namespace IDE_langage
             this.richTextBox2.Size = new System.Drawing.Size(420, 248);
             this.richTextBox2.TabIndex = 6;
             this.richTextBox2.Text = "";
-            this.richTextBox2.TextChanged += new System.EventHandler(this.richTextBox2_TextChanged);
             // 
             // richTextBox3
             // 
@@ -141,13 +139,11 @@ namespace IDE_langage
             this.richTextBox4.Size = new System.Drawing.Size(438, 163);
             this.richTextBox4.TabIndex = 8;
             this.richTextBox4.Text = "";
-            this.richTextBox4.TextChanged += new System.EventHandler(this.richTextBox4_TextChanged);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.DefaultExt = "pat";
             this.openFileDialog1.Filter = "\"Fichier P++ (*.pat)|*.pat|Tous les fichiers (*.*)|*.*\" (Parameter \'value\')";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // saveFileDialog1
             // 

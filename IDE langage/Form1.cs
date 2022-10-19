@@ -44,12 +44,6 @@ namespace IDE_langage
                 textBox1.Text = openFileDialog1.FileName;
             }
         }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void button4_Click(object sender, EventArgs e)
         {
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -119,17 +113,10 @@ namespace IDE_langage
         {
             richTextBox5.Text += "\n";
         }
-        private void richTextBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
-            // this.Close();
             wantStop = true;
         }
-
         private async void Help_Click(object sender, EventArgs e)
         {
           try
@@ -151,12 +138,6 @@ namespace IDE_langage
             sr.Close();
             }
         }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             progressBar1.Value = 0;
@@ -191,17 +172,10 @@ namespace IDE_langage
             progressBar1.Value = 100;
             // Class2.LesVariables.Dump();
         }
-
-        private void richTextBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void resize()
         {
             Size = new Size(250, 200);
         }
-
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process Proce1 = new Process();
