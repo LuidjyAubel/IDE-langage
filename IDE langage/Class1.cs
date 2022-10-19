@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Linq;
-
 namespace IDE_langage
 {
     class Bloc
@@ -72,7 +71,6 @@ namespace IDE_langage
     {
         char variable;
         string valeur;
-
         public Instruction_Let(char var, string val)
         {
             this.variable = var;
@@ -96,7 +94,6 @@ namespace IDE_langage
     {
         char variable;
         string valeur;
-
         public Instruction_Var(char var, string val)
         {
             this.variable = var;
@@ -115,7 +112,6 @@ namespace IDE_langage
         {
             Class2.LesVariables.setVariable(this.variable, this.valeur);
         }
-
     }
     class Instruction_ADD : Instruction
     {
@@ -150,7 +146,6 @@ namespace IDE_langage
              Class2.LesVariables.setVariable(this.variable, val1);*/
             string va2 = this.variable2;
             string va3 = this.variable3;
-
             string valeur1;
             string valeur2;
             int nb1;
@@ -165,7 +160,6 @@ namespace IDE_langage
                 valeur1 = Class2.LesVariables.getVariable(a);
                 nb1 = Int32.Parse(valeur1);
             }
-
             if (va3.All(char.IsDigit))
             {
                 nb2 = Int32.Parse(va3);
@@ -207,7 +201,6 @@ namespace IDE_langage
         public override void executer()
         {
             string va2 = this.variable2;
-
             string valeur1;
             int nb1;
             if (va2.All(char.IsDigit))
@@ -230,7 +223,6 @@ namespace IDE_langage
         char variable;
         string variable2;
         string variable3;
-
         public Instruction_MOD(char var, string var2, string var3)
         {
             this.variable = var;
@@ -251,7 +243,6 @@ namespace IDE_langage
         {
             string va2 = this.variable2;
             string va3 = this.variable3;
-
             string valeur1;
             string valeur2;
             int nb1;
@@ -266,7 +257,6 @@ namespace IDE_langage
                 valeur1 = Class2.LesVariables.getVariable(a);
                 nb1 = Int32.Parse(valeur1);
             }
-
             if (va3.All(char.IsDigit))
             {
                 nb2 = Int32.Parse(va3);
@@ -319,7 +309,6 @@ namespace IDE_langage
             int nb2 = Int32.Parse(valeur2);*/
             string va2 = this.variable2;
             string va3 = this.variable3;
-
             string valeur1;
             string valeur2;
             int nb1;
@@ -380,7 +369,6 @@ namespace IDE_langage
             Class2.LesVariables.setVariable(this.variable, val1);
         }
     }
-
     class Instruction_RAND : Instruction
     {
         char variable;
@@ -410,7 +398,6 @@ namespace IDE_langage
              int nb2 = Int32.Parse(valeur2);*/
             string va2 = this.variable2;
             string va3 = this.variable3;
-
             string valeur1;
             string valeur2;
             int nb1;
@@ -425,7 +412,6 @@ namespace IDE_langage
                 valeur1 = Class2.LesVariables.getVariable(a);
                 nb1 = Int32.Parse(valeur1);
             }
-
             if (va3.All(char.IsDigit))
             {
                 nb2 = Int32.Parse(va3);
@@ -471,7 +457,6 @@ namespace IDE_langage
             int nb2 = Int32.Parse(valeur2);*/
             string va2 = this.variable2;
             string va3 = this.variable3;
-
             string valeur1;
             string valeur2;
             int nb1;
@@ -486,7 +471,6 @@ namespace IDE_langage
                 valeur1 = Class2.LesVariables.getVariable(a);
                 nb1 = Int32.Parse(valeur1);
             }
-
             if (va3.All(char.IsDigit))
             {
                 nb2 = Int32.Parse(va3);
@@ -497,7 +481,6 @@ namespace IDE_langage
                 valeur2 = Class2.LesVariables.getVariable(b);
                 nb2 = Int32.Parse(valeur2);
             }
-
             int valeur = nb1 * nb2;
             string val1 = valeur.ToString();
             Class2.LesVariables.setVariable(this.variable, val1);
@@ -532,7 +515,6 @@ namespace IDE_langage
              int nb2 = Int32.Parse(valeur2);*/
             string va2 = this.variable2;
             string va3 = this.variable3;
-
             string valeur1;
             string valeur2;
             int nb1;
@@ -547,7 +529,6 @@ namespace IDE_langage
                 valeur1 = Class2.LesVariables.getVariable(a);
                 nb1 = Int32.Parse(valeur1);
             }
-
             if (va3.All(char.IsDigit))
             {
                 nb2 = Int32.Parse(va3);
@@ -558,7 +539,6 @@ namespace IDE_langage
                 valeur2 = Class2.LesVariables.getVariable(b);
                 nb2 = Int32.Parse(valeur2);
             }
-
             int valeur = nb1 / nb2;
             string val1 = valeur.ToString();
             Class2.LesVariables.setVariable(this.variable, val1);
@@ -603,7 +583,6 @@ namespace IDE_langage
             this.comparateur = comparateur;
             this.blocalors = bloc;
         }
-
         public override void afficher()
         {
             Program.Form1.Write(" IF " + this.variable1 + " " + this.comparateur + " " + this.variable2);
@@ -649,7 +628,6 @@ namespace IDE_langage
             this.comparateur = comparateur;
             this.blocalors = bloc;
         }
-
         public override void afficher()
         {
             Program.Form1.Write(" WHILE " + this.variable1 + " " + this.comparateur + " " + this.variable2);
@@ -741,14 +719,10 @@ namespace IDE_langage
                 if (nb1 <= nb3)
                 {
                     res = true;
-                    
                 }
                 else res = false;
-
-
             }
         }
-
     }
     class Instruction_Write : Instruction
     {
