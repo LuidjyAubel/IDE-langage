@@ -19,7 +19,10 @@ jobs:
       Solution_Name: IDE langage.sln                   # Replace with your solution name, i.e. MyWpfApp.sln.
 
   steps:
-  - uses: actions/checkout@master
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        fetch-depth: 0
  
   - name: Set up .NET Core
     uses: actions/setup-dotnet@v1
