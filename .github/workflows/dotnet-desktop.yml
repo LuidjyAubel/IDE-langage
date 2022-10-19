@@ -75,19 +75,12 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-
-    - name: Publish
-      run: dotnet publish
-
-    - name: Create artifacts
-      run: |
-        mkdir -p path/to/artifact-A
-        echo "Lorem ipsum dolor sit amet" > path/to/artifact-A/file-A.txt
-
-    - name: Upload artifact A
-      uses: actions/upload-artifact@v1
-      with:
-        name: 'Artifact-A'
-        path: path/to/artifact-A
+        - name: Build with dotnet
+    run: dotnet build --configuration Release
+  - name: dotnet publish
+    run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+  - name: Upload artifact for deployment job
+     uses: actions/upload-artifact@v2
+    with:
+      name: .net-app.zip
+      path: ${{env.DOTNET_ROOT}}/myapp
