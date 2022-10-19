@@ -18,8 +18,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Globalization;
 using System.Diagnostics;
-
-
 namespace IDE_langage
 {
     public partial class form1 : Form
@@ -35,7 +33,6 @@ namespace IDE_langage
             ClearError();
             ClearDocumentation();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -52,7 +49,6 @@ namespace IDE_langage
                 textBox1.Text = saveFileDialog1.FileName;
             }
         }
-
         private void run_Click(object sender, EventArgs e)
         {
             progressBar1.Value = 0;

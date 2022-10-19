@@ -736,7 +736,6 @@ namespace IDE_langage
         {
                 Program.Form1.Write("WRITE " + this.variable + " ");
                 Program.Form1.ln();
-
         }
         public override void traduire()
         {
