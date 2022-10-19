@@ -660,7 +660,6 @@ namespace IDE_langage
                 if ((res == true) && (!Program.Form1.wantStop))
                 {
                     blocalors.executer();
-
                 }else if ((res == true) && (Program.Form1.wantStop)){
                     Application.DoEvents();
                 }
@@ -773,7 +772,6 @@ namespace IDE_langage
             {
                 Program.Form1.Write(" [" + tabvar[i] + "] ");
             }
-
         }
         public void setVariable(char nomVar, string val)
         {
