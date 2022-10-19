@@ -1,16 +1,22 @@
-name: .NET
+name: NET
 
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
+
   build:
+    name: IDEBuild
+    strategy:
+      matrix:
+        configuration: [Release]
 
-    runs-on: windows-latest
+    runs-on: windows-latest  # For a list of available runner types, refer to
+                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
+    env:
+      Solution_Name: IDE langage.sln                   # Replace with your solution name, i.e. MyWpfApp.sln.
     steps:
       - name: Set up .NET Core
     uses: actions/setup-dotnet@v1
