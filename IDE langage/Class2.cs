@@ -21,24 +21,19 @@ namespace IDE_langage
         {
             string token = "";
             int lgn = ligne.Length;
-
             if (ligne == "") return token;
             if (lgn <= indice) return token;
-
-
             while (ligne[indice] <= ' ')
             {
                 indice++;
                 if (indice >= lgn) return token;
             }
-
             while (ligne[indice] > ' ')
             {
                 token += ligne[indice];
                 indice++;
                 if (indice >= lgn) return token;
             }
-
             return token;
         }
         /// <summary>
@@ -84,7 +79,6 @@ namespace IDE_langage
             string token = ExtraireToken(ref i, ligne);
             switch (token)
             {
-
                 case "LET": traiterLet(i, ligne); break;
                 case "ADD": traiterAdd(i, ligne); break;
                 case "SUB": traiterSub(i, ligne); break;
@@ -102,13 +96,11 @@ namespace IDE_langage
                 case "CAR": traiterCar(i, ligne);break;
                 case "//": break;  //COMMENTAIRE
                 case "": break;     //LIGNE VIDEUHHHH 
-
                 default: Program.Form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + "> \n"); break;
             }
             while (token != "")
             {
                 token = ExtraireToken(ref i, ligne);
-
             }
         }
         /// <summary>
@@ -133,7 +125,6 @@ namespace IDE_langage
                 fichierentre = new StreamReader(chemin);
                 Leprogramme = Lirebloc();
                 fichierentre.Close();
-
             }
             catch (Exception f)
             {
@@ -143,7 +134,6 @@ namespace IDE_langage
             {
                 Program.Form1.Write("Fin de la compilation");
             }
-
         }
         static int Erreur(string a)
         {
@@ -158,7 +148,6 @@ namespace IDE_langage
         }
         static bool estString(string token)
         {
-            //if (token.Length >= 1) return false;
             return true;
         }
         static bool estStringOuNb(string token)
@@ -197,11 +186,9 @@ namespace IDE_langage
         }
         static bool estConstant(string token)
         {
-            //if (token.Length != 1) return false;
             for (int i = 0; i < token.Length; i++)
                 if (estchifre(token[i])) return true;
             return false;
-
         }
         static bool estVarConst(string token)
         {
@@ -263,7 +250,6 @@ namespace IDE_langage
         {
             string param1 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-
             if (!VarOuString(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE OU UNSTRING");
             if (reste != "") Erreur("WRITE n'accepte que 1 parametre");
             Instruction_Write instruction = new Instruction_Write(param1[0]);
@@ -276,7 +262,6 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
             if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
@@ -290,7 +275,6 @@ namespace IDE_langage
             string param1 = ExtraireToken(ref i, ligne);
             string param2 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
             if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (reste != "") Erreur("CAR n'accepte que 3 parametre");
@@ -304,7 +288,6 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
             if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
@@ -319,7 +302,6 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
             if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
@@ -334,7 +316,6 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
             if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
@@ -349,7 +330,6 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
             if (!estComparateur(param2)) Erreur("PARAM2 DOIT ETRE UN COMPARATEUR");
             if (!estVariable(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
@@ -365,7 +345,6 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
             if (!estComparateur(param2)) Erreur("PARAM2 DOIT ETRE UN COMPARATEUR");
             if (!estVariable(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
@@ -394,7 +373,6 @@ namespace IDE_langage
         {
             string param1 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
             if (reste != "") Erreur("INC n'accepte que 1 parametre");
             Instruction_INC instruction = new Instruction_INC(param1[0]);
@@ -405,7 +383,6 @@ namespace IDE_langage
         {
             string param1 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-
             if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
             if (reste != "") Erreur("DCR n'accepte que 1 parametre");
             Instruction_DCR instruction = new Instruction_DCR(param1[0]);
@@ -413,27 +390,5 @@ namespace IDE_langage
             return -1;
         }
         static int cpt = 0;
-        static void ecrire(string chemin)
-        {
-            try
-            {
-                //Pass the filepath and filename to the StreamWriter Constructor
-                StreamWriter sw = new StreamWriter(chemin);
-                //Write a line of text
-                sw.WriteLine("Hello World!!");
-                //Write a second line of text
-                sw.WriteLine("From the StreamWriter class");
-                //Close the file
-                sw.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Executing finally block.");
-            }
-        }
     }
 }
