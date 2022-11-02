@@ -84,5 +84,24 @@ jobs:
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
       with:
-        name: .net-app.zip
+        name: IDE.zip
         path: ${{env.DOTNET_ROOT}}/myapp
+    - name: release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: ${{ steps.version.outputs.version }}
+        tag_name: ${{ github.ref }}
+        body_path: CHANGELOG.md
+
+    - name: upload linux artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{env.DOTNET_ROOT}}/myapp/IDE.zip
+        asset_name: IDE.windows-amd64.zip
+        asset_content_type: application/zip
