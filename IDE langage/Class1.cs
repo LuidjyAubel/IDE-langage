@@ -67,6 +67,34 @@ namespace IDE_langage
             Program.Form1.ln();
         }
     }
+    class Instruction_ASCII : Instruction
+    {
+        char variable;
+    	string valeur;
+    	public Instruction_ACSII(string val, char var){
+    	    this.valeur = val;
+            this.variable = var;
+    	}
+    	public override void afficher(){
+            Program.Form1.write("ASCII "+this.variable+" "+this.valeur);
+        }
+        public override void traduire(){
+            Program.Form1.WriteTrad("");
+            Program.lnTrad();
+        }
+        public override void execute(){
+            if (val.All(char.IsDigit)){
+                char c = (char) val;
+                string val = c.ToString();
+                Class2.LesVariables.setVariable(this.variable, val)
+            }else{
+                int va = Class2.LesVariables.getVariable(val);
+                char c = (char) va;
+                string val1 = c.ToString();
+                Class2.LesVariables.setVariable(this.variable, val1);
+            }
+        }
+    }
     class Instruction_Let : Instruction
     {
         char variable;

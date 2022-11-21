@@ -94,6 +94,7 @@ namespace IDE_langage
                 case "FOR": traiterFOR(i, ligne);break;
                 case "VAR": traiterVar(i, ligne); break;
                 case "CAR": traiterCar(i, ligne);break;
+                case "ASCII": traiterASCII(i, ligne);break;
                 case "//": break;  //COMMENTAIRE
                 case "": break;     //LIGNE VIDEUHHHH 
                 default: Program.Form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + "> \n"); break;
@@ -135,12 +136,22 @@ namespace IDE_langage
                 Program.Form1.Write("Fin de la compilation");
             }
         }
+        /// <summary>
+        /// Affiche une erreur dans l'appel de l'instruction
+        /// </summary>
+        /// <param name="a"><see cref="System.String"/>Message of error</param>
+        /// <paramref name="a"/> is <c>Message of error</c>.
         static int Erreur(string a)
         {
             Program.Form1.WriteErreur("Erreur :" + a);
             errorDeteted = true;
             return -1;
         }
+        /// <summary>
+        /// Vérifie si le token passer en paramètre est une variable
+        /// </summary>
+        /// <param name="token"><see cref="System.String"/>Variable</param>
+        /// <paramref name="token"/> is <c>variable</c>.
         static bool estVariable(string token)
         {
             if (token.Length != 1) return false;
@@ -206,6 +217,17 @@ namespace IDE_langage
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
+        static int traiterASCII(int i, string ligne){
+            string param1 = ExtraireToken(ref i, ligne);
+            string param2 = ExtraireToken(ref i, ligne);
+            string reste = ExtraireToken(ref i , ligne);
+            if (!estVariable(param1))Erreur("Param1 DOIT ETRE UNE VARIABLE");
+            if (!estVarConst(param2))Erreur("Param2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (reste != " ")Erreur("ASCII n'accepte que 2 paramètre");
+            Instruction_ASCII instruction = new Instruction_ASCII(param1[0], param2);
+            LeBlocEnCourant.ajouter(instruction);
+            return -1;
+        }
         static int traiterVar(int i, string ligne)
         {
             string param1 = ExtraireToken(ref i, ligne);
@@ -224,7 +246,7 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVarConst(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!estVarConst(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
             if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (!VarOuString(param3)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
             if (reste != "") Erreur("RAND n'accepte que 3 parametre");
@@ -250,7 +272,7 @@ namespace IDE_langage
         {
             string param1 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!VarOuString(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE OU UNSTRING");
+            if (!VarOuString(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE OU UN STRING");
             if (reste != "") Erreur("WRITE n'accepte que 1 parametre");
             Instruction_Write instruction = new Instruction_Write(param1[0]);
             LeBlocEnCourant.ajouter(instruction);
