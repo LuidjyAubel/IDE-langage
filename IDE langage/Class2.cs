@@ -157,22 +157,47 @@ namespace IDE_langage
             if (token.Length != 1) return false;
             return ((token[0] >= 'A') && (token[0] <= 'Z'));
         }
+        /// <summary>
+        /// Vérifie si le token passer en paramètre est un String
+        /// </summary>
+        /// <param name="token"><see cref="System.String"/>Variable</param>
+        /// <paramref name="token"/> is <c>variable</c>.
         static bool estString(string token)
         {
             return true;
         }
+        /// <summary>
+        /// Vérifie si le token passer en paramètre est un nombre ou un String
+        /// </summary>
+        /// <param name="token"><see cref="System.String"/>Variable</param>
+        /// <paramref name="token"/> is <c>variable</c>. 
         static bool estStringOuNb(string token)
         {
             return estNombre(token) || estString(token);
         }
+        /// <summary>
+        /// Vérifie si le token passer en paramètre est une variable ou un String
+        /// </summary>
+        /// <param name="token"><see cref="System.String"/>Variable</param>
+        /// <paramref name="token"/> is <c>variable</c>.
         static bool VarOuString(string token)
         {
             return estVariable(token) || estString(token);
         }
+                /// <summary>
+        /// Vérifie si le token passer en paramètre est un chiffre
+        /// </summary>
+        /// <param name="token"><see cref="System.String"/>Variable</param>
+        /// <paramref name="token"/> is <c>variable</c>.
         static bool estchifre(char token)
         {
             return (token >= '0' && token <= '9');
         }
+        /// <summary>
+        /// Vérifie si le token passer en paramètre est un nombre
+        /// </summary>
+        /// <param name="token"><see cref="System.String"/>Variable</param>
+        /// <paramref name="token"/> is <c>variable</c>.
         static bool estNombre(string token)
         {
             if (token.Length == 0) return false;
@@ -182,6 +207,11 @@ namespace IDE_langage
             }
             return true;
         }
+        /// <summary>
+        /// Vérifie si le token passer en paramètre est un comparateur
+        /// </summary>
+        /// <param name="token"><see cref="System.String"/>Variable</param>
+        /// <paramref name="token"/> is <c>variable</c>.
         static bool estComparateur(string token)
         {
             switch (token)
@@ -195,12 +225,22 @@ namespace IDE_langage
                 default: return false;
             }
         }
+        /// <summary>
+        /// Vérifie si le token passer en paramètre est une constante
+        /// </summary>
+        /// <param name="token"><see cref="System.String"/>constante</param>
+        /// <paramref name="token"/> is <c>constante</c>.
         static bool estConstant(string token)
         {
             for (int i = 0; i < token.Length; i++)
                 if (estchifre(token[i])) return true;
             return false;
         }
+        /// <summary>
+        /// Vérifie si le token passer en paramètre est une variable ou une constante
+        /// </summary>
+        /// <param name="token"><see cref="System.String"/>Variable</param>
+        /// <paramref name="token"/> is <c>variable</c>.
         static bool estVarConst(string token)
         {
             return estVariable(token) || estConstant(token);
