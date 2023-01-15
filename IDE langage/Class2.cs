@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Globalization;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IDE_langage
 {
@@ -94,7 +96,8 @@ namespace IDE_langage
                 case "FOR": traiterFOR(i, ligne);break;
                 case "VAR": traiterVar(i, ligne); break;
                 case "CAR": traiterCar(i, ligne);break;
-                case "ASCII": traiterASCII(i, ligne);break;
+                case "LIST": traiterList(i, ligne); break;
+                case "GET": traiterGet(i, ligne); break;
                 case "//": break;  //COMMENTAIRE
                 case "": break;     //LIGNE VIDEUHHHH 
                 default: Program.Form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + "> \n"); break;
@@ -133,7 +136,7 @@ namespace IDE_langage
             }
             finally
             {
-                Program.Form1.Write("Fin de la compilation");
+                Program.Form1.Write("Fin de la compilation\n");
             }
         }
         /// <summary>
@@ -250,21 +253,45 @@ namespace IDE_langage
             string param1 = ExtraireToken(ref i, ligne);
             string param2 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("Param1 DOIT ETRE UNE VARIABLE");
-            if (!estStringOuNb(param2)) Erreur("Param2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Let doit être une variable");
+            if (!estStringOuNb(param2)) Erreur("Le 2ème paramètre de Let doit être une variable ou une constante");
             if (reste != "") Erreur("Let n'accepte que 2 parametre");
             Instruction_Let instruction = new Instruction_Let(param1[0], param2);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
-        static int traiterASCII(int i, string ligne){
+        static int traiterGet(int i, string ligne)
+        {
+            string param1 = ExtraireToken(ref i, ligne); //VAR
+            string param2 = ExtraireToken(ref i, ligne); //TAB
+            string param3 = ExtraireToken(ref i, ligne); //index
+            string reste = ExtraireToken(ref i, ligne);
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de get doit être une variable");
+            if (!estVariable(param2)) Erreur("Le 2ème paramètre de get doit être une liste");
+            if (!estStringOuNb(param3)) Erreur("Le 3ème paramètre de get doit être un entier");
+            if (reste != "") Erreur("Let n'accepte que 2 parametre");
+            Instruction_Get instruction = new Instruction_Get(param1[0], param2[0], param3);
+            LeBlocEnCourant.ajouter(instruction);
+            return -1;
+        }
+        static int traiterList(int i, string ligne)
+        {
             string param1 = ExtraireToken(ref i, ligne);
             string param2 = ExtraireToken(ref i, ligne);
-            string reste = ExtraireToken(ref i , ligne);
-            if (!estVariable(param1))Erreur("Param1 DOIT ETRE UNE VARIABLE");
-            if (!estVarConst(param2))Erreur("Param2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (reste != " ")Erreur("ASCII n'accepte que 2 paramètre");
-            Instruction_ASCII instruction = new Instruction_ASCII(param1[0], param2);
+            List<string> parm3 = new List<string>();
+            if (param2 != "[") Erreur("[ manquante");
+            string param3 = ExtraireToken(ref i, ligne);
+            parm3.Add(param2);
+            parm3.Add(param3);
+            while(param3 != "]") {
+                parm3.Add(ExtraireToken(ref i, ligne));
+                param3 = parm3.Last();
+            }
+            string reste = ExtraireToken(ref i, ligne);
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Liste doit être une variable");
+            if (!estStringOuNb(param2)) Erreur("Le 2ème paramètre de Liste doit être une [");
+            if (reste != "") Erreur("Let n'accepte que 2 parametre");
+            Instruction_List instruction = new Instruction_List(param1[0], parm3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
@@ -273,9 +300,9 @@ namespace IDE_langage
             string param1 = ExtraireToken(ref i, ligne);
             string param2 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("Param1 DOIT ETRE UNE VARIABLE");
-            if (!estStringOuNb(param2)) Erreur("Param2 DOIT ETRE UNE CHAINE DE CHARACTER");
-            if (reste != "") Erreur("VAR n'accepte que 2 parametre");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Var doit être une variable");
+            if (!estStringOuNb(param2)) Erreur("Le 2ème paramètre de Var doit être une chiffre ou une chaine de caractère");
+            if (reste != "") Erreur("Var n'accepte que 2 parametre");
             Instruction_Var instruction = new Instruction_Var(param1[0], param2);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -286,10 +313,10 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVarConst(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!VarOuString(param3)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (reste != "") Erreur("RAND n'accepte que 3 parametre");
+            if (!estVarConst(param1)) Erreur("Le 1er paramètre de Rand doit être une variable");
+            if (!VarOuString(param2)) Erreur("Le 2ème paramètre de Rand doit être une variable ou une constante");
+            if (!VarOuString(param3)) Erreur("Le 3ème paramètre de Rand doit être une variable ou une constante");
+            if (reste != "") Erreur("Rand n'accepte que 3 parametre");
             Instruction_RAND instruction = new Instruction_RAND(param1[0], param2, param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -300,10 +327,10 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("Param1 DOIT ETRE UNE VARIABLE");
-            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (reste != "") Erreur("SUB n'accepte que 3 parametre");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Sub doit être une variable");
+            if (!VarOuString(param2)) Erreur("Le 2ème paramètre de Sub doit être une variable ou une constante");
+            if (!VarOuString(param3)) Erreur("Le 3ème paramètre de Sub doit être une variable ou une constante");
+            if (reste != "") Erreur("Sub n'accepte que 3 parametre");
             Instruction_SUB instruction = new Instruction_SUB(param1[0], param2, param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -312,8 +339,8 @@ namespace IDE_langage
         {
             string param1 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!VarOuString(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE OU UN STRING");
-            if (reste != "") Erreur("WRITE n'accepte que 1 parametre");
+            if (!VarOuString(param1)) Erreur("Le 1er paramètre de Write doit être une variable ou une constante");
+            if (reste != "") Erreur("Write n'accepte que 1 parametre");
             Instruction_Write instruction = new Instruction_Write(param1[0]);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -324,10 +351,10 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (reste != "") Erreur("ADD n'accepte que 3 parametre");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Add doit être une variable");
+            if (!VarOuString(param2)) Erreur("Le 2ème paramètre de Add doit être une variable ou une constante");
+            if (!VarOuString(param3)) Erreur("Le 3ème paramètre de Add doit être une variable ou une constante");
+            if (reste != "") Erreur("Add n'accepte que 3 parametre");
             Instruction_ADD instruction = new Instruction_ADD(param1[0], param2, param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -337,9 +364,9 @@ namespace IDE_langage
             string param1 = ExtraireToken(ref i, ligne);
             string param2 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (reste != "") Erreur("CAR n'accepte que 3 parametre");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Car doit être une variable");
+            if (!VarOuString(param2)) Erreur("Le 2ème paramètre de Car doit être une variable ou une constante");
+            if (reste != "") Erreur("Car n'accepte que 3 parametre");
             Instruction_CAR instruction = new Instruction_CAR(param1[0], param2);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -350,10 +377,10 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (reste != "") Erreur("SUB n'accepte que 3 parametre");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Mul doit être une variable");
+            if (!VarOuString(param2)) Erreur("Le 2ème paramètre de Mul doit être une variable ou une constante");
+            if (!VarOuString(param3)) Erreur("Le 3ème paramètre de Mul doit être une variable ou une constante");
+            if (reste != "") Erreur("Mul n'accepte que 3 parametre");
             Instruction_MUL instruction = new Instruction_MUL(param1[0], param2, param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -364,10 +391,10 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (reste != "") Erreur("DIV n'accepte que 3 parametre");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Div doit être une variable");
+            if (!VarOuString(param2)) Erreur("Le 2ème paramètre de Div doit être une variable ou une constante");
+            if (!VarOuString(param3)) Erreur("Le 3ème paramètre de Div doit être une variable ou une constante");
+            if (reste != "") Erreur("Div n'accepte que 3 parametre");
             Instruction_DIV instruction = new Instruction_DIV(param1[0], param2, param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -378,10 +405,10 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!VarOuString(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (!VarOuString(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (reste != "") Erreur("MOD n'accepte que 3 parametre");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Mod doit être une variable");
+            if (!VarOuString(param2)) Erreur("Le 2ème paramètre de Mod doit être une variable ou une constante");
+            if (!VarOuString(param3)) Erreur("Le 3ème paramètre de Mod doit être une variable ou une constante");
+            if (reste != "") Erreur("Mod n'accepte que 3 parametre");
             Instruction_MOD instruction = new Instruction_MOD(param1[0], param2, param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -392,10 +419,10 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!estComparateur(param2)) Erreur("PARAM2 DOIT ETRE UN COMPARATEUR");
-            if (!estVariable(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
-            if (reste != "") Erreur("IF n'accepte que 3 parametre");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de If doit être une variable");
+            if (!estComparateur(param2)) Erreur("Le 2ème paramètre de If doit être un comarateur");
+            if (!estVariable(param3)) Erreur("Le 3ème paramètre de If doit être une variable");
+            if (reste != "") Erreur("If n'accepte que 3 parametre");
             Bloc blocif = Lirebloc();
             Instruction_IF instruction = new Instruction_IF(param1[0], param2, param3[0], blocif);
             LeBlocEnCourant.ajouter(instruction);
@@ -407,9 +434,9 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!estComparateur(param2)) Erreur("PARAM2 DOIT ETRE UN COMPARATEUR");
-            if (!estVariable(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE OU UNE CONSTANTE");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de While doit être une variable");
+            if (!estComparateur(param2)) Erreur("Le 2ème paramètre de While doit être un comparateur");
+            if (!estVariable(param3)) Erreur("Le 3ème paramètre de While doit être une variable");
             if (reste != "") Erreur("While n'accepte que 3 parametre");
             Bloc blocif = Lirebloc();
             Instruction_WHILE instruction = new Instruction_WHILE(param1[0], param2, param3[0], blocif);
@@ -422,9 +449,9 @@ namespace IDE_langage
             string param2 = ExtraireToken(ref i, ligne);
             string param3 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (!estVariable(param2)) Erreur("PARAM2 DOIT ETRE UNE VARIABLE");
-            if (!estVariable(param3)) Erreur("PARAM3 DOIT ETRE UNE VARIABLE");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de For doit être une variable");
+            if (!estVariable(param2)) Erreur("Le 2ème paramètre de For doit être une variable");
+            if (!estVariable(param3)) Erreur("Le 3ème paramètre de For doit être une variable");
             if (reste != "") Erreur("For n'accepte que 3 parametre");
             Bloc blocif = Lirebloc();
             Instruction_FOR instruction = new Instruction_FOR(param1[0], param2[0], param3[0], blocif);
@@ -435,8 +462,8 @@ namespace IDE_langage
         {
             string param1 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (reste != "") Erreur("INC n'accepte que 1 parametre");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Inc doit être une variable");
+            if (reste != "") Erreur("Inc n'accepte que 1 parametre");
             Instruction_INC instruction = new Instruction_INC(param1[0]);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
@@ -445,8 +472,8 @@ namespace IDE_langage
         {
             string param1 = ExtraireToken(ref i, ligne);
             string reste = ExtraireToken(ref i, ligne);
-            if (!estVariable(param1)) Erreur("PARAM1 DOIT ETRE UNE VARIABLE");
-            if (reste != "") Erreur("DCR n'accepte que 1 parametre");
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Dcr doit être une variable");
+            if (reste != "") Erreur("Dcr n'accepte que 1 parametre");
             Instruction_DCR instruction = new Instruction_DCR(param1[0]);
             LeBlocEnCourant.ajouter(instruction);
             return -1;

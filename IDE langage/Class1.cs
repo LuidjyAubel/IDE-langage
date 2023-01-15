@@ -1,6 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.Windows.Forms;
 using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+
 namespace IDE_langage
 {
     class Bloc
@@ -65,34 +69,6 @@ namespace IDE_langage
         {
             Program.Form1.Write("Je ne devrais pas etre la non plus ");
             Program.Form1.ln();
-        }
-    }
-    class Instruction_ASCII : Instruction
-    {
-        char variable;
-    	string valeur;
-    	public Instruction_ACSII(string val, char var){
-    	    this.valeur = val;
-            this.variable = var;
-    	}
-    	public override void afficher(){
-            Program.Form1.write("ASCII "+this.variable+" "+this.valeur);
-        }
-        public override void traduire(){
-            Program.Form1.WriteTrad("");
-            Program.lnTrad();
-        }
-        public override void execute(){
-            if (val.All(char.IsDigit)){
-                char c = (char) val;
-                string val = c.ToString();
-                Class2.LesVariables.setVariable(this.variable, val)
-            }else{
-                int va = Class2.LesVariables.getVariable(val);
-                char c = (char) va;
-                string val1 = c.ToString();
-                Class2.LesVariables.setVariable(this.variable, val1);
-            }
         }
     }
     class Instruction_Let : Instruction
@@ -749,6 +725,63 @@ namespace IDE_langage
                 }
                 else res = false;
             }
+        }
+    }
+    class Instruction_List : Instruction
+    {
+        char variable;
+        List<string> valeur;
+        public Instruction_List(char var, List<string> b)
+        {
+            this.variable = var;
+            this.valeur = b;
+        }
+        public override void afficher()
+        {
+            string text = string.Join(" ", this.valeur);
+            Program.Form1.Write("LIST " + this.variable + " "+text);
+            Program.Form1.ln();
+        }
+        public override void traduire()
+        {
+            Program.Form1.WriteTrad("");
+            Program.Form1.lnTrad();
+        }
+        public override void executer()
+        {
+            
+            string valeur1 = Class2.LesVariables.getVariable(this.variable);
+            string text = string.Join(" ", this.valeur);
+            Class2.LesVariables.setVariable(this.variable, text);
+        }
+    }
+    class Instruction_Get :Instruction
+    {
+        char variable;
+        char tab;
+        string indice;
+        public Instruction_Get(char var, char var2, string index)
+        {
+            this.variable = var;
+            this.tab = var2;
+            this.indice = index;
+        }
+        public override void afficher()
+        {
+            Program.Form1.Write("GET " + this.variable + " "+this.tab+" "+this.indice);
+            Program.Form1.ln();
+        }
+        public override void traduire()
+        {
+        }
+        public override void executer()
+        {
+            string valeur = Class2.LesVariables.getVariable(this.tab);
+            string[] items = valeur.Split(' ');
+            int a = Int32.Parse(this.indice);
+            int ind = a +1;
+            string result = items[ind];
+            Class2.LesVariables.setVariable(this.variable, result);
         }
     }
     class Instruction_Write : Instruction

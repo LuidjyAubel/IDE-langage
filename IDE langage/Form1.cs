@@ -68,14 +68,14 @@ namespace IDE_langage
             progressBar1.Value = 75;
             coll.Delete();
             //File.Delete(filename);
-            //Class2.LesVariables.Dump();
+            Class2.LesVariables.Dump();
             progressBar1.Value = 100;
         }
         public void Clear()
         {
             richTextBox2.Text += "---------------------";
             richTextBox2.Text += "\n| Console           |";
-            richTextBox2.Text += "\n---------------------";
+            richTextBox2.Text += "\n---------------------\n";
         }
         public void ClearError()
         {
