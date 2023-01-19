@@ -820,6 +820,41 @@ namespace IDE_langage
             Class2.LesVariables.setVariable(this.variable, text);
         }
     }
+    class Instruction_Rmv : Instruction
+    {
+        char variable;
+        char tab;
+        string indice;
+        public Instruction_Rmv(char var, char var2, string ind)
+        {
+            this.variable = var;
+            this.tab = var2;
+            this.indice = ind;
+        }
+        public override void afficher()
+        {
+            Program.Form1.Write("RMV " + this.variable + " " + this.tab + " " + this.indice);
+            Program.Form1.ln();
+        }
+        public override void traduire()
+        {
+        }
+        public override void executer()
+        {
+            string valeur = Class2.LesVariables.getVariable(this.tab);
+            string[] items = valeur.Split(' ');
+            List<string> parm3 = new List<string>();
+            int tab = items.Length;
+            for (int i = 0; i < tab; i++)
+            {
+                parm3.Add(items[i]);
+            }
+            int ind = Int32.Parse(this.indice) + 1;
+            parm3.RemoveAt(ind);
+            string text = string.Join(" ", parm3);
+            Class2.LesVariables.setVariable(this.variable, text);
+        }
+    }
     class Instruction_Write : Instruction
     {
         char variable;

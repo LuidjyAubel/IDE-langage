@@ -99,6 +99,7 @@ namespace IDE_langage
                 case "LIST": traiterList(i, ligne); break;
                 case "GET": traiterGet(i, ligne); break;
                 case "PUT": traiterPut(i, ligne); break;
+                case "RMV": traiterRmv(i, ligne); break;
                 case "//": break;  //COMMENTAIRE
                 case "": break;     //LIGNE VIDEUHHHH 
                 default: Program.Form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + "> \n"); break;
@@ -286,6 +287,20 @@ namespace IDE_langage
             if (!estStringOuNb(param3)) Erreur("Le 3ème paramètre de get doit être un entier");
             if (reste != "") Erreur("get n'accepte que 3 parametres");
             Instruction_Get instruction = new Instruction_Get(param1[0], param2[0], param3);
+            LeBlocEnCourant.ajouter(instruction);
+            return -1;
+        }
+        static int traiterRmv(int i, string ligne)
+        {
+            string param1 = ExtraireToken(ref i, ligne); //VAR
+            string param2 = ExtraireToken(ref i, ligne); //TAB
+            string param3 = ExtraireToken(ref i, ligne); //index
+            string reste = ExtraireToken(ref i, ligne);
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de rmv doit être une variable");
+            if (!estVariable(param2)) Erreur("Le 2ème paramètre de rmv doit être une liste");
+            if (!estStringOuNb(param3)) Erreur("Le 3ème paramètre de rmv doit être un entier");
+            if (reste != "") Erreur("rmv n'accepte que 3 parametres");
+            Instruction_Rmv instruction = new Instruction_Rmv(param1[0], param2[0], param3);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
