@@ -1,6 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.Windows.Forms;
 using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+
 namespace IDE_langage
 {
     class Bloc
@@ -721,6 +725,134 @@ namespace IDE_langage
                 }
                 else res = false;
             }
+        }
+    }
+    class Instruction_List : Instruction
+    {
+        char variable;
+        List<string> valeur;
+        public Instruction_List(char var, List<string> b)
+        {
+            this.variable = var;
+            this.valeur = b;
+        }
+        public override void afficher()
+        {
+            string text = string.Join(" ", this.valeur);
+            Program.Form1.Write("LIST " + this.variable + " "+text);
+            Program.Form1.ln();
+        }
+        public override void traduire()
+        {
+            Program.Form1.WriteTrad("");
+            Program.Form1.lnTrad();
+        }
+        public override void executer()
+        {
+            
+            string valeur1 = Class2.LesVariables.getVariable(this.variable);
+            string text = string.Join(" ", this.valeur);
+            Class2.LesVariables.setVariable(this.variable, text);
+        }
+    }
+    class Instruction_Get :Instruction
+    {
+        char variable;
+        char tab;
+        string indice;
+        public Instruction_Get(char var, char var2, string index)
+        {
+            this.variable = var;
+            this.tab = var2;
+            this.indice = index;
+        }
+        public override void afficher()
+        {
+            Program.Form1.Write("GET " + this.variable + " "+this.tab+" "+this.indice);
+            Program.Form1.ln();
+        }
+        public override void traduire()
+        {
+        }
+        public override void executer()
+        {
+            string valeur = Class2.LesVariables.getVariable(this.tab);
+            string[] items = valeur.Split(' ');
+            int a = Int32.Parse(this.indice);
+            int ind = a +1;
+            string result = items[ind];
+            Class2.LesVariables.setVariable(this.variable, result);
+        }
+    }
+    class Instruction_Put : Instruction
+    {
+        char variable;
+        char tab;
+        string nbr;
+        public Instruction_Put(char var, char var2, string nbr)
+        {
+            this.variable = var;
+            this.tab = var2;
+            this.nbr = nbr;
+        }
+        public override void afficher()
+        {
+            Program.Form1.Write("PUT " + this.variable + " " + this.tab + " " + this.nbr);
+            Program.Form1.ln();
+        }
+        public override void traduire()
+        {
+        }
+        public override void executer()
+        {
+            string valeur = Class2.LesVariables.getVariable(this.tab);
+            string[] items = valeur.Split(' ');
+            List<string> parm3 = new List<string>();
+            int  tab = items.Length;
+            for(int i = 0; i < tab; i++)
+            {
+                parm3.Add(items[i]);
+            }
+            parm3 = parm3.Take(tab - 1).ToList<String>();
+            parm3.Add(this.nbr);
+            parm3.Add("]");
+            string text = string.Join(" ", parm3);
+            Class2.LesVariables.setVariable(this.variable, text);
+        }
+    }
+    class Instruction_Rmv : Instruction
+    {
+        char variable;
+        char tab;
+        string indice;
+        public Instruction_Rmv(char var, char var2, string ind)
+        {
+            this.variable = var;
+            this.tab = var2;
+            this.indice = ind;
+        }
+        public override void afficher()
+        {
+            Program.Form1.Write("RMV " + this.variable + " " + this.tab + " " + this.indice);
+            Program.Form1.ln();
+        }
+        public override void traduire()
+        {
+        }
+        public override void executer()
+        {
+            string valeur = Class2.LesVariables.getVariable(this.tab);
+            string[] items = valeur.Split(' ');
+            List<string> parm3 = new List<string>();
+            int tab = items.Length;
+            for (int i = 0; i < tab; i++)
+            {
+                parm3.Add(items[i]);
+            }
+            int ind = Int32.Parse(this.indice) + 1;
+            parm3.RemoveAt(ind);
+            string text = string.Join(" ", parm3);
+            Class2.LesVariables.setVariable(this.variable, text);
         }
     }
     class Instruction_Write : Instruction
