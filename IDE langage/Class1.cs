@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 
+
 namespace IDE_langage
 {
     class Bloc
@@ -881,7 +882,35 @@ namespace IDE_langage
                 Program.Form1.ln();
         }
     }
-  
+    class OBJ : Instruction
+    {
+        char variable;
+        string name;
+        Dictionary<string, string> attribute;
+        Bloc blocalors;
+        public OBJ(char var, string name, Dictionary<string, string> attr, Bloc blocobj)
+        {
+            this.name = name;
+            this.variable = var;
+            this.blocalors = blocobj;
+            this.attribute = attr;
+        }
+        public override void afficher()
+        {
+            string text = string.Join(" ", this.attribute);
+            Program.Form1.Write("OBJ " + this.variable + " " + this.name+" "+text);
+        }
+        public override void traduire()
+        {
+        }
+        public override void executer()
+        {
+            blocalors.executer();
+            string text = string.Join(" ", this.attribute);
+            Class2.LesVariables.setVariable(this.variable,this.name+" "+text);
+        }
+    }
+
     class Variables
     {
         protected string[] tabvar;

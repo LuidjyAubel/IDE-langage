@@ -3,6 +3,8 @@ using System.IO;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
+using System.Linq.Expressions;
 
 namespace IDE_langage
 {
@@ -12,6 +14,7 @@ namespace IDE_langage
         static public Bloc LeBlocEnCourant; //auxilière de constructeur
         static public StreamReader fichierentre;
         public static Variables LesVariables;
+        static public Dictionary<string, string> temp = new Dictionary<string, string>();
         static public bool errorDeteted;
 
         /// <summary>
@@ -67,6 +70,40 @@ namespace IDE_langage
             LeBlocEnCourant = Ancienbloc;           //RESTAURE LE BLOC EN COURS
             return nouveaubloc;
         }
+
+        static Bloc obj()
+        {
+            Bloc Ancienbloc = LeBlocEnCourant;
+            LeBlocEnCourant = new Bloc();
+            int i;
+            string ligne = lireligne();
+            i = 0;
+            string token1 = ExtraireToken(ref i, ligne);
+            if (token1 != "{") Erreur("{ manquante");
+            // lire jusqua l'acolade fermante
+            ligne = lireligne();
+            i = 0;
+            token1 = ExtraireToken(ref i, ligne);
+            while (token1 != "}")
+            {
+               string token2 = ExtraireToken(ref i, ligne);
+
+                //Program.Form1.Write(token1+"\n"); //debug
+                if ((token2 == " ")||(token2 == ":")) {
+
+                    token2 = ExtraireToken(ref i, ligne);
+                }
+                temp.Add(token1, token2);
+                Program.Form1.Write(temp.GetValueOrDefault("name"));
+                //TraiterInstruction(ligne);
+                ligne = lireligne();
+                i = 0;
+                token1 = ExtraireToken(ref i, ligne);
+            }
+            Bloc nouveaubloc = LeBlocEnCourant;     //BIDOUILLE
+            LeBlocEnCourant = Ancienbloc;           //RESTAURE LE BLOC EN COURS
+            return nouveaubloc;
+        }
         /// <summary>
         /// Traite la ligne courrant
         /// </summary>
@@ -100,6 +137,7 @@ namespace IDE_langage
                 case "GET": traiterGet(i, ligne); break;
                 case "PUT": traiterPut(i, ligne); break;
                 case "RMV": traiterRmv(i, ligne); break;
+                case "OBJ": traiterObj(i, ligne); break;
                 case "//": break;  //COMMENTAIRE
                 case "": break;     //LIGNE VIDEUHHHH 
                 default: Program.Form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + "> \n"); break;
@@ -169,7 +207,14 @@ namespace IDE_langage
         /// <paramref name="token"/> is <c>variable</c>.
         static bool estString(string token)
         {
-            return true;
+            if (!token.All(char.IsDigit))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         /// <summary>
         /// Vérifie si le token passer en paramètre est un nombre ou un String
@@ -301,6 +346,25 @@ namespace IDE_langage
             if (!estStringOuNb(param3)) Erreur("Le 3ème paramètre de rmv doit être un entier");
             if (reste != "") Erreur("rmv n'accepte que 3 parametres");
             Instruction_Rmv instruction = new Instruction_Rmv(param1[0], param2[0], param3);
+            LeBlocEnCourant.ajouter(instruction);
+            return -1;
+        }
+        static int traiterObj(int i, string ligne)
+        {
+            string param1 = ExtraireToken(ref i, ligne);
+            string param2 = ExtraireToken(ref i, ligne);
+            string reste = ExtraireToken(ref i, ligne);
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Obj doit être une variable");
+            if (!estStringOuNb(param2)) Erreur("Le 2ème paramètre de Obj doit être un string");
+            if (reste != "") Erreur("Obj n'accepte que 3 parametre");
+            Dictionary<string, string> attr = new Dictionary<string, string>();
+            Bloc blocobj = obj();
+            foreach (KeyValuePair<string, string> kvp in temp)
+            {
+                attr.Add(kvp.Key, kvp.Value);
+            }
+            OBJ instruction = new OBJ(param1[0], param2, attr, blocobj);
+            temp.Clear();
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
