@@ -85,7 +85,7 @@ namespace IDE_langage
             i = 0;
             token1 = ExtraireToken(ref i, ligne);
             while (token1 != "}")
-            {;
+            {
                string token2 = ExtraireToken(ref i, ligne);
                 if(token1 == "FUN")
                 {
@@ -377,7 +377,6 @@ namespace IDE_langage
                 {
                     attr.Add(kvp.Key, kvp.Value);
                 }
-
             }
             OBJ instruction = new OBJ(param1[0], param2, attr, blocobj);
             temp.Clear();
