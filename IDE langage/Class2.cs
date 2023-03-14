@@ -87,6 +87,10 @@ namespace IDE_langage
             while (token1 != "}")
             {
                string token2 = ExtraireToken(ref i, ligne);
+                if(token1 == "FUN")
+                {
+                    TraiterInstruction(ligne);
+                }
 
                 //Program.Form1.Write(token1+"\n"); //debug
                 if ((token2 == " ")||(token2 == ":")) {
@@ -138,6 +142,7 @@ namespace IDE_langage
                 case "PUT": traiterPut(i, ligne); break;
                 case "RMV": traiterRmv(i, ligne); break;
                 case "OBJ": traiterObj(i, ligne); break;
+                case "FUN": traiterFun(i, ligne); break;
                 case "//": break;  //COMMENTAIRE
                 case "": break;     //LIGNE VIDEUHHHH 
                 default: Program.Form1.WriteErreur("ERROR: Instruction inconnue ! <" + token + "> \n"); break;
@@ -361,7 +366,17 @@ namespace IDE_langage
             Bloc blocobj = obj();
             foreach (KeyValuePair<string, string> kvp in temp)
             {
-                attr.Add(kvp.Key, kvp.Value);
+                if (kvp.Key == "{")
+                {
+                    continue;
+                }else if (kvp.Key == "FUN")
+                {
+                    continue;
+                }
+                else
+                {
+                    attr.Add(kvp.Key, kvp.Value);
+                }
             }
             OBJ instruction = new OBJ(param1[0], param2, attr, blocobj);
             temp.Clear();
@@ -386,6 +401,18 @@ namespace IDE_langage
             if (!estStringOuNb(param2)) Erreur("Le 2ème paramètre de Liste doit être une [");
             if (reste != "") Erreur("Liste n'accepte que 2 parametre");
             Instruction_List instruction = new Instruction_List(param1[0], parm3);
+            LeBlocEnCourant.ajouter(instruction);
+            return -1;
+        }
+        static int traiterFun(int i, string ligne)
+        {
+            string param1 = ExtraireToken(ref i, ligne);
+            string reste = ExtraireToken(ref i, ligne);
+            if (!estVariable(param1)) Erreur("Le 1er paramètre de Fun doit être une variable "+ligne+" "+i);
+           // if (!estString(param2)) Erreur("Le 2ème paramètre de Fun doit être un nom"+param2);
+            if (reste != "") Erreur("Fun n'accepte que 3 parametre");
+            Bloc blocif = Lirebloc();
+            Instruction_Fun instruction = new Instruction_Fun(param1[0], blocif);
             LeBlocEnCourant.ajouter(instruction);
             return -1;
         }
