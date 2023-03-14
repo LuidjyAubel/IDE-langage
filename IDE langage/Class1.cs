@@ -882,6 +882,31 @@ namespace IDE_langage
                 Program.Form1.ln();
         }
     }
+    class Instruction_Fun : Instruction
+    {
+        char variable1;
+        Bloc blocalors;
+        public Instruction_Fun(char var1, Bloc bloc)
+        {
+            this.variable1 = var1;
+            this.blocalors = bloc;
+        }
+        public override void afficher()
+        {
+            Program.Form1.Write(" fun " + this.variable1 + " ");
+            Program.Form1.ln();
+        }
+        public override void traduire()
+        {
+            Program.Form1.WriteTrad("");
+            Program.Form1.lnTrad();
+        }
+        public override void executer()
+        {
+            Class2.LesVariables.setVariable(this.variable1, blocalors+"");
+                blocalors.executer();
+        }
+    }
     class OBJ : Instruction
     {
         char variable;
