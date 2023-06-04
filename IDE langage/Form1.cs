@@ -60,6 +60,14 @@ namespace IDE_langage
              sw.WriteLine(richTextBox1.Text);
              sw.Close();
             Class2.LesVariables = new Variables();
+            //------------------------
+            Class2.LesInt = new Integer();
+            Class2.lesString = new Str();
+            Class2.lesFloat = new Float();
+            Class2.lesDouble = new Double();
+            Class2.lesChar = new Char();
+            Class2.lesBoolean = new Bool();
+            //------------------------
             Class2.Compiler(filename);
             progressBar1.Value = 50;
             richTextBox2.Text += "\nRun "+openFileDialog1.FileName+"\n" ;
@@ -68,7 +76,13 @@ namespace IDE_langage
             progressBar1.Value = 75;
             coll.Delete();
             //File.Delete(filename);
-            Class2.LesVariables.Dump();
+            //Class2.LesVariables.Dump();
+            Class2.LesInt.Dump();
+            Class2.lesFloat.Dump();
+            Class2.lesDouble.Dump();
+           //Class2.lesBoolean.Dump();
+            //Class2.lesString.Dump();
+            //Class2.lesChar.Dump();
             progressBar1.Value = 100;
         }
         public void Clear()

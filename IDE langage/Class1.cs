@@ -4,7 +4,9 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
-
+using System.Security.Policy;
+using System.Diagnostics;
+using System.Globalization;
 
 namespace IDE_langage
 {
@@ -74,16 +76,18 @@ namespace IDE_langage
     }
     class Instruction_Let : Instruction
     {
-        char variable;
+        string variable;
+        string type;
         string valeur;
-        public Instruction_Let(char var, string val)
+        public Instruction_Let(string var, string ty, string val)
         {
             this.variable = var;
+            this.type = ty;
             this.valeur = val;
         }
         public override void afficher()
         {
-            Program.Form1.Write("LET " + this.variable + " " + this.valeur + " ");
+            Program.Form1.Write("LET " + this.variable +" "+this.type+" " + this.valeur + " ");
         }
         public override void traduire()
         {
@@ -92,21 +96,36 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            Class2.LesVariables.setVariable(this.variable, this.valeur);
+            if (this.type == "INT")
+            {
+                Class2.LesInt.setInteger(this.variable.ToString(), Int32.Parse(this.valeur));
+            }else if (this.type == "FLOAT"){
+                Class2.lesFloat.setFloat(this.variable.ToString(), float.Parse(this.valeur, CultureInfo.InvariantCulture.NumberFormat));
+            }else if (this.type == "DOUBLE"){
+                Class2.lesDouble.setDouble(this.variable.ToString(), double.Parse(this.valeur, CultureInfo.InvariantCulture.NumberFormat));
+            }else if (this.type == "CHAR"){
+                Class2.lesChar.setChar(this.variable.ToString(), char.Parse(this.valeur));
+            }else if (this.type == "BOOL"){
+                Class2.lesBoolean.setBool(this.variable.ToString(), bool.Parse(this.valeur));
+            }else {
+                Class2.lesString.setString(this.variable.ToString(), this.valeur);;
+            }
         }
     }
     class Instruction_Var : Instruction
     {
-        char variable;
+        string variable;
+        string type;
         string valeur;
-        public Instruction_Var(char var, string val)
+        public Instruction_Var(string var, string ty, string val)
         {
             this.variable = var;
+            this.type = ty;
             this.valeur = val;
         }
         public override void afficher()
         {
-            Program.Form1.Write("VAR " + this.variable + " " + this.valeur + " ");
+            Program.Form1.Write("VAR " + this.variable +" "+this.type+ " " + this.valeur + " ");
         }
         public override void traduire()
         {
@@ -115,15 +134,38 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            Class2.LesVariables.setVariable(this.variable, this.valeur);
+            if (this.type == "INT")
+            {
+                Class2.LesInt.setInteger(this.variable.ToString(), Int32.Parse(this.valeur));
+            }
+            else if (this.type == "FLOAT")
+            {
+                Class2.lesFloat.setFloat(this.variable.ToString(),float.Parse(this.valeur, CultureInfo.InvariantCulture.NumberFormat));
+            }
+            else if (this.type == "DOUBLE")
+            {
+                Class2.lesDouble.setDouble(this.variable.ToString(), double.Parse(this.valeur, CultureInfo.InvariantCulture.NumberFormat));
+            }
+            else if (this.type == "CHAR")
+            {
+                Class2.lesChar.setChar(this.variable.ToString(), char.Parse(this.valeur));
+            }
+            else if (this.type == "BOOL")
+            {
+                Class2.lesBoolean.setBool(this.variable.ToString(), bool.Parse(this.valeur));
+            }
+            else
+            {
+                Class2.lesString.setString(this.variable.ToString(), this.valeur); ;
+            }
         }
     }
     class Instruction_ADD : Instruction
     {
-        char variable;
+        string variable;
         string variable2;
         string variable3;
-        public Instruction_ADD(char var, string var2, string var3)
+        public Instruction_ADD(string var, string var2, string var3)
         {
             this.variable = var;
             this.variable2 = var2;
@@ -141,54 +183,110 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            //string b = this.valeur.ToString();
-            /* string valeur1 = Class2.LesVariables.getVariable(this.variable2);
-             string valeur2 = Class2.LesVariables.getVariable(this.variable3);
-             int nb1 = Int32.Parse(valeur1);
-             int nb2 = Int32.Parse(valeur2);
-             int valeur = nb1 + nb2;
-             string val1 = valeur.ToString();
-             Class2.LesVariables.setVariable(this.variable, val1);*/
             string va2 = this.variable2;
             string va3 = this.variable3;
-            string valeur1;
-            string valeur2;
-            int nb1;
-            int nb2;
-            if (va2.All(char.IsDigit))
+            int? nb1 = null;
+            int? nb2 = null;
+            float? n1 = null;
+            float? n2 = null;
+            double? nomb1 = null;
+            double? nomb2 = null;
+            if (int.TryParse(va2, out _))
             {
                 nb1 = Int32.Parse(va2);
             }
+            else if (float.TryParse(va2, out _))
+            {
+                n1 = float.Parse(va2);
+            }else if (double.TryParse(va2, out _))
+            {
+                nomb1 = double.Parse(va2);
+            }
             else
             {
-                char a = this.variable2[0];
-                valeur1 = Class2.LesVariables.getVariable(a);
-                nb1 = Int32.Parse(valeur1);
+                if (Class2.LesInt.estVide() == false && Class2.LesInt.isIn(va2))
+                {
+                   nb1 = Class2.LesInt.getInteger(va2);
+                }
+                else if (Class2.lesFloat.estVide()==false && Class2.lesFloat.isIn(va2))
+                {
+                   n1 = Class2.lesFloat.getFloat(va2);
+                }
+                else
+                {
+                    nomb1 = Class2.lesDouble.getDouble(va2);
+                }
             }
-            if (va3.All(char.IsDigit))
+            if (int.TryParse(va3, out _))
             {
                 nb2 = Int32.Parse(va3);
+            }else if (float.TryParse(va3, out _))
+            {
+                n2 = float.Parse(va3);
+            }else if (double.TryParse(va3, out _))
+            {
+                nomb2 = double.Parse(va3);
             }
             else
             {
-                char b = this.variable3[0];
-                valeur2 = Class2.LesVariables.getVariable(b);
-                nb2 = Int32.Parse(valeur2);
+                if (Class2.LesInt.estVide() == false && Class2.LesInt.isIn(va3))
+                {
+                    nb2 = Class2.LesInt.getInteger(va3);
+                }
+                else if (Class2.lesFloat.estVide() == false && Class2.lesFloat.isIn(va3))
+                {
+                    n2 = Class2.lesFloat.getFloat(va3);
+                }
+                else
+                {
+                    nomb2 = Class2.lesDouble.getDouble(va3);
+                }
             }
-            // valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            //  string valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            //int nb1 = Int32.Parse(valeur1);
-            //int nb2 = Int32.Parse(valeur2);
-            int valeur = nb1 + nb2;
-            string val1 = valeur.ToString();
-            Class2.LesVariables.setVariable(this.variable, val1);
+            if (nb1 != null && nb2 != null)
+            {
+                int res = (int)(nb1 + nb2);
+                Class2.LesInt.setInteger(this.variable, res);
+            }else if (nb1 != null && n2 != null)
+            {
+                float res = (float)((float) nb1 + n2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }else if (n1 != null && nb2 != null)
+            {
+                float res = (float)((float)n1 + nb2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }else if (n1 != null && n2 != null)
+            {
+                float res = (float)((float)n1 + n2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }else if (nb1 != null && nomb2 != null)
+            {
+                double res = (double)((double)nb1 + nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }else if (nomb1 != null && nb2 != null)
+            {
+                double res = (double)((double)nomb1 + nb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }else if (n1 != null && nomb2 != null)
+            {
+                double res = (double)((double)n1 + nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }else if (nomb1 != null && n2 != null)
+            {
+                double res = (double)((double)nomb1 + n2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else
+            {
+                double res = (double)((double)nomb1 + nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
         }
     }
     class Instruction_CAR : Instruction
     {
-        char variable;
+        string variable;
         string variable2;
-        public Instruction_CAR(char var, string var2)
+        public Instruction_CAR(string var, string var2)
         {
             this.variable = var;
             this.variable2 = var2;
@@ -206,29 +304,59 @@ namespace IDE_langage
         public override void executer()
         {
             string va2 = this.variable2;
-            string valeur1;
-            int nb1;
-            if (va2.All(char.IsDigit))
+            int? nb1 = null;
+            float? n1 = null;
+            double? nomb1 = null;
+            if (int.TryParse(va2, out _))
             {
                 nb1 = Int32.Parse(va2);
             }
+            else if (float.TryParse(va2, out _))
+            {
+                n1 = float.Parse(va2);
+            }
+            else if (double.TryParse(va2, out _))
+            {
+                nomb1 = double.Parse(va2);
+            }
             else
             {
-                char a = this.variable2[0];
-                 valeur1 = Class2.LesVariables.getVariable(a);
-                 nb1 = Int32.Parse(valeur1);
+                if (Class2.LesInt.estVide() == false && Class2.LesInt.isIn(va2))
+                {
+                    nb1 = Class2.LesInt.getInteger(va2);
+                }
+                else if (Class2.lesFloat.estVide() == false && Class2.lesFloat.isIn(va2))
+                {
+                    n1 = Class2.lesFloat.getFloat(va2);
+                }
+                else
+                {
+                    nomb1 = Class2.lesDouble.getDouble(va2);
+                }
             }
-            int valeur = nb1 * nb1;
-            string val1 = valeur.ToString();
-            Class2.LesVariables.setVariable(this.variable, val1);
+            if (nb1 != null)
+            {
+                int res = (int)(nb1 * nb1);
+                Class2.LesInt.setInteger(this.variable, res);
+            }
+            else if (n1 != null)
+            {
+                float res = (float)((float)n1 * n1);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (nomb1 != null)
+            {
+                double res = (double)((double)nomb1 * nomb1);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
         }
     }
     class Instruction_MOD : Instruction
     {
-        char variable;
+        string variable;
         string variable2;
         string variable3;
-        public Instruction_MOD(char var, string var2, string var3)
+        public Instruction_MOD(string var, string var2, string var3)
         {
             this.variable = var;
             this.variable2 = var2;
@@ -248,49 +376,119 @@ namespace IDE_langage
         {
             string va2 = this.variable2;
             string va3 = this.variable3;
-            string valeur1;
-            string valeur2;
-            int nb1;
-            int nb2;
-            if (va3.All(char.IsDigit))
+            int? nb1 = null;
+            int? nb2 = null;
+            float? n1 = null;
+            float? n2 = null;
+            double? nomb1 = null;
+            double? nomb2 = null;
+            if (int.TryParse(va2, out _))
             {
                 nb1 = Int32.Parse(va2);
             }
+            else if (float.TryParse(va2, out _))
+            {
+                n1 = float.Parse(va2);
+            }
+            else if (double.TryParse(va2, out _))
+            {
+                nomb1 = double.Parse(va2);
+            }
             else
             {
-                char a = this.variable2[0];
-                valeur1 = Class2.LesVariables.getVariable(a);
-                nb1 = Int32.Parse(valeur1);
+                if (Class2.LesInt.estVide() == false && Class2.LesInt.isIn(va2))
+                {
+                    nb1 = Class2.LesInt.getInteger(va2);
+                }
+                else if (Class2.lesFloat.estVide() == false && Class2.lesFloat.isIn(va2))
+                {
+                    n1 = Class2.lesFloat.getFloat(va2);
+                }
+                else
+                {
+                    nomb1 = Class2.lesDouble.getDouble(va2);
+                }
             }
-            if (va3.All(char.IsDigit))
+            if (int.TryParse(va3, out _))
             {
                 nb2 = Int32.Parse(va3);
             }
+            else if (float.TryParse(va3, out _))
+            {
+                n2 = float.Parse(va3);
+            }
+            else if (double.TryParse(va3, out _))
+            {
+                nomb2 = double.Parse(va3);
+            }
             else
             {
-                char b = this.variable3[0];
-                valeur2 = Class2.LesVariables.getVariable(b);
-                nb2 = Int32.Parse(valeur2);
+                if (Class2.LesInt.estVide() == false && Class2.LesInt.isIn(va3))
+                {
+                    nb2 = Class2.LesInt.getInteger(va3);
+                }
+                else if (Class2.lesFloat.estVide() == false && Class2.lesFloat.isIn(va3))
+                {
+                    n2 = Class2.lesFloat.getFloat(va3);
+                }
+                else
+                {
+                    nomb2 = Class2.lesDouble.getDouble(va3);
+                }
             }
-            // valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            //  string valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            //int nb1 = Int32.Parse(valeur1);
-            //int nb2 = Int32.Parse(valeur2);
-           /* string valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            string valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            int nb1 = Int32.Parse(valeur1);
-            int nb2 = Int32.Parse(valeur2);*/
-            int valeur = nb1 % nb2;
-            string val1 = valeur.ToString();
-            Class2.LesVariables.setVariable(this.variable, val1);
+            if (nb1 != null && nb2 != null)
+            {
+                int res = (int)(nb1 % nb2);
+                Class2.LesInt.setInteger(this.variable, res);
+            }
+            else if (nb1 != null && n2 != null)
+            {
+                float res = (float)((float)nb1 % n2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (n1 != null && nb2 != null)
+            {
+                float res = (float)((float)n1 % nb2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (n1 != null && n2 != null)
+            {
+                float res = (float)((float)n1 % n2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (nb1 != null && nomb2 != null)
+            {
+                double res = (double)((double)nb1 % nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else if (nomb1 != null && nb2 != null)
+            {
+                double res = (double)((double)nomb1 % nb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else if (n1 != null && nomb2 != null)
+            {
+                double res = (double)((double)n1 % nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else if (nomb1 != null && n2 != null)
+            {
+                double res = (double)((double)nomb1 % n2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else
+            {
+                double res = (double)((double)nomb1 % nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
         }
     }
     class Instruction_SUB : Instruction
     {
-        char variable;
+        string variable;
         string variable2;
         string variable3;
-        public Instruction_SUB(char var, string var2, string var3)
+        public Instruction_SUB(string var, string var2, string var3)
         {
             this.variable = var;
             this.variable2 = var2;
@@ -307,51 +505,119 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            //Console.WriteLine("execute MOD");
-            /*string valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            string valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            int nb1 = Int32.Parse(valeur1);
-            int nb2 = Int32.Parse(valeur2);*/
             string va2 = this.variable2;
             string va3 = this.variable3;
-            string valeur1;
-            string valeur2;
-            int nb1;
-            int nb2;
-            if (va2.All(char.IsDigit))
+            int? nb1 = null;
+            int? nb2 = null;
+            float? n1 = null;
+            float? n2 = null;
+            double? nomb1 = null;
+            double? nomb2 = null;
+            if (int.TryParse(va2, out _))
             {
                 nb1 = Int32.Parse(va2);
             }
+            else if (float.TryParse(va2, out _))
+            {
+                n1 = float.Parse(va2);
+            }
+            else if (double.TryParse(va2, out _))
+            {
+                nomb1 = double.Parse(va2);
+            }
             else
             {
-                char a = this.variable2[0];
-                valeur1 = Class2.LesVariables.getVariable(a);
-                nb1 = Int32.Parse(valeur1);
+                if (Class2.LesInt.estVide() == false && Class2.LesInt.isIn(va2))
+                {
+                    nb1 = Class2.LesInt.getInteger(va2);
+                }
+                else if (Class2.lesFloat.estVide() == false && Class2.lesFloat.isIn(va2))
+                {
+                    n1 = Class2.lesFloat.getFloat(va2);
+                }
+                else
+                {
+                    nomb1 = Class2.lesDouble.getDouble(va2);
+                }
             }
-
-            if (va3.All(char.IsDigit))
+            if (int.TryParse(va3, out _))
             {
                 nb2 = Int32.Parse(va3);
             }
+            else if (float.TryParse(va3, out _))
+            {
+                n2 = float.Parse(va3);
+            }
+            else if (double.TryParse(va3, out _))
+            {
+                nomb2 = double.Parse(va3);
+            }
             else
             {
-                char b = this.variable3[0];
-                valeur2 = Class2.LesVariables.getVariable(b);
-                nb2 = Int32.Parse(valeur2);
+                if (Class2.LesInt.estVide() == false && Class2.LesInt.isIn(va3))
+                {
+                    nb2 = Class2.LesInt.getInteger(va3);
+                }
+                else if (Class2.lesFloat.estVide() == false && Class2.lesFloat.isIn(va3))
+                {
+                    n2 = Class2.lesFloat.getFloat(va3);
+                }
+                else
+                {
+                    nomb2 = Class2.lesDouble.getDouble(va3);
+                }
             }
-            // valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            //  string valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            //int nb1 = Int32.Parse(valeur1);
-            //int nb2 = Int32.Parse(valeur2);
-            int valeur = nb1 - nb2;
-            string val1 = valeur.ToString();
-            Class2.LesVariables.setVariable(this.variable, val1);
+            if (nb1 != null && nb2 != null)
+            {
+                int res = (int)(nb1 - nb2);
+                Class2.LesInt.setInteger(this.variable, res);
+            }
+            else if (nb1 != null && n2 != null)
+            {
+                float res = (float)((float)nb1 - n2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (n1 != null && nb2 != null)
+            {
+                float res = (float)((float)n1 - nb2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (n1 != null && n2 != null)
+            {
+                float res = (float)((float)n1 - n2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (nb1 != null && nomb2 != null)
+            {
+                double res = (double)((double)nb1 - nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else if (nomb1 != null && nb2 != null)
+            {
+                double res = (double)((double)nomb1 - nb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else if (n1 != null && nomb2 != null)
+            {
+                double res = (double)((double)n1 - nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else if (nomb1 != null && n2 != null)
+            {
+                double res = (double)((double)nomb1 - n2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else
+            {
+                double res = (double)((double)nomb1 - nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
         }
     }
     class Instruction_DCR : Instruction
     {
-        char variable;
-        public Instruction_DCR(char var)
+        string variable;
+        public Instruction_DCR(string var)
         {
             this.variable = var;
         }
@@ -367,19 +633,25 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            string valeur1 = Class2.LesVariables.getVariable(this.variable);
-            int nb1 = Int32.Parse(valeur1);
-            int valeur = nb1 - 1;
-            string val1 = valeur.ToString();
-            Class2.LesVariables.setVariable(this.variable, val1);
+            int valeur;
+            try
+            {
+                 valeur = Class2.LesInt.getInteger(this.variable);
+                valeur = valeur - 1;
+                Class2.LesInt.setInteger(this.variable, valeur);
+            }
+            catch (Exception e)
+            {
+                Class2.Erreur("La variable n'est pas un integer : "+e);
+            }
         }
     }
     class Instruction_RAND : Instruction
     {
-        char variable;
+        string variable;
         string variable2;
         string variable3;
-        public Instruction_RAND(char var, string var2, string var3)
+        public Instruction_RAND(string var, string var2, string var3)
         {
             this.variable = var;
             this.variable2 = var2;
@@ -397,47 +669,52 @@ namespace IDE_langage
         public override void executer()
         {
             Random rnd = new Random();
-            /* string valeur1 = Class2.LesVariables.getVariable(this.variable2);
-             string valeur2 = Class2.LesVariables.getVariable(this.variable3);
-             int nb1 = Int32.Parse(valeur1);
-             int nb2 = Int32.Parse(valeur2);*/
             string va2 = this.variable2;
             string va3 = this.variable3;
-            string valeur1;
-            string valeur2;
-            int nb1;
-            int nb2;
-            if (va2.All(char.IsDigit))
+            int? nb1 = null;
+            int? nb2 = null;
+            if (Class2.LesInt.isIn(va2) && Class2.LesInt.isIn(va3))
             {
-                nb1 = Int32.Parse(va2);
+                nb1 = Class2.LesInt.getInteger(this.variable2);
+                nb2 = Class2.LesInt.getInteger(this.variable3);
+                int i = (int)(nb1);
+                int j = (int)(nb2);
+                int valeur = rnd.Next(i, j);
+                Class2.LesInt.setInteger(this.variable, valeur);
+            } else if (Class2.LesInt.isIn(va2) && Class2.LesInt.isIn(va3) == false)
+            {
+                nb1 = Class2.LesInt.getInteger(this.variable2);
+                nb2 = int.Parse(va3);
+                int i = (int)(nb1);
+                int j = (int)(nb2);
+                int valeur = rnd.Next(i, j);
+                Class2.LesInt.setInteger(this.variable, valeur);
+            } else if (Class2.LesInt.isIn(va2) == false && Class2.LesInt.isIn(va3))
+            {
+                nb1 = int.Parse(va2);
+                nb2 = Class2.LesInt.getInteger(this.variable3);
+                int i = (int)(nb1);
+                int j = (int)(nb2);
+                int valeur = rnd.Next(i, j);
+                Class2.LesInt.setInteger(this.variable, valeur);
             }
             else
             {
-                char a = this.variable2[0];
-                valeur1 = Class2.LesVariables.getVariable(a);
-                nb1 = Int32.Parse(valeur1);
+                nb1 = int.Parse(va2);
+                nb2 = int.Parse(va3);
+                int i = (int)(nb1);
+                int j = (int)(nb2);
+                int valeur = rnd.Next(i, j);
+                Class2.LesInt.setInteger(this.variable, valeur);
             }
-            if (va3.All(char.IsDigit))
-            {
-                nb2 = Int32.Parse(va3);
-            }
-            else
-            {
-                char b = this.variable3[0];
-                valeur2 = Class2.LesVariables.getVariable(b);
-                nb2 = Int32.Parse(valeur2);
-            }
-            int valeur = rnd.Next(nb1, nb2);
-            string val1 = valeur.ToString();
-            Class2.LesVariables.setVariable(this.variable, val1);
         }
     }
     class Instruction_MUL : Instruction
     {
-        char variable;
+        string variable;
         string variable2;
         string variable3;
-        public Instruction_MUL(char var, string var2, string var3)
+        public Instruction_MUL(string var, string var2, string var3)
         {
             this.variable = var;
             this.variable2 = var2;
@@ -455,48 +732,121 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            //Console.WriteLine("execute MOD");
-            /*string valeur1 = Class2.LesVariables.getVariable(this.variable2);
-            string valeur2 = Class2.LesVariables.getVariable(this.variable3);
-            int nb1 = Int32.Parse(valeur1);
-            int nb2 = Int32.Parse(valeur2);*/
             string va2 = this.variable2;
             string va3 = this.variable3;
-            string valeur1;
-            string valeur2;
-            int nb1;
-            int nb2;
-            if (va2.All(char.IsDigit))
+            int? nb1 = null;
+            int? nb2 = null;
+            float? n1 = null;
+            float? n2 = null;
+            double? nomb1 = null;
+            double? nomb2 = null;
+            if (int.TryParse(va2, out _))
             {
                 nb1 = Int32.Parse(va2);
             }
+            else if (float.TryParse(va2, out _))
+            {
+                n1 = float.Parse(va2);
+            }
+            else if (double.TryParse(va2, out _))
+            {
+                nomb1 = double.Parse(va2);
+            }
             else
             {
-                char a = this.variable2[0];
-                valeur1 = Class2.LesVariables.getVariable(a);
-                nb1 = Int32.Parse(valeur1);
+                if (Class2.LesInt.estVide() == false && Class2.LesInt.isIn(va2))
+                {
+                    nb1 = Class2.LesInt.getInteger(va2);
+                }
+                else if (Class2.lesFloat.estVide() == false && Class2.lesFloat.isIn(va2))
+                {
+                    n1 = Class2.lesFloat.getFloat(va2);
+                }
+                else
+                {
+                    nomb1 = Class2.lesDouble.getDouble(va2);
+                }
             }
-            if (va3.All(char.IsDigit))
+            if (int.TryParse(va3, out _))
             {
                 nb2 = Int32.Parse(va3);
             }
+            else if (float.TryParse(va3, out _))
+            {
+                n2 = float.Parse(va3);
+            }
+            else if (double.TryParse(va3, out _))
+            {
+                nomb2 = double.Parse(va3);
+            }
             else
             {
-                char b = this.variable3[0];
-                valeur2 = Class2.LesVariables.getVariable(b);
-                nb2 = Int32.Parse(valeur2);
+                if (Class2.LesInt.estVide() == false && Class2.LesInt.isIn(va3))
+                {
+                    nb2 = Class2.LesInt.getInteger(va3);
+                }
+                else if (Class2.lesFloat.estVide() == false && Class2.lesFloat.isIn(va3))
+                {
+                    n2 = Class2.lesFloat.getFloat(va3);
+                }
+                else
+                {
+                    nomb2 = Class2.lesDouble.getDouble(va3);
+                }
             }
-            int valeur = nb1 * nb2;
-            string val1 = valeur.ToString();
-            Class2.LesVariables.setVariable(this.variable, val1);
+            if (nb1 != null && nb2 != null)
+            {
+                int res = (int)(nb1 * nb2);
+                Class2.LesInt.setInteger(this.variable, res);
+            }
+            else if (nb1 != null && n2 != null)
+            {
+                float res = (float)((float)nb1 * n2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (n1 != null && nb2 != null)
+            {
+                float res = (float)((float)n1 * nb2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (n1 != null && n2 != null)
+            {
+                float res = (float)((float)n1 * n2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (nb1 != null && nomb2 != null)
+            {
+                double res = (double)((double)nb1 * nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else if (nomb1 != null && nb2 != null)
+            {
+                double res = (double)((double)nomb1 * nb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else if (n1 != null && nomb2 != null)
+            {
+                double res = (double)((double)n1 * nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else if (nomb1 != null && n2 != null)
+            {
+                double res = (double)((double)nomb1 * n2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else
+            {
+                double res = (double)((double)nomb1 * nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
         }
     }
     class Instruction_DIV : Instruction
     {
-        char variable;
+        string variable;
         string variable2;
         string variable3;
-        public Instruction_DIV(char var, string var2, string var3)
+        public Instruction_DIV(string var, string var2, string var3)
         {
             this.variable = var;
             this.variable2 = var2;
@@ -513,46 +863,119 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            //Console.WriteLine("execute MOD");
-            /* string valeur1 = Class2.LesVariables.getVariable(this.variable2);
-             string valeur2 = Class2.LesVariables.getVariable(this.variable3);
-             int nb1 = Int32.Parse(valeur1);
-             int nb2 = Int32.Parse(valeur2);*/
             string va2 = this.variable2;
             string va3 = this.variable3;
-            string valeur1;
-            string valeur2;
-            int nb1;
-            int nb2;
-            if (va2.All(char.IsDigit))
+            int? nb1 = null;
+            int? nb2 = null;
+            float? n1 = null;
+            float? n2 = null;
+            double? nomb1 = null;
+            double? nomb2 = null;
+            if (int.TryParse(va2, out _))
             {
                 nb1 = Int32.Parse(va2);
             }
+            else if (float.TryParse(va2, out _))
+            {
+                n1 = float.Parse(va2);
+            }
+            else if (double.TryParse(va2, out _))
+            {
+                nomb1 = double.Parse(va2);
+            }
             else
             {
-                char a = this.variable2[0];
-                valeur1 = Class2.LesVariables.getVariable(a);
-                nb1 = Int32.Parse(valeur1);
+                if (Class2.LesInt.estVide() == false && Class2.LesInt.isIn(va2))
+                {
+                    nb1 = Class2.LesInt.getInteger(va2);
+                }
+                else if (Class2.lesFloat.estVide() == false && Class2.lesFloat.isIn(va2))
+                {
+                    n1 = Class2.lesFloat.getFloat(va2);
+                }
+                else
+                {
+                    nomb1 = Class2.lesDouble.getDouble(va2);
+                }
             }
-            if (va3.All(char.IsDigit))
+            if (int.TryParse(va3, out _))
             {
                 nb2 = Int32.Parse(va3);
             }
+            else if (float.TryParse(va3, out _))
+            {
+                n2 = float.Parse(va3);
+            }
+            else if (double.TryParse(va3, out _))
+            {
+                nomb2 = double.Parse(va3);
+            }
             else
             {
-                char b = this.variable3[0];
-                valeur2 = Class2.LesVariables.getVariable(b);
-                nb2 = Int32.Parse(valeur2);
+                if (Class2.LesInt.estVide() == false && Class2.LesInt.isIn(va3))
+                {
+                    nb2 = Class2.LesInt.getInteger(va3);
+                }
+                else if (Class2.lesFloat.estVide() == false && Class2.lesFloat.isIn(va3))
+                {
+                    n2 = Class2.lesFloat.getFloat(va3);
+                }
+                else
+                {
+                    nomb2 = Class2.lesDouble.getDouble(va3);
+                }
             }
-            int valeur = nb1 / nb2;
-            string val1 = valeur.ToString();
-            Class2.LesVariables.setVariable(this.variable, val1);
+            if (nb1 != null && nb2 != null)
+            {
+                int res = (int)(nb1 / nb2);
+                Class2.LesInt.setInteger(this.variable, res);
+            }
+            else if (nb1 != null && n2 != null)
+            {
+                float res = (float)((float)nb1 / n2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (n1 != null && nb2 != null)
+            {
+                float res = (float)((float)n1 / nb2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (n1 != null && n2 != null)
+            {
+                float res = (float)((float)n1 / n2);
+                Class2.lesFloat.setFloat(this.variable, res);
+            }
+            else if (nb1 != null && nomb2 != null)
+            {
+                double res = (double)((double)nb1 / nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else if (nomb1 != null && nb2 != null)
+            {
+                double res = (double)((double)nomb1 / nb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else if (n1 != null && nomb2 != null)
+            {
+                double res = (double)((double)n1 / nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else if (nomb1 != null && n2 != null)
+            {
+                double res = (double)((double)nomb1 / n2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
+            else
+            {
+                double res = (double)((double)nomb1 / nomb2);
+                Class2.lesDouble.setDouble(this.variable, res);
+            }
         }
     }
     class Instruction_INC : Instruction
     {
-        char variable;
-        public Instruction_INC(char var)
+        string variable;
+        public Instruction_INC(string var)
         {
             this.variable = var;
         }
@@ -568,20 +991,25 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            string valeur1 = Class2.LesVariables.getVariable(this.variable);
-            int nb1 = Int32.Parse(valeur1);
-            int valeur = nb1 + 1;
-            string val1 = valeur.ToString();
-            Class2.LesVariables.setVariable(this.variable, val1);
+            try
+            {
+                int valeur = Class2.LesInt.getInteger(this.variable);
+                valeur = valeur + 1;
+                Class2.LesInt.setInteger(this.variable, valeur);
+            }
+            catch(Exception e)
+            {
+                Class2.Erreur("Erreur la variable n'est pas un Integer : "+e);
+            }
         }
     }
     class Instruction_IF : Instruction
     {
-        char variable1;
-        char variable2;
+        string variable1;
+        string variable2;
         string comparateur;
         Bloc blocalors;
-        public Instruction_IF(char var1, string comparateur, char var2, Bloc bloc)
+        public Instruction_IF(string var1, string comparateur, string var2, Bloc bloc)
         {
             this.variable1 = var1;
             this.variable2 = var2;
@@ -600,33 +1028,207 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            string valeur1 = Class2.LesVariables.getVariable(this.variable1);
-            string valeur2 = Class2.LesVariables.getVariable(this.variable2);
-            int nb1 = Int32.Parse(valeur1);
-            int nb2 = Int32.Parse(valeur2);
-            bool res = false;
-            switch (comparateur)
+            if (Class2.LesInt.isIn(this.variable1) && Class2.LesInt.isIn(this.variable2))
             {
-                case "=": res = nb1 == nb2; break;
-                case "!=": res = nb1 != nb2; break;
-                case "<": res = nb1 < nb2; break;
-                case ">": res = nb1 > nb2; break;
-                case "<=": res = nb1 <= nb2; break;
-                case ">=": res = nb1 >= nb2; break;
-                default: res = false; break;
+               int valeur1 = Class2.LesInt.getInteger(this.variable1);
+               int valeur2 = Class2.LesInt.getInteger(this.variable2);
+                bool res = false;
+                switch (comparateur)
+                {
+                    case "=": res = valeur1 == valeur2; break;
+                    case "!=": res = valeur1 != valeur2; break;
+                    case "<": res = valeur1 < valeur2; break;
+                    case ">": res = valeur1 > valeur2; break;
+                    case "<=": res = valeur1 <= valeur2; break;
+                    case ">=": res = valeur1 >= valeur2; break;
+                    default: res = false; break;
+                }
+                if (res == true)
+                {
+                    blocalors.executer();
+                }
             }
-            if (res == true)  {
-             blocalors.executer();
+            else if (Class2.lesString.isIn(this.variable1) && Class2.lesString.isIn(this.variable2))
+            {
+                string valeur1 = Class2.lesString.getString(this.variable1);
+                string valeur2 = Class2.lesString.getString(this.variable2);
+                bool res = false;
+                switch (comparateur)
+                {
+                    case "=": res = valeur1 == valeur2; break;
+                    case "!=": res = valeur1 != valeur2; break;
+                    default: res = false; break;
+                }
+                if (res == true)
+                {
+                    blocalors.executer();
+                }
+            }
+            else if (Class2.lesFloat.isIn(this.variable1) && Class2.lesFloat.isIn(this.variable2))
+            {
+               float valeur1 = Class2.LesInt.getInteger(this.variable1);
+               float valeur2 = Class2.LesInt.getInteger(this.variable2);
+                bool res = false;
+                switch (comparateur)
+                {
+                    case "=": res = valeur1 == valeur2; break;
+                    case "!=": res = valeur1 != valeur2; break;
+                    case "<": res = valeur1 < valeur2; break;
+                    case ">": res = valeur1 > valeur2; break;
+                    case "<=": res = valeur1 <= valeur2; break;
+                    case ">=": res = valeur1 >= valeur2; break;
+                    default: res = false; break;
+                }
+                if (res == true)
+                {
+                    blocalors.executer();
+                }
+            }
+            else if (Class2.lesDouble.isIn(this.variable1) && Class2.lesDouble.isIn(this.variable2))
+            {
+               double valeur1 = Class2.LesInt.getInteger(this.variable1);
+               double valeur2 = Class2.LesInt.getInteger(this.variable2);
+                bool res = false;
+                switch (comparateur)
+                {
+                    case "=": res = valeur1 == valeur2; break;
+                    case "!=": res = valeur1 != valeur2; break;
+                    case "<": res = valeur1 < valeur2; break;
+                    case ">": res = valeur1 > valeur2; break;
+                    case "<=": res = valeur1 <= valeur2; break;
+                    case ">=": res = valeur1 >= valeur2; break;
+                    default: res = false; break;
+                }
+                if (res == true)
+                {
+                    blocalors.executer();
+                }
+            }
+            else if (Class2.LesInt.isIn(this.variable1) && Class2.lesFloat.isIn(this.variable2))
+            {
+               int valeur1 = Class2.LesInt.getInteger(this.variable1);
+               float valeur2 = Class2.LesInt.getInteger(this.variable2);
+                bool res = false;
+                switch (comparateur)
+                {
+                    case "=": res = valeur1 == valeur2; break;
+                    case "!=": res = valeur1 != valeur2; break;
+                    case "<": res = valeur1 < valeur2; break;
+                    case ">": res = valeur1 > valeur2; break;
+                    case "<=": res = valeur1 <= valeur2; break;
+                    case ">=": res = valeur1 >= valeur2; break;
+                    default: res = false; break;
+                }
+                if (res == true)
+                {
+                    blocalors.executer();
+                }
+            }else if (Class2.lesFloat.isIn(this.variable1) && Class2.LesInt.isIn(this.variable2))
+            {
+              float valeur1 = Class2.LesInt.getInteger(this.variable1);
+              int valeur2 = Class2.LesInt.getInteger(this.variable2);
+                bool res = false;
+                switch (comparateur)
+                {
+                    case "=": res = valeur1 == valeur2; break;
+                    case "!=": res = valeur1 != valeur2; break;
+                    case "<": res = valeur1 < valeur2; break;
+                    case ">": res = valeur1 > valeur2; break;
+                    case "<=": res = valeur1 <= valeur2; break;
+                    case ">=": res = valeur1 >= valeur2; break;
+                    default: res = false; break;
+                }
+                if (res == true)
+                {
+                    blocalors.executer();
+                }
+            }else if (Class2.lesDouble.isIn(this.variable1) && Class2.LesInt.isIn(this.variable2))
+            {
+               double valeur1 = Class2.LesInt.getInteger(this.variable1);
+               int valeur2 = Class2.LesInt.getInteger(this.variable2);
+                bool res = false;
+                switch (comparateur)
+                {
+                    case "=": res = valeur1 == valeur2; break;
+                    case "!=": res = valeur1 != valeur2; break;
+                    case "<": res = valeur1 < valeur2; break;
+                    case ">": res = valeur1 > valeur2; break;
+                    case "<=": res = valeur1 <= valeur2; break;
+                    case ">=": res = valeur1 >= valeur2; break;
+                    default: res = false; break;
+                }
+                if (res == true)
+                {
+                    blocalors.executer();
+                }
+            }else if (Class2.LesInt.isIn(this.variable1) && Class2.lesDouble.isIn(this.variable2))
+            {
+               int valeur1 = Class2.LesInt.getInteger(this.variable1);
+               double valeur2 = Class2.LesInt.getInteger(this.variable2);
+                bool res = false;
+                switch (comparateur)
+                {
+                    case "=": res = valeur1 == valeur2; break;
+                    case "!=": res = valeur1 != valeur2; break;
+                    case "<": res = valeur1 < valeur2; break;
+                    case ">": res = valeur1 > valeur2; break;
+                    case "<=": res = valeur1 <= valeur2; break;
+                    case ">=": res = valeur1 >= valeur2; break;
+                    default: res = false; break;
+                }
+                if (res == true)
+                {
+                    blocalors.executer();
+                }
+            }else if (Class2.lesFloat.isIn(this.variable1) && Class2.lesDouble.isIn(this.variable2))
+            {
+               float valeur1 = Class2.LesInt.getInteger(this.variable1);
+               double valeur2 = Class2.LesInt.getInteger(this.variable2);
+                bool res = false;
+                switch (comparateur)
+                {
+                    case "=": res = valeur1 == valeur2; break;
+                    case "!=": res = valeur1 != valeur2; break;
+                    case "<": res = valeur1 < valeur2; break;
+                    case ">": res = valeur1 > valeur2; break;
+                    case "<=": res = valeur1 <= valeur2; break;
+                    case ">=": res = valeur1 >= valeur2; break;
+                    default: res = false; break;
+                }
+                if (res == true)
+                {
+                    blocalors.executer();
+                }
+            }
+            if (Class2.lesDouble.isIn(this.variable1) && Class2.lesFloat.isIn(this.variable2))
+            {
+               double valeur1 = Class2.LesInt.getInteger(this.variable1);
+               float valeur2 = Class2.LesInt.getInteger(this.variable2);
+                bool res = false;
+                switch (comparateur)
+                {
+                    case "=": res = valeur1 == valeur2; break;
+                    case "!=": res = valeur1 != valeur2; break;
+                    case "<": res = valeur1 < valeur2; break;
+                    case ">": res = valeur1 > valeur2; break;
+                    case "<=": res = valeur1 <= valeur2; break;
+                    case ">=": res = valeur1 >= valeur2; break;
+                    default: res = false; break;
+                }
+                if (res == true)
+                {
+                    blocalors.executer();
+                }
             }
         }
     }
     class Instruction_WHILE : Instruction
     {
-        char variable1;
-        char variable2;
+        string variable1;
+        string variable2;
         string comparateur;
         Bloc blocalors;
-        public Instruction_WHILE(char var1, string comparateur, char var2, Bloc bloc)
+        public Instruction_WHILE(string var1, string comparateur, string var2, Bloc bloc)
         {
             this.variable1 = var1;
             this.variable2 = var2;
@@ -648,36 +1250,242 @@ namespace IDE_langage
             bool res = true;
             while (res)
             {
-                string val1 = Class2.LesVariables.getVariable(this.variable1);
-                string val2 = Class2.LesVariables.getVariable(this.variable2);
-                int nb1 = Int32.Parse(val1);
-                int nb2 = Int32.Parse(val2);
-                switch (comparateur)
+                if (Class2.LesInt.isIn(this.variable1) && Class2.LesInt.isIn(this.variable2))
                 {
-                    case "=": res = nb1 == nb2; break;
-                    case "!=": res = nb1 != nb2; break;
-                    case "<": res = nb1 < nb2; break;
-                    case ">": res = nb1 > nb2; break;
-                    case "<=": res = nb1 <= nb2; break;
-                    case ">=": res = nb1 >= nb2; break;
-                    default: res = false; break;
+                    int val1 = Class2.LesInt.getInteger(this.variable1);
+                    int val2 = Class2.LesInt.getInteger(this.variable2);
+                    switch (comparateur)
+                    {
+                        case "=": res = val1 == val2; break;
+                        case "!=": res = val1 != val2; break;
+                        case "<": res = val1 < val2; break;
+                        case ">": res = val1 > val2; break;
+                        case "<=": res = val1 <= val2; break;
+                        case ">=": res = val1 >= val2; break;
+                        default: res = false; break;
+                    }
+                    if ((res == true) && (!Program.Form1.wantStop))
+                    {
+                        blocalors.executer();
+                    }
+                    else if ((res == true) && (Program.Form1.wantStop))
+                    {
+                        Application.DoEvents();
+                    }
                 }
-                if ((res == true) && (!Program.Form1.wantStop))
+                else if (Class2.lesFloat.isIn(this.variable1) && Class2.lesFloat.isIn(this.variable2))
                 {
-                    blocalors.executer();
-                }else if ((res == true) && (Program.Form1.wantStop)){
-                    Application.DoEvents();
+                    float val1 = Class2.LesInt.getInteger(this.variable1);
+                    float val2 = Class2.LesInt.getInteger(this.variable2);
+                    switch (comparateur)
+                    {
+                        case "=": res = val1 == val2; break;
+                        case "!=": res = val1 != val2; break;
+                        case "<": res = val1 < val2; break;
+                        case ">": res = val1 > val2; break;
+                        case "<=": res = val1 <= val2; break;
+                        case ">=": res = val1 >= val2; break;
+                        default: res = false; break;
+                    }
+                    if ((res == true) && (!Program.Form1.wantStop))
+                    {
+                        blocalors.executer();
+                    }
+                    else if ((res == true) && (Program.Form1.wantStop))
+                    {
+                        Application.DoEvents();
+                    }
+                }
+                else if (Class2.lesDouble.isIn(this.variable1) && Class2.lesDouble.isIn(this.variable2))
+                {
+                    double val1 = Class2.LesInt.getInteger(this.variable1);
+                    double val2 = Class2.LesInt.getInteger(this.variable2);
+                    switch (comparateur)
+                    {
+                        case "=": res = val1 == val2; break;
+                        case "!=": res = val1 != val2; break;
+                        case "<": res = val1 < val2; break;
+                        case ">": res = val1 > val2; break;
+                        case "<=": res = val1 <= val2; break;
+                        case ">=": res = val1 >= val2; break;
+                        default: res = false; break;
+                    }
+                    if ((res == true) && (!Program.Form1.wantStop))
+                    {
+                        blocalors.executer();
+                    }
+                    else if ((res == true) && (Program.Form1.wantStop))
+                    {
+                        Application.DoEvents();
+                    }
+                }
+                else if (Class2.LesInt.isIn(this.variable1) && Class2.lesDouble.isIn(this.variable2))
+                {
+                    int val1 = Class2.LesInt.getInteger(this.variable1);
+                    double val2 = Class2.lesDouble.getDouble(this.variable2);
+                    switch (comparateur)
+                    {
+                        case "=": res = val1 == val2; break;
+                        case "!=": res = val1 != val2; break;
+                        case "<": res = val1 < val2; break;
+                        case ">": res = val1 > val2; break;
+                        case "<=": res = val1 <= val2; break;
+                        case ">=": res = val1 >= val2; break;
+                        default: res = false; break;
+                    }
+                    if ((res == true) && (!Program.Form1.wantStop))
+                    {
+                        blocalors.executer();
+                    }
+                    else if ((res == true) && (Program.Form1.wantStop))
+                    {
+                        Application.DoEvents();
+                    }
+                }
+                else if (Class2.lesDouble.isIn(this.variable1) && Class2.LesInt.isIn(this.variable2))
+                {
+                    double val1 = Class2.lesDouble.getDouble(this.variable1);
+                    int val2 = Class2.LesInt.getInteger(this.variable2);
+                    switch (comparateur)
+                    {
+                        case "=": res = val1 == val2; break;
+                        case "!=": res = val1 != val2; break;
+                        case "<": res = val1 < val2; break;
+                        case ">": res = val1 > val2; break;
+                        case "<=": res = val1 <= val2; break;
+                        case ">=": res = val1 >= val2; break;
+                        default: res = false; break;
+                    }
+                    if ((res == true) && (!Program.Form1.wantStop))
+                    {
+                        blocalors.executer();
+                    }
+                    else if ((res == true) && (Program.Form1.wantStop))
+                    {
+                        Application.DoEvents();
+                    }
+                }
+                else if (Class2.LesInt.isIn(this.variable1) && Class2.lesFloat.isIn(this.variable2))
+                {
+                    int val1 = Class2.LesInt.getInteger(this.variable1);
+                    float val2 = Class2.lesFloat.getFloat(this.variable2);
+                    switch (comparateur)
+                    {
+                        case "=": res = val1 == val2; break;
+                        case "!=": res = val1 != val2; break;
+                        case "<": res = val1 < val2; break;
+                        case ">": res = val1 > val2; break;
+                        case "<=": res = val1 <= val2; break;
+                        case ">=": res = val1 >= val2; break;
+                        default: res = false; break;
+                    }
+                    if ((res == true) && (!Program.Form1.wantStop))
+                    {
+                        blocalors.executer();
+                    }
+                    else if ((res == true) && (Program.Form1.wantStop))
+                    {
+                        Application.DoEvents();
+                    }
+                }
+                else if (Class2.lesFloat.isIn(this.variable1) && Class2.LesInt.isIn(this.variable2))
+                {
+                    float val1 = Class2.lesFloat.getFloat(this.variable1);
+                    int val2 = Class2.LesInt.getInteger(this.variable2);
+                    switch (comparateur)
+                    {
+                        case "=": res = val1 == val2; break;
+                        case "!=": res = val1 != val2; break;
+                        case "<": res = val1 < val2; break;
+                        case ">": res = val1 > val2; break;
+                        case "<=": res = val1 <= val2; break;
+                        case ">=": res = val1 >= val2; break;
+                        default: res = false; break;
+                    }
+                    if ((res == true) && (!Program.Form1.wantStop))
+                    {
+                        blocalors.executer();
+                    }
+                    else if ((res == true) && (Program.Form1.wantStop))
+                    {
+                        Application.DoEvents();
+                    }
+                }
+                else if (Class2.lesFloat.isIn(this.variable1) && Class2.lesDouble.isIn(this.variable2))
+                {
+                    float val1 = Class2.lesFloat.getFloat(this.variable1);
+                    double val2 = Class2.lesDouble.getDouble(this.variable2);
+                    switch (comparateur)
+                    {
+                        case "=": res = val1 == val2; break;
+                        case "!=": res = val1 != val2; break;
+                        case "<": res = val1 < val2; break;
+                        case ">": res = val1 > val2; break;
+                        case "<=": res = val1 <= val2; break;
+                        case ">=": res = val1 >= val2; break;
+                        default: res = false; break;
+                    }
+                    if ((res == true) && (!Program.Form1.wantStop))
+                    {
+                        blocalors.executer();
+                    }
+                    else if ((res == true) && (Program.Form1.wantStop))
+                    {
+                        Application.DoEvents();
+                    }
+                }
+                else if (Class2.lesDouble.isIn(this.variable1) && Class2.lesFloat.isIn(this.variable2))
+                {
+                    double val1 = Class2.lesDouble.getDouble(this.variable1);
+                    float val2 = Class2.lesFloat.getFloat(this.variable2);
+                    switch (comparateur)
+                    {
+                        case "=": res = val1 == val2; break;
+                        case "!=": res = val1 != val2; break;
+                        case "<": res = val1 < val2; break;
+                        case ">": res = val1 > val2; break;
+                        case "<=": res = val1 <= val2; break;
+                        case ">=": res = val1 >= val2; break;
+                        default: res = false; break;
+                    }
+                    if ((res == true) && (!Program.Form1.wantStop))
+                    {
+                        blocalors.executer();
+                    }
+                    else if ((res == true) && (Program.Form1.wantStop))
+                    {
+                        Application.DoEvents();
+                    }
+                }
+                else if (Class2.lesString.isIn(this.variable1) && Class2.lesString.isIn(this.variable2))
+                {
+                    string val1 = Class2.lesString.getString(this.variable1);
+                    string val2 = Class2.lesString.getString(this.variable2);
+                    switch (comparateur)
+                    {
+                        case "=": res = val1 == val2; break;
+                        case "!=": res = val1 != val2; break;
+                        default: res = false; break;
+                    }
+                    if ((res == true) && (!Program.Form1.wantStop))
+                    {
+                        blocalors.executer();
+                    }
+                    else if ((res == true) && (Program.Form1.wantStop))
+                    {
+                        Application.DoEvents();
+                    }
                 }
             }
         }
     }
     class Instruction_FOR : Instruction
     {
-        char variable1;
-        char variable2;
-        char variable3;
+        string variable1;
+        string variable2;
+        string variable3;
         Bloc blocalors;
-        public Instruction_FOR(char var1, char var2, char var3, Bloc bloc)
+        public Instruction_FOR(string var1, string var2, string var3, Bloc bloc)
         {
             this.variable1 = var1;
             this.variable2 = var2;
@@ -697,19 +1505,16 @@ namespace IDE_langage
         public override void executer()
         {
             bool res = true;
-            string val1;
-            string val2;
-            string val3;
-            val2 = Class2.LesVariables.getVariable(this.variable2);
-           Class2.LesVariables.setVariable(this.variable1, val2);
+            int val1;
+            int val2;
+            int val3;
+            val2 = Class2.LesInt.getInteger(this.variable2);
+            Class2.LesInt.setInteger(this.variable1, val2);
             while (res)
             {
-                val1 = Class2.LesVariables.getVariable(this.variable1);
-                val2 = Class2.LesVariables.getVariable(this.variable2);
-                val3 = Class2.LesVariables.getVariable(this.variable3);
-                int nb1 = Int32.Parse(val1);
-                int nb2 = Int32.Parse(val2);
-                int nb3 = Int32.Parse(val3);
+                val1 = Class2.LesInt.getInteger(this.variable1);
+                val2 = Class2.LesInt.getInteger(this.variable2);
+                val3 = Class2.LesInt.getInteger(this.variable3);
                 if ((res == true) && (!Program.Form1.wantStop))
                 {
                     blocalors.executer();
@@ -718,20 +1523,22 @@ namespace IDE_langage
                 {
                     Application.DoEvents();
                 }
-                nb1 = nb1 + 1;
-                Class2.LesVariables.setVariable(this.variable1, val1);
-                if (nb1 <= nb3)
+                val1 = val1 + 1;
+                Class2.LesInt.setInteger(this.variable1, val1);
+                if (val1 <= val3)
                 {
                     res = true;
                 }
                 else res = false;
             }
-        }
+             
+            }
     }
     class Instruction_List : Instruction
     {
         char variable;
         List<string> valeur;
+        List<object> val;
         public Instruction_List(char var, List<string> b)
         {
             this.variable = var;
@@ -750,8 +1557,6 @@ namespace IDE_langage
         }
         public override void executer()
         {
-            
-            string valeur1 = Class2.LesVariables.getVariable(this.variable);
             string text = string.Join(" ", this.valeur);
             Class2.LesVariables.setVariable(this.variable, text);
         }
@@ -858,10 +1663,9 @@ namespace IDE_langage
     }
     class Instruction_Write : Instruction
     {
-        char variable;
-        //char variable2;        //soit var soit const si c'est une valeur ça contient un ! utiliser la valeur
-        //bool param2var;
-        public Instruction_Write(char var)
+        string variable;
+
+        public Instruction_Write(string var)
         {
                 this.variable = var;
         }
@@ -877,9 +1681,44 @@ namespace IDE_langage
         }
         public override void executer()
         {
-                string valeur = Class2.LesVariables.getVariable(this.variable);
+            if (Class2.LesInt.isIn(this.variable))
+            {
+                int valeur = Class2.LesInt.getInteger(this.variable);
                 Program.Form1.Write(" " + valeur);
                 Program.Form1.ln();
+            }
+            else if (Class2.lesDouble.isIn(this.variable))
+            {
+                double valeur = Class2.lesDouble.getDouble(this.variable);
+                Program.Form1.Write(" " + valeur);
+                Program.Form1.ln();
+            }else if (Class2.lesFloat.isIn(this.variable))
+            {
+                float valeur = Class2.lesFloat.getFloat(this.variable);
+                Program.Form1.Write(" " + valeur);
+                Program.Form1.ln();
+            }else if (Class2.lesChar.isIn(this.variable))
+            {
+                char valeur = Class2.lesChar.getChar(this.variable);
+                Program.Form1.Write(" " + valeur);
+                Program.Form1.ln();
+            }else if (Class2.lesBoolean.isIn(this.variable))
+            {
+                bool valeur = Class2.lesBoolean.getBool(this.variable);
+                Program.Form1.Write(" " + valeur);
+                Program.Form1.ln();
+            }
+            else if (Class2.lesString.isIn(this.variable))
+            {
+                string valeur = Class2.lesString.getString(this.variable);
+                Program.Form1.Write(" " + valeur);
+                Program.Form1.ln();
+            }
+            else
+            {
+                Program.Form1.Write(this.variable);
+                Program.Form1.ln();
+            }
         }
     }
     class Instruction_Fun : Instruction
@@ -904,7 +1743,9 @@ namespace IDE_langage
         public override void executer()
         {
             Class2.LesVariables.setVariable(this.variable1, blocalors+"");
-                blocalors.executer();
+               // blocalors.executer();
+               // TODO idée : Enregistrer le contenue de la fonction dans un fichier
+               // pour l'execute plutart
         }
     }
     class OBJ : Instruction
